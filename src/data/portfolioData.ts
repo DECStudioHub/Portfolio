@@ -86,6 +86,7 @@ export interface PortfolioConfig {
     email: string;
     availability: string;
     avatarUrl?: string;
+    formBoldId?: string;
   };
   background: {
     imageUrl: string;
@@ -137,6 +138,7 @@ export const initialPortfolioData: PortfolioConfig = {
     email: 'decstudiohub@gmail.com',
     availability: 'Available for projects & collaboration',
     avatarUrl: '/PP.jpg',
+    formBoldId: (import.meta as any).env?.VITE_FORMBOLD_ID || '',
   },
   background: {
     imageUrl: '/dec.jpg',

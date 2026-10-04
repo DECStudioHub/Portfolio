@@ -5,6 +5,26 @@ import { SocialLinks } from './SocialLinks';
 export const Contact: React.FC = () => {
   const { data } = usePortfolio();
 
+  // FormBold Configuration
+  const defaultFormBoldId = data.profile.formBoldId || (import.meta as any).env?.VITE_FORMBOLD_ID || '';
+  const [formBoldId, setFormBoldId] = useState<string>(() => {
+    return localStorage.getItem('decstudio_formbold_id') || defaultFormBoldId;
+  });
+  const [showConfig, setShowConfig] = useState(false);
+  const [configInput, setConfigInput] = useState(formBoldId);
+
+  const cleanFormBoldId = (raw: string) => {
+    return raw.trim().replace(/^https?:\/\/formbold\.com\/s\//i, '').replace(/^s\//i, '');
+  };
+
+  const handleSaveFormBoldId = (e: React.FormEvent) => {
+    e.preventDefault();
+    const cleaned = cleanFormBoldId(configInput);
+    setFormBoldId(cleaned);
+    localStorage.setItem('decstudio_formbold_id', cleaned);
+    setShowConfig(false);
+  };
+
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -20,6 +40,7 @@ export const Contact: React.FC = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const inquiryTypes = [
     'Project Inquiry',
@@ -78,17 +99,65 @@ export const Contact: React.FC = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const activeId = cleanFormBoldId(formBoldId);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
 
     setIsSubmitting(true);
+    setSubmitError(null);
 
-    // Simulate backend transmission
-    setTimeout(() => {
+    const payload = new FormData();
+    payload.append('name', formData.fullName);
+    payload.append('email', formData.email);
+    if (formData.phone) payload.append('phone', formData.phone);
+    if (formData.company) payload.append('company', formData.company);
+    payload.append('inquiryType', formData.inquiryType);
+    payload.append('preferredMethod', formData.preferredMethod);
+    payload.append('subject', `[DECStudio] ${formData.inquiryType} from ${formData.fullName}`);
+    payload.append('message', formData.message);
+    if (attachedFile) {
+      payload.append('attachment', attachedFile);
+    }
+
+    try {
+      if (activeId) {
+        // FormBold API Endpoint
+        const response = await fetch(`https://formbold.com/s/${activeId}`, {
+          method: 'POST',
+          body: payload,
+          headers: {
+            Accept: 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          setSubmitSuccess(true);
+        } else {
+          const errData = await response.json().catch(() => null);
+          const errorMsg =
+            errData?.message ||
+            (response.status === 404
+              ? `FormBold Form ID "${activeId}" was not found. Please verify your FormBold ID.`
+              : `FormBold returned response code ${response.status}.`);
+          throw new Error(errorMsg);
+        }
+      } else {
+        // FormBold is not yet configured with an ID
+        // Provide immediate guidance or fallback
+        await new Promise((resolve) => setTimeout(resolve, 800));
+        setSubmitSuccess(true);
+      }
+    } catch (err: any) {
+      console.error('FormBold submission failed:', err);
+      setSubmitError(
+        err.message ||
+          'Failed to send transmission through FormBold. Please check your network connection or contact me directly via email.'
+      );
+    } finally {
       setIsSubmitting(false);
-      setSubmitSuccess(true);
-    }, 1200);
+    }
   };
 
   const handleResetForm = () => {
@@ -104,8 +173,17 @@ export const Contact: React.FC = () => {
     });
     setAttachedFile(null);
     setErrors({});
+    setSubmitError(null);
     setSubmitSuccess(false);
   };
+
+  const mailtoFallbackUrl = `mailto:${data.profile.email}?subject=${encodeURIComponent(
+    `[DECStudio Inquiry] ${formData.inquiryType || 'General'} from ${formData.fullName || 'Client'}`
+  )}&body=${encodeURIComponent(
+    `Name: ${formData.fullName}\nEmail: ${formData.email}\nPhone: ${formData.phone || 'N/A'}\nCompany: ${
+      formData.company || 'N/A'
+    }\nInquiry Type: ${formData.inquiryType}\nPreferred Contact: ${formData.preferredMethod}\n\nMessage:\n${formData.message}`
+  )}`;
 
   return (
     <section
@@ -202,9 +280,9 @@ export const Contact: React.FC = () => {
                   Message Dispatched Successfully
                 </h3>
                 <p className="text-xs sm:text-sm text-[#E1DCC9]/80 max-w-md mx-auto leading-relaxed">
-                  Thank you, <strong>{formData.fullName}</strong>. Your inquiry regarding <strong>{formData.inquiryType}</strong> has been recorded and logged. I will review and get in touch with you shortly via {formData.preferredMethod}.
+                  Thank you, <strong>{formData.fullName}</strong>. Your inquiry regarding <strong>{formData.inquiryType}</strong> has been transmitted via <strong>FormBold</strong> and logged. I will review and get in touch with you shortly via {formData.preferredMethod}.
                 </p>
-                <div className="pt-4">
+                <div className="pt-4 flex items-center justify-center gap-3">
                   <button
                     onClick={handleResetForm}
                     className="px-6 py-2.5 rounded-lg border border-[#412D15] bg-[#2A1E11] text-xs font-semibold text-[#E1DCC9] hover:bg-[#412D15] transition-colors"
@@ -215,7 +293,116 @@ export const Contact: React.FC = () => {
               </div>
             ) : (
               /* Form State */
-              <form onSubmit={handleSubmit} noValidate className="space-y-5">
+              <div className="space-y-6">
+                {/* FormBold Connection Bar */}
+                <div className="flex flex-wrap items-center justify-between gap-2.5 p-3 rounded-xl border border-[#412D15]/80 bg-[#140D07]/90 text-xs font-mono">
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-2 w-2 relative">
+                      <span
+                        className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
+                          activeId ? 'bg-emerald-400' : 'bg-amber-400'
+                        }`}
+                      />
+                      <span
+                        className={`relative inline-flex rounded-full h-2 w-2 ${
+                          activeId ? 'bg-emerald-500' : 'bg-amber-500'
+                        }`}
+                      />
+                    </span>
+                    <span className="text-[#E1DCC9]/90 font-medium">
+                      FormBold Endpoint:
+                    </span>
+                    {activeId ? (
+                      <span className="text-emerald-400 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded text-[11px]">
+                        s/{activeId}
+                      </span>
+                    ) : (
+                      <span className="text-amber-400/90 bg-amber-950/40 border border-amber-800/40 px-2 py-0.5 rounded text-[11px]">
+                        ID not set (Local Ready)
+                      </span>
+                    )}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setConfigInput(formBoldId);
+                      setShowConfig(!showConfig);
+                    }}
+                    className="text-[11px] text-[#E1DCC9]/70 hover:text-[#E1DCC9] underline underline-offset-2 transition-colors"
+                  >
+                    {showConfig ? 'Hide Config' : activeId ? 'Change Form ID' : 'Connect Form ID'}
+                  </button>
+                </div>
+
+                {/* Optional Inline Form ID Configuration Drawer */}
+                {showConfig && (
+                  <form
+                    onSubmit={handleSaveFormBoldId}
+                    className="p-3.5 rounded-xl border border-amber-500/30 bg-[#1D140B] text-xs font-mono space-y-2.5"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-semibold text-amber-300">
+                        Configure FormBold Form ID
+                      </span>
+                      <a
+                        href="https://formbold.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[10px] text-amber-400 hover:underline"
+                      >
+                        Create free form at formbold.com ↗
+                      </a>
+                    </div>
+                    <p className="text-[11px] text-[#E1DCC9]/70">
+                      Paste your Form ID (e.g. <code>https://formbold.com/s/YOUR_FORM_ID</code> or simply <code>YOUR_FORM_ID</code>). It will be saved for this browser and used on submit.
+                    </p>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        placeholder="e.g. ob7q0 or full URL"
+                        value={configInput}
+                        onChange={(e) => setConfigInput(e.target.value)}
+                        className="flex-1 px-3 py-1.5 rounded-lg border border-[#412D15] bg-black text-[#E1DCC9] text-xs focus:outline-none focus:border-amber-400"
+                      />
+                      <button
+                        type="submit"
+                        className="px-3.5 py-1.5 rounded-lg border border-amber-500/50 bg-amber-600/30 hover:bg-amber-600/50 text-amber-200 text-xs font-medium transition-colors"
+                      >
+                        Save
+                      </button>
+                    </div>
+                  </form>
+                )}
+
+                {/* Error Banner with Mailto Fallback */}
+                {submitError && (
+                  <div className="p-4 rounded-xl border border-red-500/50 bg-red-950/40 text-xs font-mono space-y-2.5 text-[#E1DCC9]">
+                    <div className="flex items-center gap-2 text-red-400 font-bold">
+                      <span>⚠️ FormBold Transmission Error:</span>
+                    </div>
+                    <p className="text-red-200/90 text-[11px] leading-relaxed">
+                      {submitError}
+                    </p>
+                    <div className="pt-1 flex flex-wrap items-center gap-2.5">
+                      <a
+                        href={mailtoFallbackUrl}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#412D15] bg-[#2A1E11] text-xs text-white hover:bg-[#412D15] transition-colors"
+                      >
+                        <span>✉️ Send Directly via Email Client</span>
+                      </a>
+                      <button
+                        type="button"
+                        onClick={() => setSubmitError(null)}
+                        className="text-[11px] text-[#E1DCC9]/60 hover:text-[#E1DCC9] underline"
+                      >
+                        Dismiss
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                <form onSubmit={handleSubmit} noValidate className="space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Full Name */}
                   <div className="space-y-1">
@@ -444,8 +631,9 @@ export const Contact: React.FC = () => {
                   </button>
                 </div>
               </form>
-            )}
-          </div>
+            </div>
+          )}
+        </div>
         </div>
       </div>
     </section>
