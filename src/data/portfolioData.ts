@@ -297,8 +297,7 @@ export const initialPortfolioData: PortfolioConfig = {
         'Offline-Capable / Client-Side',
       ],
       status: 'Production',
-      githubUrl: 'https://decstudiohub.github.io/PRG-DEC/',
-      liveUrl: 'https://decstudiohub.github.io/PRG-DEC/',
+      liveUrl: 'https://prg-dec.vercel.app/',
       architectureNotes:
         'Excel Import → Data Validation → Data Processing → Module 1: PCOUNT W2W (Count Tag • Count Sheet • Locator Grouping • Barcode • 9-Tag Packing) | Module 2: ShelfTag / PP Tag (White Tag • Yellow Tag • Layout Editor • Print Preview) → Unified Rendering → Browser Print / PDF Export',
       imageTheme: 'dec-system',
@@ -356,10 +355,10 @@ export const initialPortfolioData: PortfolioConfig = {
         'HTML5 Canvas API',
         'Lucide Icons',
         'Offline-First',
+        'Vercel',
       ],
       status: 'Production',
-      githubUrl: 'https://decstudiohub.github.io/DECStudioHub-DigitalTool/',
-      liveUrl: 'https://decstudiohub.github.io/DECStudioHub-DigitalTool/',
+      liveUrl: 'https://dec-studio-hub-digital-tool.vercel.app/',
       architectureNotes:
         '100% Client-Side Offline Architecture: React + Canvas API + Typed Arrays executing local image processing and calculation engines without server uploads or third-party telemetry.',
       imageTheme: 'decstudiohub-suite',
