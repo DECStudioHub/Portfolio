@@ -324,11 +324,10 @@ export const initialPortfolioData: PortfolioConfig = {
         'HTML5',
         'CSS',
         'Google AI Studio',
-        'GitHub Pages',
+        'Vercel',
       ],
       status: 'Production',
-      githubUrl: 'https://decstudiohub.github.io/DEC-IT-PRO-Network-Tools/',
-      liveUrl: 'https://decstudiohub.github.io/DEC-IT-PRO-Network-Tools/',
+      liveUrl: 'https://dec-it-pro-network-tools.vercel.app/',
       architectureNotes:
         'Modular, component-based web application with interactive mapping, data management, and reporting modules.',
       imageTheme: 'wifi-hitmap',
