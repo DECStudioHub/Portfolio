@@ -11,11 +11,9 @@ export const Projects: React.FC = () => {
   const categories = [
     'All',
     'Web Development',
-    'Android',
-    'Software',
     'IT Tools',
+    'Software',
     'Automation',
-    'Creative Projects',
   ];
 
   const filteredProjects = selectedCategory === 'All'

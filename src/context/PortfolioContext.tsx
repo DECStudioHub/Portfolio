@@ -15,27 +15,11 @@ interface PortfolioContextType {
 
 const PortfolioContext = createContext<PortfolioContextType | undefined>(undefined);
 
-const LOCAL_STORAGE_KEY = 'decstudio_portfolio_data_v1';
 const CURSOR_STORAGE_KEY = 'decstudio_cursor_enabled';
 const MOTION_STORAGE_KEY = 'decstudio_reduced_motion';
 
 const getInitialData = (): PortfolioConfig => {
-  try {
-    const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      return {
-        ...initialPortfolioData,
-        ...parsed,
-        brand: { ...initialPortfolioData.brand, ...(parsed.brand || {}) },
-        profile: { ...initialPortfolioData.profile, ...(parsed.profile || {}) },
-        about: { ...initialPortfolioData.about, ...(parsed.about || {}) },
-        background: { ...initialPortfolioData.background, ...(parsed.background || {}) },
-      };
-    }
-  } catch (e) {
-    console.error('Failed to load saved portfolio data from localStorage:', e);
-  }
+  // Always enforce official initialPortfolioData containing the 3 verified production projects
   return initialPortfolioData;
 };
 
@@ -70,22 +54,23 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     localStorage.setItem(MOTION_STORAGE_KEY, String(enabled));
   }, []);
 
+  // Clean up any legacy dummy project data or stale configurations from localStorage on load
+  useEffect(() => {
+    try {
+      localStorage.removeItem('decstudio_portfolio_data_v1');
+      localStorage.removeItem('decstudio_portfolio_data_v2');
+      localStorage.removeItem('decstudio_portfolio_data');
+    } catch {
+      // Ignore
+    }
+  }, []);
+
   const updateData = useCallback((newData: PortfolioConfig) => {
     setData(newData);
-    try {
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newData));
-    } catch (e) {
-      console.error('Failed to persist portfolio data to localStorage:', e);
-    }
   }, []);
 
   const resetData = useCallback(() => {
     setData(initialPortfolioData);
-    try {
-      localStorage.removeItem(LOCAL_STORAGE_KEY);
-    } catch (e) {
-      console.error('Failed to clear portfolio data from localStorage:', e);
-    }
   }, []);
 
   // Scroll spy to update active section in navigation

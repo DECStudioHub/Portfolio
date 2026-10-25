@@ -80,9 +80,11 @@ const DeviceMedia: React.FC<DeviceMediaProps> = ({ device, isLarge = false }) =>
   }, [device.image]);
 
   const handleImageError = () => {
-    // If the transparent version fails, fallback to the original user asset
+    // If the trimmed version fails, fallback to the original user asset
     if (imgSrc && imgSrc.includes('hp_flex_pro_ready')) {
       setImgSrc('/assets/aistudio/image_7e7bc175.png');
+    } else if (imgSrc && imgSrc.includes('epson_l3210_ready')) {
+      setImgSrc('/assets/aistudio/image_c7308172.png');
     } else {
       setImageError(true);
     }
@@ -240,6 +242,13 @@ export const DevicesGallery: React.FC = () => {
     return counts;
   }, [devices]);
 
+  // Only display categories that contain verified devices (or 'All')
+  const activeCategories = useMemo(() => {
+    return deviceCategories.filter(
+      (cat) => cat.filterCategory === 'All' || (categoryCounts[cat.filterCategory] ?? 0) > 0
+    );
+  }, [categoryCounts]);
+
   // Filtered devices list based on category & search query
   const filteredDevices = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
@@ -333,7 +342,7 @@ export const DevicesGallery: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-2 flex-nowrap shrink-0">
-            {deviceCategories.map((cat) => {
+            {activeCategories.map((cat) => {
               const isActive = selectedCategory === cat.filterCategory;
               const count = categoryCounts[cat.filterCategory] ?? 0;
 

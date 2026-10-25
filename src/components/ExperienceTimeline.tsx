@@ -381,7 +381,7 @@ export const ExperienceTimeline: React.FC = () => {
             Explore IT Devices & Equipment Gallery
           </h4>
           <p className="text-xs text-[#E1DCC9]/70 font-mono">
-            Inspect POS terminals, barcode scanners, servers, and networking hardware deployed across these branches.
+            Inspect POS computers, multifunction printers, and hardware deployed across branch operations.
           </p>
         </div>
         <button
