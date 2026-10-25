@@ -86,8 +86,9 @@ export const Navbar: React.FC = () => {
           })}
         </nav>
 
-        {/* Zone 3: Primary Action (Clean, No Edit Buttons) */}
+        {/* Zone 3: Primary Action */}
         <div className="flex items-center gap-2.5 sm:gap-3">
+
           {/* Contact Direct Action Button */}
           <button
             onClick={() => scrollToSection('contact')}

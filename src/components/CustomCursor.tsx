@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { usePortfolio } from '../context/PortfolioContext';
 
 export const CustomCursor: React.FC = () => {
+  const { isCursorEnabled, isReducedMotion } = usePortfolio();
   const [position, setPosition] = useState({ x: -100, y: -100 });
   const [isHovering, setIsHovering] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -9,12 +11,13 @@ export const CustomCursor: React.FC = () => {
   useEffect(() => {
     // Check touch device or reduced motion
     const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const prefersReducedMotion = isReducedMotion || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    if (isTouch || prefersReducedMotion) {
+    if (isTouch || prefersReducedMotion || !isCursorEnabled) {
       setIsTouchDevice(true);
       return;
     }
+    setIsTouchDevice(false);
 
     const onMouseMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });

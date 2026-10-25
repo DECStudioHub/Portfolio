@@ -190,10 +190,10 @@ export const initialPortfolioData: PortfolioConfig = {
     ],
     pillars: [
       {
-        title: 'Developer',
-        subtitle: 'Web & Android Engineering',
+        title: 'VIBE Coding (No Code)',
+        subtitle: 'AI-Powered No-Code Development',
         description:
-          'Developing high-performance responsive web applications with React, TypeScript, and modern backend APIs, alongside native Android mobile solutions.',
+          'Building web applications and digital solutions using AI tools and natural language prompts, with minimal manual coding.',
       },
       {
         title: 'IT Professional',

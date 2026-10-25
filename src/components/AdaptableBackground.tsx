@@ -1,7 +1,12 @@
 import React from 'react';
 import decBackground from '../assets/images/dec.jpg';
+import { usePortfolio } from '../context/PortfolioContext';
 
 export const AdaptableBackground: React.FC = () => {
+  const { data } = usePortfolio();
+  const opacity = (data.background?.opacity ?? 65) / 100;
+  const blur = data.background?.blur ?? 0;
+
   return (
     <div
       className="fixed inset-0 pointer-events-none z-0 overflow-hidden"
@@ -10,12 +15,14 @@ export const AdaptableBackground: React.FC = () => {
       {/* Base Dark Canvas */}
       <div className="absolute inset-0 bg-[#000000]" />
 
-      {/* The dec.jpg Background Photo Layer (Fixed 65% Opacity, Centered Directly on Face at 56% 18%) */}
+      {/* The dec.jpg Background Photo Layer (Adaptive Opacity & Blur) */}
       <div
-        className="absolute inset-0 bg-cover bg-no-repeat will-change-transform opacity-65"
+        className="absolute inset-0 bg-cover bg-no-repeat will-change-transform transition-all duration-300"
         style={{
           backgroundImage: `url(${decBackground})`,
           backgroundPosition: '56% 18%',
+          opacity: opacity,
+          filter: blur > 0 ? `blur(${blur}px)` : undefined,
         }}
       />
 
