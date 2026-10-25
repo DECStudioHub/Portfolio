@@ -20,6 +20,7 @@ import {
   Cpu,
   Layers,
   SlidersHorizontal,
+  ChevronLeft,
 } from 'lucide-react';
 import {
   DeviceItem,
@@ -27,6 +28,8 @@ import {
   deviceCategories,
   initialDevicesData,
 } from '../data/devicesData';
+
+const DEVICE_PAGE_SIZE = 9;
 
 // Helper to map icon name to Lucide component
 const renderDeviceIcon = (iconName: string, className = 'w-6 h-6') => {
@@ -94,8 +97,8 @@ const DeviceMedia: React.FC<DeviceMediaProps> = ({ device, isLarge = false }) =>
   if (imgSrc && imgSrc.trim() !== '' && !imageError) {
     return (
       <div
-        className={`relative w-full h-full overflow-hidden bg-[#0D0905] flex items-center justify-center p-4 sm:p-5 select-none ${
-          isLarge ? 'min-h-[280px] sm:min-h-[360px]' : 'min-h-[200px]'
+        className={`relative w-full h-full overflow-hidden bg-[#0D0905] flex items-center justify-center ${isLarge ? 'p-4 sm:p-5' : 'p-2'} select-none ${
+          isLarge ? 'min-h-[280px] sm:min-h-[360px]' : 'min-h-[96px] sm:min-h-[112px]'
         }`}
       >
         {/* Subtle studio glow in warm DECStudio tone */}
@@ -146,8 +149,8 @@ const DeviceMedia: React.FC<DeviceMediaProps> = ({ device, isLarge = false }) =>
   // Otherwise render the technical CAD blueprint placeholder
   return (
     <div
-      className={`relative w-full h-full bg-[#0E0A06] overflow-hidden select-none flex flex-col justify-between p-4 ${
-        isLarge ? 'min-h-[260px] sm:min-h-[320px]' : 'min-h-[190px]'
+      className={`relative w-full h-full bg-[#0E0A06] overflow-hidden select-none flex flex-col justify-between ${isLarge ? 'p-4' : 'p-2'} ${
+        isLarge ? 'min-h-[260px] sm:min-h-[320px]' : 'min-h-[96px] sm:min-h-[112px]'
       }`}
     >
       {/* Background Engineering Grid */}
@@ -212,6 +215,7 @@ export const DevicesGallery: React.FC = () => {
   const [devices] = useState<DeviceItem[]>(initialDevicesData);
   const [selectedCategory, setSelectedCategory] = useState<DeviceCategory | 'All'>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState(1);
   const [activeModalDevice, setActiveModalDevice] = useState<DeviceItem | null>(null);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -267,43 +271,57 @@ export const DevicesGallery: React.FC = () => {
     });
   }, [devices, selectedCategory, searchQuery]);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory, searchQuery]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredDevices.length / DEVICE_PAGE_SIZE));
+  const safePage = Math.min(currentPage, totalPages);
+  const pageDevices = filteredDevices.slice(
+    (safePage - 1) * DEVICE_PAGE_SIZE,
+    safePage * DEVICE_PAGE_SIZE
+  );
+  const firstVisibleDevice = filteredDevices.length === 0 ? 0 : (safePage - 1) * DEVICE_PAGE_SIZE + 1;
+  const lastVisibleDevice = Math.min(safePage * DEVICE_PAGE_SIZE, filteredDevices.length);
+
   const handleResetFilters = () => {
     setSelectedCategory('All');
     setSearchQuery('');
+    setCurrentPage(1);
     if (searchInputRef.current) {
       searchInputRef.current.focus();
     }
   };
 
   return (
-    <div id="devices-gallery" className="space-y-8 pt-4">
+    <div id="devices-gallery" className="space-y-5 pt-3">
       {/* Subsection Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#412D15]/40 pb-5">
-        <div className="space-y-1.5">
-          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-[#1A120B] border border-[#412D15] text-[11px] font-mono text-[#E1DCC9]/90">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 border-b border-[#412D15]/40 pb-3">
+        <div className="space-y-1">
+          <div className="inline-flex items-center gap-2 px-2 py-0.5 rounded bg-[#1A120B] border border-[#412D15] text-[10px] font-mono text-[#E1DCC9]/90">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
             <span>Hardware & Infrastructure Portfolio</span>
           </div>
-          <h3 className="font-heading text-2xl sm:text-3xl font-bold text-[#E1DCC9]">
+          <h3 className="font-heading text-xl sm:text-2xl font-bold text-[#E1DCC9]">
             IT Devices & Equipment Gallery
           </h3>
-          <p className="text-xs sm:text-sm text-[#E1DCC9]/70 font-mono max-w-2xl">
+          <p className="text-[11px] sm:text-xs text-[#E1DCC9]/70 font-mono max-w-2xl">
             Hands-on hardware, point-of-sale systems, network topology equipment, and office computer devices deployed across branch operations.
           </p>
         </div>
 
         {/* Counter Badge */}
-        <div className="flex items-center gap-2 self-start md:self-auto text-xs font-mono text-[#E1DCC9]/70 bg-[#160E08] px-3 py-1.5 rounded-lg border border-[#412D15]">
+        <div className="flex items-center gap-2 self-start md:self-auto text-[11px] font-mono text-[#E1DCC9]/70 bg-[#160E08] px-2.5 py-1 rounded-lg border border-[#412D15]">
           <Layers className="w-3.5 h-3.5 text-amber-400" />
-          <span>
-            Showing <strong className="text-[#E1DCC9]">{filteredDevices.length}</strong> of{' '}
-            <strong className="text-[#E1DCC9]">{devices.length}</strong> Devices
+          <span aria-live="polite">
+            Showing <strong className="text-[#E1DCC9]">{firstVisibleDevice}–{lastVisibleDevice}</strong> of{' '}
+            <strong className="text-[#E1DCC9]">{filteredDevices.length}</strong> devices
           </span>
         </div>
       </div>
 
       {/* Gallery Controls: Search & Category Filter Buttons */}
-      <div className="space-y-4">
+      <div className="space-y-2.5">
         {/* Search Field */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
           <div className="relative flex-1 max-w-md">
@@ -314,7 +332,7 @@ export const DevicesGallery: React.FC = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search devices by title or description..."
-              className="w-full pl-9 pr-9 py-2 rounded-xl border border-[#412D15] bg-[#120B06] text-xs sm:text-sm text-[#E1DCC9] placeholder:text-[#E1DCC9]/40 focus:outline-none focus:border-[#E1DCC9] transition-colors"
+              className="w-full pl-9 pr-9 py-1.5 rounded-lg border border-[#412D15] bg-[#120B06] text-xs text-[#E1DCC9] placeholder:text-[#E1DCC9]/40 focus:outline-none focus:border-[#E1DCC9] transition-colors"
             />
             {searchQuery && (
               <button
@@ -335,7 +353,7 @@ export const DevicesGallery: React.FC = () => {
         </div>
 
         {/* Category Filter Buttons Bar */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-[#412D15]">
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin scrollbar-thumb-[#412D15]">
           <div className="flex items-center gap-1.5 text-xs font-mono shrink-0">
             <SlidersHorizontal className="w-3.5 h-3.5 text-[#E1DCC9]/50 mr-1" />
             <span className="text-[#E1DCC9]/50 hidden sm:inline mr-1">Filter:</span>
@@ -350,7 +368,7 @@ export const DevicesGallery: React.FC = () => {
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.filterCategory)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all flex items-center gap-1.5 shrink-0 ${
+                  className={`px-2.5 py-1 rounded-md text-[11px] font-mono transition-all flex items-center gap-1 shrink-0 ${
                     isActive
                       ? 'bg-[#412D15] text-[#E1DCC9] border border-[#E1DCC9]/50 shadow-md font-semibold'
                       : 'bg-[#150E08] text-[#E1DCC9]/70 hover:text-[#E1DCC9] hover:bg-[#1E140C] border border-[#412D15]'
@@ -373,14 +391,14 @@ export const DevicesGallery: React.FC = () => {
         </div>
       </div>
 
-      {/* Gallery Cards Grid: Title and Description Only (No specification details) */}
+      {/* Compact, paginated device cards */}
       {filteredDevices.length > 0 ? (
         <motion.div
           layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
         >
           <AnimatePresence mode="popLayout">
-            {filteredDevices.map((device, index) => (
+            {pageDevices.map((device, index) => (
               <motion.article
                 layout
                 key={device.id}
@@ -388,7 +406,7 @@ export const DevicesGallery: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3, delay: Math.min(index * 0.04, 0.3) }}
-                className="group rounded-2xl border border-[#412D15] bg-[#160E08]/90 overflow-hidden flex flex-col justify-between hover:border-[#E1DCC9]/40 hover:-translate-y-1.5 transition-all duration-300 shadow-lg hover:shadow-2xl"
+                className="group rounded-xl border border-[#412D15] bg-[#160E08]/90 overflow-hidden flex flex-col hover:border-[#E1DCC9]/40 hover:-translate-y-1 transition-all duration-300 shadow-md hover:shadow-xl"
               >
                 {/* Card Top / Visual Media Frame */}
                 <div>
@@ -403,24 +421,24 @@ export const DevicesGallery: React.FC = () => {
                         setActiveModalDevice(device);
                       }
                     }}
-                    className="relative w-full h-52 border-b border-[#412D15] cursor-pointer overflow-hidden focus:outline-none focus:ring-1 focus:ring-[#E1DCC9]"
+                    className="relative w-full h-24 sm:h-28 border-b border-[#412D15] cursor-pointer overflow-hidden focus:outline-none focus:ring-1 focus:ring-[#E1DCC9]"
                   >
                     <DeviceMedia device={device} />
 
                     {/* Subtle Hover Overlay Hint */}
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
-                      <span className="px-3 py-1.5 rounded-lg border border-[#E1DCC9]/60 bg-[#1F150C]/90 text-xs font-mono text-[#E1DCC9] shadow-lg flex items-center gap-1.5">
-                        <span>View Details</span>
-                        <ChevronRight className="w-3.5 h-3.5" />
+                      <span className="px-2 py-1 rounded-md border border-[#E1DCC9]/60 bg-[#1F150C]/90 text-[10px] font-mono text-[#E1DCC9] shadow-lg flex items-center gap-1">
+                        <span>View</span>
+                        <ChevronRight className="w-3 h-3" />
                       </span>
                     </div>
                   </div>
 
                   {/* Card Body: Title & Description Only */}
-                  <div className="p-5 space-y-3">
+                  <div className="p-3 space-y-1.5">
                     {/* Category Header */}
                     <div className="flex items-center justify-between gap-2">
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded border border-[#412D15] bg-black/60 text-[10px] font-mono text-[#E1DCC9]/80 uppercase tracking-wider">
+                      <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded border border-[#412D15] bg-black/60 text-[9px] font-mono text-[#E1DCC9]/80 uppercase tracking-wider">
                         <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
                         {device.category}
                       </span>
@@ -437,31 +455,16 @@ export const DevicesGallery: React.FC = () => {
                           setActiveModalDevice(device);
                         }
                       }}
-                      className="font-heading text-lg font-bold text-[#E1DCC9] group-hover:text-white transition-colors cursor-pointer focus:outline-none focus:underline leading-snug"
+                      className="font-heading text-sm sm:text-[15px] font-bold text-[#E1DCC9] group-hover:text-white transition-colors cursor-pointer focus:outline-none focus:underline leading-tight line-clamp-2"
                     >
                       {device.title}
                     </h4>
 
                     {/* Description */}
-                    <p className="text-xs sm:text-sm text-[#E1DCC9]/70 leading-relaxed font-sans">
+                    <p className="text-[10px] sm:text-[11px] text-[#E1DCC9]/70 leading-snug font-sans line-clamp-2">
                       {device.description}
                     </p>
                   </div>
-                </div>
-
-                {/* Card Action Footer */}
-                <div className="p-5 pt-3 border-t border-[#412D15]/50 flex items-center justify-between">
-                  <span className="text-[11px] font-mono text-[#E1DCC9]/50">
-                    IT Equipment
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => setActiveModalDevice(device)}
-                    className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-[#E1DCC9] hover:text-white transition-colors group/btn"
-                  >
-                    <span>View Device</span>
-                    <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-0.5" />
-                  </button>
                 </div>
               </motion.article>
             ))}
@@ -489,6 +492,32 @@ export const DevicesGallery: React.FC = () => {
             Reset All Filters
           </button>
         </div>
+      )}
+
+      {filteredDevices.length > 0 && totalPages > 1 && (
+        <nav className="flex items-center justify-center gap-3 pt-1" aria-label="Device gallery pages">
+          <button
+            type="button"
+            onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
+            disabled={safePage === 1}
+            className="inline-flex items-center gap-1 rounded-md border border-[#412D15] px-2.5 py-1.5 text-[11px] font-mono text-[#E1DCC9]/80 transition-colors hover:bg-[#1F150C] disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <ChevronLeft className="h-3.5 w-3.5" />
+            Previous
+          </button>
+          <span className="text-[11px] font-mono text-[#E1DCC9]/60" aria-live="polite">
+            Page {safePage} of {totalPages}
+          </span>
+          <button
+            type="button"
+            onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
+            disabled={safePage === totalPages}
+            className="inline-flex items-center gap-1 rounded-md border border-[#412D15] px-2.5 py-1.5 text-[11px] font-mono text-[#E1DCC9]/80 transition-colors hover:bg-[#1F150C] disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            Next
+            <ChevronRight className="h-3.5 w-3.5" />
+          </button>
+        </nav>
       )}
 
       {/* Clean Detail Modal (Title and Description Only) */}
