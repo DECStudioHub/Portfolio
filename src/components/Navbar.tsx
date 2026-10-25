@@ -14,7 +14,8 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
+  const resumeFilename = 'Dante-Custodio-Jr-Resume.pdf';
+  const navLinks: { id: string; label: string; href?: string; download?: string }[] = [
     { id: 'home', label: 'Home' },
     { id: 'about', label: 'About' },
     { id: 'projects', label: 'Projects' },
@@ -22,6 +23,12 @@ export const Navbar: React.FC = () => {
     { id: 'experience', label: 'Experience' },
     { id: 'testimonial', label: 'Testimonial' },
     { id: 'contact', label: 'Contact' },
+    {
+      id: 'resume',
+      label: 'Resume',
+      href: `${import.meta.env.BASE_URL}${resumeFilename}`,
+      download: resumeFilename,
+    },
   ];
 
   const scrollToSection = (id: string) => {
@@ -56,22 +63,27 @@ export const Navbar: React.FC = () => {
           <span className="w-1.5 h-1.5 rounded-full bg-[#412D15] group-hover:bg-[#E1DCC9] transition-colors" />
         </a>
 
-        {/* Zone 2: 7 clean text navigation links (Desktop) */}
+        {/* Zone 2: Main navigation links (Desktop) */}
         <nav
           aria-label="Main Navigation"
-          className="hidden md:flex items-center gap-6 lg:gap-8"
+          className="hidden md:flex items-center gap-3 lg:gap-6"
         >
           {navLinks.map((link) => {
             const isActive = activeSection === link.id;
             return (
               <a
                 key={link.id}
-                href={`#${link.id}`}
+                href={link.href ?? `#${link.id}`}
+                download={link.download}
                 onClick={(e) => {
+                  if (link.download) {
+                    setIsMobileMenuOpen(false);
+                    return;
+                  }
                   e.preventDefault();
                   scrollToSection(link.id);
                 }}
-                className={`relative py-1 text-xs lg:text-sm font-medium tracking-wide transition-colors ${
+                className={`relative py-1 text-[11px] lg:text-sm font-medium tracking-wide transition-colors ${
                   isActive
                     ? 'text-[#E1DCC9] font-semibold'
                     : 'text-[#E1DCC9]/70 hover:text-[#E1DCC9]'
@@ -126,8 +138,13 @@ export const Navbar: React.FC = () => {
               return (
                 <a
                   key={link.id}
-                  href={`#${link.id}`}
+                  href={link.href ?? `#${link.id}`}
+                  download={link.download}
                   onClick={(e) => {
+                    if (link.download) {
+                      setIsMobileMenuOpen(false);
+                      return;
+                    }
                     e.preventDefault();
                     scrollToSection(link.id);
                   }}

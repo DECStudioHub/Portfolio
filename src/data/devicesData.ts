@@ -9,6 +9,7 @@ export const deviceAssetUrl = (path: string) =>
 
 export type DeviceCategory =
   | 'Computers'
+  | 'Laptop'
   | 'POS'
   | 'Printers'
   | 'Networking'
@@ -18,6 +19,7 @@ export type DeviceCategory =
   | 'Biometric'
   | 'Cleaning Tools'
   | 'Mobile'
+  | 'Weighing Scale'
   | 'Other';
 
 export interface DeviceItem {
@@ -46,6 +48,7 @@ export const deviceCategories: { id: string; label: string; filterCategory: Devi
   { id: 'biometric', label: 'Biometric', filterCategory: 'Biometric' },
   { id: 'cleaning-tools', label: 'Cleaning Tools', filterCategory: 'Cleaning Tools' },
   { id: 'computers', label: 'Computers', filterCategory: 'Computers' },
+  { id: 'laptop', label: 'Laptop', filterCategory: 'Laptop' },
   { id: 'mobile', label: 'Mobile', filterCategory: 'Mobile' },
   { id: 'networking', label: 'Networking', filterCategory: 'Networking' },
   { id: 'other', label: 'Other', filterCategory: 'Other' },
@@ -54,6 +57,7 @@ export const deviceCategories: { id: string; label: string; filterCategory: Devi
   { id: 'scanners', label: 'Scanners', filterCategory: 'Scanners' },
   { id: 'servers', label: 'Servers', filterCategory: 'Servers' },
   { id: 'ups', label: 'UPS', filterCategory: 'UPS' },
+  { id: 'weighing-scale', label: 'Weighing Scale', filterCategory: 'Weighing Scale' },
 ];
 
 export const initialDevicesData: DeviceItem[] = [
@@ -119,7 +123,7 @@ export const initialDevicesData: DeviceItem[] = [
   {
     id: 'dev-lenovo-ideapad-d330',
     title: 'Lenovo IdeaPad D330 2-in-1 Laptop',
-    category: 'Computers',
+    category: 'Laptop',
     description: 'Detachable 2-in-1 laptop with tablet mode for mobile productivity and everyday computing.',
     image: deviceAssetUrl('/assets/aistudio/Lenovo_Ideapad_D330_2f59ac4a_cutout.png'),
     iconName: 'Laptop',
@@ -199,7 +203,7 @@ export const initialDevicesData: DeviceItem[] = [
   {
     id: 'dev-sm320p-retail-scale',
     title: 'SM320P Retail Price Computing Scale',
-    category: 'POS',
+    category: 'Weighing Scale',
     description: 'Retail price-computing scale with an integrated keypad and customer-facing display.',
     image: deviceAssetUrl('/assets/aistudio/SM320P_00e6a13c_cutout.png'),
     iconName: 'CreditCard',
@@ -223,7 +227,7 @@ export const initialDevicesData: DeviceItem[] = [
   {
     id: 'dev-ws-sm230-scale',
     title: 'WS SM230 Retail Scale',
-    category: 'POS',
+    category: 'Weighing Scale',
     description: 'Electronic retail scale with a customer-facing display for weighing and checkout operations.',
     image: deviceAssetUrl('/assets/aistudio/WS_SM230_b372e224_cutout.png'),
     iconName: 'CreditCard',
@@ -279,7 +283,7 @@ export const initialDevicesData: DeviceItem[] = [
   {
     id: 'dev-acer-travelmate-p214',
     title: 'Acer TravelMate P214 Business Laptop',
-    category: 'Computers',
+    category: 'Laptop',
     description: 'Business laptop for everyday office work, productivity applications, and mobile use.',
     image: deviceAssetUrl('/assets/aistudio/Acer_TravelMate_p214_eeec7c7d_cutout.png'),
     iconName: 'Laptop',
@@ -327,7 +331,7 @@ export const initialDevicesData: DeviceItem[] = [
   {
     id: 'dev-dell-latitude-3400',
     title: 'Dell Latitude 3400 Business Laptop',
-    category: 'Computers',
+    category: 'Laptop',
     description: 'Dell business laptop for portable office work, collaboration, and everyday productivity.',
     image: deviceAssetUrl('/assets/aistudio/Dell_Latitude_3400_f22ee2a5_cutout.png'),
     iconName: 'Laptop',
@@ -335,7 +339,7 @@ export const initialDevicesData: DeviceItem[] = [
   {
     id: 'dev-dell-latitude-3420',
     title: 'Dell Latitude 3420 Business Laptop',
-    category: 'Computers',
+    category: 'Laptop',
     description: 'Business laptop for workplace applications, collaboration, and mobile productivity.',
     image: deviceAssetUrl('/assets/aistudio/Dell_Latitude_3420_bbee569f_cutout.png'),
     iconName: 'Laptop',
