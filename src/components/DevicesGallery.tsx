@@ -25,6 +25,7 @@ import {
 import {
   DeviceItem,
   DeviceCategory,
+  deviceAssetUrl,
   deviceCategories,
   initialDevicesData,
 } from '../data/devicesData';
@@ -85,9 +86,9 @@ const DeviceMedia: React.FC<DeviceMediaProps> = ({ device, isLarge = false }) =>
   const handleImageError = () => {
     // If the trimmed version fails, fallback to the original user asset
     if (imgSrc && imgSrc.includes('hp_flex_pro_ready')) {
-      setImgSrc('/assets/aistudio/image_7e7bc175.png');
+      setImgSrc(deviceAssetUrl('/assets/aistudio/image_7e7bc175.png'));
     } else if (imgSrc && imgSrc.includes('epson_l3210_ready')) {
-      setImgSrc('/assets/aistudio/image_c7308172.png');
+      setImgSrc(deviceAssetUrl('/assets/aistudio/image_c7308172.png'));
     } else {
       setImageError(true);
     }
