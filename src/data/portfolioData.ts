@@ -265,6 +265,15 @@ export const initialPortfolioData: PortfolioConfig = {
         { name: 'Microsoft 365 & Tools', level: 'Productivity', experience: 'Admin center, Office suites, cloud' },
       ],
     },
+    {
+      title: 'Multimedia',
+      description: 'Video, photo, and audio editing for digital content.',
+      skills: [
+        { name: 'Video Editing', level: 'Creative Production', experience: 'Video assembly, pacing, and post-production' },
+        { name: 'Photo Editing', level: 'Creative Production', experience: 'Image retouching and visual composition' },
+        { name: 'Audio Editing', level: 'Creative Production', experience: 'Audio cleanup, editing, and sound design' },
+      ],
+    },
   ],
   projects: [
     {
