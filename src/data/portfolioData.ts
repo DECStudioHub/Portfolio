@@ -229,7 +229,10 @@ export const initialPortfolioData: PortfolioConfig = {
       title: 'VIBE Coding',
       description: 'AI-powered no-code development and rapid prototyping.',
       skills: [
-        { name: 'VIBE Coding', level: 'AI-Powered No-Code', experience: 'Building web applications and digital solutions using AI tools and natural language prompts, with minimal manual coding.' },
+        { name: 'Web Appl Front End & Back End', level: 'AI-Powered No-Code', experience: 'AI-assisted frontend and backend web application development.' },
+        { name: 'Website Design', level: 'AI-Powered No-Code', experience: 'AI-assisted responsive layouts and visual design.' },
+        { name: 'System Front End & Back End', level: 'AI-Powered No-Code', experience: 'AI-assisted frontend and backend systems development.' },
+        { name: 'Android App Front End & Back End', level: 'AI-Powered No-Code', experience: 'AI-assisted Android app interfaces and backend integration.' },
       ],
     },
     {
