@@ -220,10 +220,16 @@ export const initialPortfolioData: PortfolioConfig = {
       title: 'Software Engineering',
       description: 'Robust architectures, database persistence, and system integrations.',
       skills: [
-        { name: 'VIBE Coding', level: 'AI-Powered No-Code', experience: 'Building web applications and digital solutions using AI tools and natural language prompts, with minimal manual coding.' },
         { name: 'API Integration', level: 'Core Competency', experience: 'Third-party APIs & webhooks' },
         { name: 'Database Management', level: 'Practiced', experience: 'Relational & document data models' },
         { name: 'Automation & Scripting', level: 'Workflow Optimization', experience: 'Automated batching & jobs' },
+      ],
+    },
+    {
+      title: 'VIBE Coding',
+      description: 'AI-powered no-code development and rapid prototyping.',
+      skills: [
+        { name: 'VIBE Coding', level: 'AI-Powered No-Code', experience: 'Building web applications and digital solutions using AI tools and natural language prompts, with minimal manual coding.' },
       ],
     },
     {
