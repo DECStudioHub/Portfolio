@@ -220,10 +220,9 @@ export const initialPortfolioData: PortfolioConfig = {
       title: 'Software Engineering',
       description: 'Robust architectures, database persistence, and system integrations.',
       skills: [
-        { name: 'Application Development', level: 'Core Competency', experience: 'Full-cycle solution delivery' },
+        { name: 'VIBE Coding', level: 'AI-Powered No-Code', experience: 'Building web applications and digital solutions using AI tools and natural language prompts, with minimal manual coding.' },
         { name: 'API Integration', level: 'Core Competency', experience: 'Third-party APIs & webhooks' },
         { name: 'Database Management', level: 'Practiced', experience: 'Relational & document data models' },
-        { name: 'System Architecture', level: 'Engineering', experience: 'Modular & resilient patterns' },
         { name: 'Automation & Scripting', level: 'Workflow Optimization', experience: 'Automated batching & jobs' },
       ],
     },
