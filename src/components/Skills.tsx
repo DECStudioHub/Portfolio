@@ -27,7 +27,7 @@ export const Skills: React.FC = () => {
         </div>
 
         {/* Category Navigation Tabs */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3">
           {data.skills.map((category, index) => {
             const isActive = activeCategoryIndex === index;
             return (

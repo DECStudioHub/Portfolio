@@ -217,34 +217,6 @@ export const initialPortfolioData: PortfolioConfig = {
   },
   skills: [
     {
-      title: 'Software Engineering',
-      description: 'Robust architectures, database persistence, and system integrations.',
-      skills: [
-        { name: 'API Integration', level: 'Core Competency', experience: 'Third-party APIs & webhooks' },
-        { name: 'Database Management', level: 'Practiced', experience: 'Relational & document data models' },
-        { name: 'Automation & Scripting', level: 'Workflow Optimization', experience: 'Automated batching & jobs' },
-      ],
-    },
-    {
-      title: 'VIBE Coding',
-      description: 'AI-powered no-code development and rapid prototyping.',
-      skills: [
-        { name: 'Web Appl Front End & Back End', level: 'AI-Powered No-Code', experience: 'AI-assisted frontend and backend web application development.' },
-        { name: 'Website Design', level: 'AI-Powered No-Code', experience: 'AI-assisted responsive layouts and visual design.' },
-        { name: 'System Front End & Back End', level: 'AI-Powered No-Code', experience: 'AI-assisted frontend and backend systems development.' },
-        { name: 'Android App Front End & Back End', level: 'AI-Powered No-Code', experience: 'AI-assisted Android app interfaces and backend integration.' },
-      ],
-    },
-    {
-      title: 'IT Support & Operations',
-      description: 'Enterprise hardware, network diagnostics, POS maintenance, and end-user support.',
-      skills: [
-        { name: 'Hardware Troubleshooting', level: 'Diagnostic Expert', experience: 'Desktops, laptops, peripherals' },
-        { name: 'Software Troubleshooting', level: 'Diagnostic Expert', experience: 'OS configuration & diagnostics' },
-        { name: 'Network Troubleshooting', level: 'Operational', experience: 'LAN/WAN, routing, DNS, switches' },
-      ],
-    },
-    {
       title: 'Development Tool',
       description: 'Everyday developer workflow tools, version control, and production software.',
       skills: [
@@ -266,12 +238,40 @@ export const initialPortfolioData: PortfolioConfig = {
       ],
     },
     {
+      title: 'IT Support & Operations',
+      description: 'Enterprise hardware, network diagnostics, POS maintenance, and end-user support.',
+      skills: [
+        { name: 'Hardware Troubleshooting', level: 'Diagnostic Expert', experience: 'Desktops, laptops, peripherals' },
+        { name: 'Software Troubleshooting', level: 'Diagnostic Expert', experience: 'OS configuration & diagnostics' },
+        { name: 'Network Troubleshooting', level: 'Operational', experience: 'LAN/WAN, routing, DNS, switches' },
+      ],
+    },
+    {
       title: 'Multimedia',
       description: 'Video, photo, and audio editing for digital content.',
       skills: [
         { name: 'Video Editing', level: 'Creative Production', experience: 'Video assembly, pacing, and post-production' },
         { name: 'Photo Editing', level: 'Creative Production', experience: 'Image retouching and visual composition' },
         { name: 'Audio Editing', level: 'Creative Production', experience: 'Audio cleanup, editing, and sound design' },
+      ],
+    },
+    {
+      title: 'Software Engineering',
+      description: 'Robust architectures, database persistence, and system integrations.',
+      skills: [
+        { name: 'API Integration', level: 'Core Competency', experience: 'Third-party APIs & webhooks' },
+        { name: 'Database Management', level: 'Practiced', experience: 'Relational & document data models' },
+        { name: 'Automation & Scripting', level: 'Workflow Optimization', experience: 'Automated batching & jobs' },
+      ],
+    },
+    {
+      title: 'VIBE Coding',
+      description: 'AI-powered no-code development and rapid prototyping.',
+      skills: [
+        { name: 'Web Appl Front End & Back End', level: 'AI-Powered No-Code', experience: 'AI-assisted frontend and backend web application development.' },
+        { name: 'Website Design', level: 'AI-Powered No-Code', experience: 'AI-assisted responsive layouts and visual design.' },
+        { name: 'System Front End & Back End', level: 'AI-Powered No-Code', experience: 'AI-assisted frontend and backend systems development.' },
+        { name: 'Android App Front End & Back End', level: 'AI-Powered No-Code', experience: 'AI-assisted Android app interfaces and backend integration.' },
       ],
     },
   ],
