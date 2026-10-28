@@ -239,9 +239,6 @@ export const initialPortfolioData: PortfolioConfig = {
         { name: 'Hardware Troubleshooting', level: 'Diagnostic Expert', experience: 'Desktops, laptops, peripherals' },
         { name: 'Software Troubleshooting', level: 'Diagnostic Expert', experience: 'OS configuration & diagnostics' },
         { name: 'Network Troubleshooting', level: 'Operational', experience: 'LAN/WAN, routing, DNS, switches' },
-        { name: 'Printer & Peripheral Support', level: 'Operational', experience: 'Network & local printer setups' },
-        { name: 'POS Support & Terminals', level: 'Specialized', experience: 'Retail POS, barcode scanners, sync' },
-        { name: 'Device & Mobile Support', level: 'Operational', experience: 'Fleet device setup & MDM support' },
       ],
     },
     {
@@ -250,7 +247,6 @@ export const initialPortfolioData: PortfolioConfig = {
       skills: [
         { name: 'Git & Version Control', level: 'Daily Workflow', experience: 'Branching, merging, rebasing' },
         { name: 'GitHub Ecosystem', level: 'Daily Workflow', experience: 'Repositories, issues, CI/CD' },
-        { name: 'VS Code & Tooling', level: 'Configured', experience: 'Extensions, debugging, linters' },
         { name: 'AI Development Tools', level: 'Modernized', experience: 'Assisted prototyping & workflows' },
         { name: 'Microsoft 365 & Tools', level: 'Productivity', experience: 'Admin center, Office suites, cloud' },
       ],
