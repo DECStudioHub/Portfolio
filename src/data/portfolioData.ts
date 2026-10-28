@@ -245,7 +245,7 @@ export const initialPortfolioData: PortfolioConfig = {
       ],
     },
     {
-      title: 'Tools & Ecosystem',
+      title: 'Development Tool',
       description: 'Everyday developer workflow tools, version control, and production software.',
       skills: [
         { name: 'Git & Version Control', level: 'Daily Workflow', experience: 'Branching, merging, rebasing' },
