@@ -217,18 +217,6 @@ export const initialPortfolioData: PortfolioConfig = {
   },
   skills: [
     {
-      title: 'Development',
-      description: 'Client-side web architecture, interactive interfaces, and mobile applications.',
-      skills: [
-        { name: 'HTML5 / Semantic Markup', level: 'Production Core', experience: 'High standard standards & SEO' },
-        { name: 'CSS3 / Tailwind CSS', level: 'Production Core', experience: 'Responsive UI, animations, themes' },
-        { name: 'JavaScript (ESNext)', level: 'Production Core', experience: 'Modern asynchronous runtime' },
-        { name: 'React & TypeScript', level: 'Production Core', experience: 'Component architecture & state' },
-        { name: 'Node.js & Express', level: 'Full Stack', experience: 'REST APIs, server-side services' },
-        { name: 'Android Development', level: 'Mobile Native', experience: 'Kotlin / Java, Android SDK' },
-      ],
-    },
-    {
       title: 'Software Engineering',
       description: 'Robust architectures, database persistence, and system integrations.',
       skills: [
