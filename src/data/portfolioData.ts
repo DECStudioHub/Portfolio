@@ -3,6 +3,10 @@
  * Centralized, fully editable data file for Phase 1 — Version 1.0.1
  */
 
+import decSystemImg from '../assets/images/projects/dec-system.png';
+import wifiHeatmapImg from '../assets/images/projects/wifi-heatmap.png';
+import decstudiohubImg from '../assets/images/projects/decstudiohub.png';
+
 export interface SocialLink {
   id: string;
   name: string;
@@ -315,7 +319,7 @@ export const initialPortfolioData: PortfolioConfig = {
       ],
       status: 'Production',
       liveUrl: 'https://prg-dec.vercel.app/',
-      imageUrl: '/assets/aistudio/image_1d6b32bc.png',
+      imageUrl: decSystemImg,
       architectureNotes:
         'Excel Import → Data Validation → Data Processing → Module 1: PCOUNT W2W (Count Tag • Count Sheet • Locator Grouping • Barcode • 9-Tag Packing) | Module 2: ShelfTag / PP Tag (White Tag • Yellow Tag • Layout Editor • Print Preview) → Unified Rendering → Browser Print / PDF Export',
       imageTheme: 'dec-system',
@@ -345,7 +349,7 @@ export const initialPortfolioData: PortfolioConfig = {
       ],
       status: 'Production',
       liveUrl: 'https://dec-it-pro-network-tools.vercel.app/',
-      imageUrl: '/assets/aistudio/image_19d77743.png',
+      imageUrl: wifiHeatmapImg,
       architectureNotes:
         'Modular, component-based web application with interactive mapping, data management, and reporting modules.',
       imageTheme: 'wifi-hitmap',
@@ -378,7 +382,7 @@ export const initialPortfolioData: PortfolioConfig = {
       ],
       status: 'Production',
       liveUrl: 'https://dec-studio-hub-digital-tool.vercel.app/',
-      imageUrl: '/assets/aistudio/image_0abff5da.png',
+      imageUrl: decstudiohubImg,
       architectureNotes:
         '100% Client-Side Offline Architecture: React + Canvas API + Typed Arrays executing local image processing and calculation engines without server uploads or third-party telemetry.',
       imageTheme: 'decstudiohub-suite',

@@ -1,5 +1,30 @@
 import React from 'react';
 import { ProjectItem } from '../data/portfolioData';
+import decSystemImg from '../assets/images/projects/dec-system.png';
+import wifiHeatmapImg from '../assets/images/projects/wifi-heatmap.png';
+import decstudiohubImg from '../assets/images/projects/decstudiohub.png';
+
+export const projectImageMap: Record<string, string> = {
+  'dec-system': decSystemImg,
+  'proj-dec-system': decSystemImg,
+  'wifi-hitmap': wifiHeatmapImg,
+  'proj-wifi-hitmap': wifiHeatmapImg,
+  'decstudiohub-suite': decstudiohubImg,
+  'proj-decstudiohub-suite': decstudiohubImg,
+};
+
+export const getProjectPreviewImage = (project: { id?: string; imageTheme?: string; imageUrl?: string }): string => {
+  if (project.imageUrl && typeof project.imageUrl === 'string' && project.imageUrl.length > 0 && !project.imageUrl.startsWith('/assets/aistudio/')) {
+    return project.imageUrl;
+  }
+  if (project.imageTheme && projectImageMap[project.imageTheme]) {
+    return projectImageMap[project.imageTheme];
+  }
+  if (project.id && projectImageMap[project.id]) {
+    return projectImageMap[project.id];
+  }
+  return project.imageUrl || '';
+};
 
 interface ProjectCardProps {
   project: ProjectItem;
@@ -16,9 +41,17 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onViewDetails
             {/* Production System Screenshot with UI Blend - 4:3 Aspect Presentation */}
             <div className="absolute inset-0 overflow-hidden">
               <img
-                src={project.imageUrl || '/assets/aistudio/image_1d6b32bc.png'}
+                src={getProjectPreviewImage(project) || decSystemImg}
                 alt="DEC — Digital Efficiency & Continuity System"
                 className="w-full h-full object-cover object-top scale-[1.02] transition-transform duration-700 ease-out group-hover:scale-[1.06] opacity-90 group-hover:opacity-100"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (!target.src.includes('dec-system.png')) {
+                    target.src = decSystemImg;
+                  } else if (!target.src.includes('/images/projects/')) {
+                    target.src = '/images/projects/dec-system.png';
+                  }
+                }}
               />
 
               {/* Edge Scrim Vignette: blends the bright white UI panels into the dark coffee theme */}
@@ -83,9 +116,17 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onViewDetails
             {/* Production System Screenshot with UI Blend - 4:3 Aspect Presentation */}
             <div className="absolute inset-0 overflow-hidden">
               <img
-                src={project.imageUrl || '/assets/aistudio/image_19d77743.png'}
+                src={getProjectPreviewImage(project) || wifiHeatmapImg}
                 alt="WiFi Signal Mapping & Network Infrastructure System"
                 className="w-full h-full object-cover object-top scale-[1.02] transition-transform duration-700 ease-out group-hover:scale-[1.06] opacity-88 group-hover:opacity-100"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (!target.src.includes('wifi-heatmap.png')) {
+                    target.src = wifiHeatmapImg;
+                  } else if (!target.src.includes('/images/projects/')) {
+                    target.src = '/images/projects/wifi-heatmap.png';
+                  }
+                }}
               />
 
               {/* Edge Scrim Vignette: blends the bright panels into the dark coffee theme */}
@@ -151,9 +192,17 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onViewDetails
             {/* Production System Screenshot with UI Blend - 4:3 Aspect Presentation */}
             <div className="absolute inset-0 overflow-hidden">
               <img
-                src={project.imageUrl || '/assets/aistudio/image_0abff5da.png'}
+                src={getProjectPreviewImage(project) || decstudiohubImg}
                 alt="DECStudioHub — Offline Digital Utility Suite"
                 className="w-full h-full object-cover object-top scale-[1.02] transition-transform duration-700 ease-out group-hover:scale-[1.06] opacity-88 group-hover:opacity-100"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (!target.src.includes('decstudiohub.png')) {
+                    target.src = decstudiohubImg;
+                  } else if (!target.src.includes('/images/projects/')) {
+                    target.src = '/images/projects/decstudiohub.png';
+                  }
+                }}
               />
 
               {/* Edge Scrim Vignette: blends the screenshot into the dark coffee theme */}

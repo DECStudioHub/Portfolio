@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { usePortfolio } from '../context/PortfolioContext';
 import { ProjectItem } from '../data/portfolioData';
-import { ProjectCard } from './ProjectCard';
+import { ProjectCard, getProjectPreviewImage } from './ProjectCard';
 
 export const Projects: React.FC = () => {
   const { data } = usePortfolio();
@@ -127,13 +127,23 @@ export const Projects: React.FC = () => {
               </div>
 
               {/* Production Screenshot Showcase if available */}
-              {activeProject.imageUrl && (
+              {(getProjectPreviewImage(activeProject) || activeProject.imageUrl) && (
                 <div className="relative rounded-xl border border-[#412D15] overflow-hidden bg-[#0A0704] shadow-2xl group">
                   <div className="relative aspect-[16/9] w-full overflow-hidden">
                     <img
-                      src={activeProject.imageUrl}
+                      src={getProjectPreviewImage(activeProject) || activeProject.imageUrl}
                       alt={`${activeProject.title} Production Interface`}
                       className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        if (activeProject.imageTheme === 'dec-system' && !target.src.includes('projects/dec-system.png')) {
+                          target.src = '/images/projects/dec-system.png';
+                        } else if (activeProject.imageTheme === 'wifi-hitmap' && !target.src.includes('projects/wifi-heatmap.png')) {
+                          target.src = '/images/projects/wifi-heatmap.png';
+                        } else if (activeProject.imageTheme === 'decstudiohub-suite' && !target.src.includes('projects/decstudiohub.png')) {
+                          target.src = '/images/projects/decstudiohub.png';
+                        }
+                      }}
                     />
 
                     {/* Edge Vignette Scrim */}
