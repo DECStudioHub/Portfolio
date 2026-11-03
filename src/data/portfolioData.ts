@@ -6,6 +6,7 @@
 import decSystemImg from '../assets/images/projects/dec-system.png';
 import wifiHeatmapImg from '../assets/images/projects/wifi-heatmap.png';
 import decstudiohubImg from '../assets/images/projects/decstudiohub.png';
+import vibeCodingVideo from '../assets/video/vibe-coding-portfolio.mp4';
 
 export interface SocialLink {
   id: string;
@@ -110,6 +111,7 @@ export interface PortfolioConfig {
       title: string;
       subtitle: string;
       description: string;
+      videoUrl?: string;
     }[];
   };
   skills: SkillCategory[];
@@ -203,6 +205,7 @@ export const initialPortfolioData: PortfolioConfig = {
         subtitle: 'AI-Powered No-Code Development',
         description:
           'Building web applications and digital solutions using AI tools and natural language prompts, with minimal manual coding.',
+        videoUrl: vibeCodingVideo,
       },
       {
         title: 'IT Professional',
