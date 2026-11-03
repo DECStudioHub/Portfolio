@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { usePortfolio } from '../context/PortfolioContext';
 import { ProjectItem } from '../data/portfolioData';
-import { ProjectCard, getProjectPreviewImage } from './ProjectCard';
+import { ProjectCard, getProjectPreviewImage, projectImageMap } from './ProjectCard';
 
 export const Projects: React.FC = () => {
   const { data } = usePortfolio();
@@ -136,12 +136,9 @@ export const Projects: React.FC = () => {
                       className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                       onError={(e) => {
                         const target = e.currentTarget;
-                        if (activeProject.imageTheme === 'dec-system' && !target.src.includes('projects/dec-system.png')) {
-                          target.src = '/images/projects/dec-system.png';
-                        } else if (activeProject.imageTheme === 'wifi-hitmap' && !target.src.includes('projects/wifi-heatmap.png')) {
-                          target.src = '/images/projects/wifi-heatmap.png';
-                        } else if (activeProject.imageTheme === 'decstudiohub-suite' && !target.src.includes('projects/decstudiohub.png')) {
-                          target.src = '/images/projects/decstudiohub.png';
+                        const fallback = projectImageMap[activeProject.imageTheme] || projectImageMap[activeProject.id];
+                        if (fallback && target.src !== fallback) {
+                          target.src = fallback;
                         }
                       }}
                     />

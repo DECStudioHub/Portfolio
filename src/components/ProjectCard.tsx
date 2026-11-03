@@ -46,10 +46,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onViewDetails
                 className="w-full h-full object-cover object-top scale-[1.02] transition-transform duration-700 ease-out group-hover:scale-[1.06] opacity-90 group-hover:opacity-100"
                 onError={(e) => {
                   const target = e.currentTarget;
-                  if (!target.src.includes('dec-system.png')) {
+                  if (target.src !== decSystemImg) {
                     target.src = decSystemImg;
-                  } else if (!target.src.includes('/images/projects/')) {
-                    target.src = '/images/projects/dec-system.png';
                   }
                 }}
               />
@@ -121,10 +119,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onViewDetails
                 className="w-full h-full object-cover object-top scale-[1.02] transition-transform duration-700 ease-out group-hover:scale-[1.06] opacity-88 group-hover:opacity-100"
                 onError={(e) => {
                   const target = e.currentTarget;
-                  if (!target.src.includes('wifi-heatmap.png')) {
+                  if (target.src !== wifiHeatmapImg) {
                     target.src = wifiHeatmapImg;
-                  } else if (!target.src.includes('/images/projects/')) {
-                    target.src = '/images/projects/wifi-heatmap.png';
                   }
                 }}
               />
@@ -197,10 +193,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onViewDetails
                 className="w-full h-full object-cover object-top scale-[1.02] transition-transform duration-700 ease-out group-hover:scale-[1.06] opacity-88 group-hover:opacity-100"
                 onError={(e) => {
                   const target = e.currentTarget;
-                  if (!target.src.includes('decstudiohub.png')) {
+                  if (target.src !== decstudiohubImg) {
                     target.src = decstudiohubImg;
-                  } else if (!target.src.includes('/images/projects/')) {
-                    target.src = '/images/projects/decstudiohub.png';
                   }
                 }}
               />
