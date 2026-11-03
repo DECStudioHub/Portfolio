@@ -126,6 +126,45 @@ export const Projects: React.FC = () => {
                 </button>
               </div>
 
+              {/* Production Screenshot Showcase if available */}
+              {activeProject.imageUrl && (
+                <div className="relative rounded-xl border border-[#412D15] overflow-hidden bg-[#0A0704] shadow-2xl group">
+                  <div className="relative aspect-[16/9] w-full overflow-hidden">
+                    <img
+                      src={activeProject.imageUrl}
+                      alt={`${activeProject.title} Production Interface`}
+                      className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                    />
+
+                    {/* Edge Vignette Scrim */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#1F150C] via-transparent to-black/40 pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40 pointer-events-none" />
+
+                    {/* HUD Badges */}
+                    <div className="absolute top-3 left-3 px-3 py-1 rounded-md bg-black/85 backdrop-blur-md border border-[#412D15] text-[10px] font-mono text-[#E1DCC9] flex items-center gap-2 shadow-lg">
+                      <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${
+                        activeProject.id === 'proj-decstudiohub-suite'
+                          ? 'bg-lime-400 shadow-[0_0_6px_#a3e635]'
+                          : activeProject.id === 'proj-wifi-hitmap'
+                          ? 'bg-cyan-400 shadow-[0_0_6px_#38bdf8]'
+                          : 'bg-amber-400 shadow-[0_0_6px_#f59e0b]'
+                      }`} />
+                      <span className="font-semibold tracking-wide">LIVE SYSTEM INTERFACE</span>
+                    </div>
+
+                    <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-md bg-black/80 backdrop-blur-md border border-[#412D15] text-[10px] font-mono text-[#E1DCC9]/80 shadow-md">
+                      {activeProject.id === 'proj-dec-system'
+                        ? 'DEC v2.1.3 · Retail Inventory Continuity System (Prince Retail)'
+                        : activeProject.id === 'proj-decstudiohub-suite'
+                        ? 'DECStudioHub v1.0.0 · Digital Utility Toolbox'
+                        : activeProject.id === 'proj-wifi-hitmap'
+                        ? 'Downtown Flagship BR-408 · Interactive Heatmap'
+                        : `${activeProject.title} · Production View`}
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Description */}
               <div className="space-y-3">
                 <h4 className="text-xs font-mono uppercase tracking-wider text-[#E1DCC9]/50">

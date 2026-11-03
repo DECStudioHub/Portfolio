@@ -12,229 +12,204 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onViewDetails
     switch (theme) {
       case 'dec-system':
         return (
-          <div className="w-full h-full bg-[#120D08] relative overflow-hidden flex flex-col justify-between p-3.5 font-mono text-[10px] text-[#E1DCC9]/80 select-none">
-            {/* Top Bar */}
-            <div className="flex items-center justify-between border-b border-[#412D15]/60 pb-1.5">
-              <span className="flex items-center gap-1.5 text-[#E1DCC9] font-semibold">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                PCOUNT_W2W_ENGINE.xlsx
-              </span>
-              <span className="text-[9px] text-[#E1DCC9]/60 bg-black/50 px-1.5 py-0.5 rounded border border-[#412D15]/50">
-                OFFLINE READY
+          <div className="w-full h-full bg-[#0C0905] relative overflow-hidden flex flex-col justify-between font-mono text-[9px] text-[#E1DCC9]/80 select-none">
+            {/* Production System Screenshot with UI Blend - 4:3 Aspect Presentation */}
+            <div className="absolute inset-0 overflow-hidden">
+              <img
+                src={project.imageUrl || '/assets/aistudio/image_1d6b32bc.png'}
+                alt="DEC — Digital Efficiency & Continuity System"
+                className="w-full h-full object-cover object-top scale-[1.02] transition-transform duration-700 ease-out group-hover:scale-[1.06] opacity-90 group-hover:opacity-100"
+              />
+
+              {/* Edge Scrim Vignette: blends the bright white UI panels into the dark coffee theme */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1F150C] via-[#1F150C]/20 to-black/60 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/50 pointer-events-none" />
+
+              {/* Subtle Warm Amber Tone Harmonizer */}
+              <div className="absolute inset-0 bg-[#412D15]/20 mix-blend-color pointer-events-none" />
+
+              {/* Technical CAD scanline overlay */}
+              <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,0,0,0.35)_51%)] bg-[size:100%_4px] opacity-35 pointer-events-none" />
+            </div>
+
+            {/* Top HUD Telemetry Bar */}
+            <div className="relative z-10 flex items-center justify-between p-2 border-b border-[#412D15]/70 bg-[#0E0905]/80 backdrop-blur-sm">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse shadow-[0_0_6px_#f59e0b]" />
+                <span className="text-[9px] font-bold text-[#E1DCC9] tracking-wider uppercase font-mono">
+                  DEC SYSTEM v2.1.3
+                </span>
+              </div>
+              <span className="text-[8px] text-amber-300 bg-amber-950/70 px-1.5 py-0.5 rounded border border-amber-700/50 font-mono tracking-wide">
+                PRINCE RETAIL BCP
               </span>
             </div>
 
-            {/* Middle visual: Simulated Retail Count Tag & Barcode */}
-            <div className="grid grid-cols-12 gap-2.5 py-1 items-center">
-              {/* White Count Tag Preview */}
-              <div className="col-span-7 bg-[#E1DCC9] text-[#120D08] p-2 rounded border border-[#412D15] shadow-inner space-y-1">
-                <div className="flex justify-between items-center text-[8px] font-bold tracking-wider border-b border-[#120D08]/20 pb-0.5">
-                  <span>COUNT TAG #0492</span>
-                  <span className="bg-[#120D08] text-[#E1DCC9] px-1 rounded text-[7px]">9/PAGE</span>
-                </div>
-                <div className="text-[10px] font-black tracking-tight leading-none truncate">
-                  LOC: AISLE-04-SHELF-B
-                </div>
-                {/* Simulated Barcode Lines */}
-                <div className="h-4 flex items-center justify-between gap-[2px] bg-white px-1 py-0.5 rounded">
-                  <div className="w-[2px] h-full bg-black" />
-                  <div className="w-[1px] h-full bg-black" />
-                  <div className="w-[3px] h-full bg-black" />
-                  <div className="w-[1px] h-full bg-black" />
-                  <div className="w-[2px] h-full bg-black" />
-                  <div className="w-[4px] h-full bg-black" />
-                  <div className="w-[1px] h-full bg-black" />
-                  <div className="w-[3px] h-full bg-black" />
-                  <div className="w-[2px] h-full bg-black" />
-                  <div className="w-[1px] h-full bg-black" />
-                  <div className="w-[3px] h-full bg-black" />
-                  <div className="w-[2px] h-full bg-black" />
-                </div>
-                <div className="text-[7px] text-center font-mono text-[#120D08]/80 tracking-widest leading-none">
-                  *4928104820*
-                </div>
-              </div>
+            {/* Center Viewfinder / Corner Reticles */}
+            <div className="relative z-10 flex-1 flex items-center justify-center p-2 pointer-events-none">
+              <div className="w-full h-full rounded border border-[#E1DCC9]/15 flex items-center justify-between p-1.5 relative">
+                {/* Corner crosshairs */}
+                <span className="absolute -top-1 -left-1 text-[7px] text-[#E1DCC9]/40 font-mono">+</span>
+                <span className="absolute -top-1 -right-1 text-[7px] text-[#E1DCC9]/40 font-mono">+</span>
+                <span className="absolute -bottom-1 -left-1 text-[7px] text-[#E1DCC9]/40 font-mono">+</span>
+                <span className="absolute -bottom-1 -right-1 text-[7px] text-[#E1DCC9]/40 font-mono">+</span>
 
-              {/* Yellow PP Tag & Specs */}
-              <div className="col-span-5 space-y-1.5">
-                <div className="bg-[#EAB308] text-[#120D08] px-2 py-1 rounded text-[8px] font-bold leading-tight shadow-sm border border-[#CA8A04]">
-                  <div className="text-[7px] uppercase tracking-wide opacity-80">PP TAG ENGINE</div>
-                  <div className="truncate font-black">SHELF / PROMO</div>
+                {/* Floating Module Badge */}
+                <div className="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded bg-black/85 backdrop-blur-md border border-[#412D15] text-[7.5px] sm:text-[8px] text-amber-300 font-mono flex items-center gap-1 shadow-md">
+                  <span className="w-1 h-1 rounded-full bg-amber-400" />
+                  <span>PCOUNT W2W · SHELFTAG · PP TAG</span>
                 </div>
-                <div className="text-[9px] text-[#E1DCC9]/70 space-y-0.5">
-                  <div className="flex justify-between">
-                    <span className="text-[#E1DCC9]/50">PARSER:</span>
-                    <span className="text-emerald-400 font-medium">SheetJS</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#E1DCC9]/50">EXPORT:</span>
-                    <span className="text-[#E1DCC9]">jsPDF / Print</span>
-                  </div>
+
+                {/* Floating Efficiency Pill */}
+                <div className="absolute top-1.5 right-1.5 px-1.5 py-0.5 rounded bg-black/85 backdrop-blur-md border border-[#412D15] text-[7.5px] sm:text-[8px] text-[#E1DCC9] font-mono flex items-center gap-1 shadow-md">
+                  <span className="text-emerald-400 font-bold">1–4 DAYS ➔ 5 MINS</span>
                 </div>
               </div>
             </div>
 
-            {/* Bottom Telemetry */}
-            <div className="pt-1.5 border-t border-[#412D15]/50 flex items-center justify-between text-[9px] text-[#E1DCC9]/60">
-              <span>LOCATOR GROUPING: A–Z</span>
-              <span className="text-emerald-400 font-medium">ACCURACY: ±0.1mm</span>
+            {/* Bottom Telemetry Bar */}
+            <div className="relative z-10 px-2.5 py-1 border-t border-[#412D15]/70 bg-[#0E0905]/85 backdrop-blur-sm flex items-center justify-between text-[8px] text-[#E1DCC9]/70 font-mono">
+              <span className="flex items-center gap-1">
+                <span className="text-[#E1DCC9]/50">ENGINE:</span>
+                <span className="text-emerald-400 font-medium">9-TAG PACKING • ±0.1mm ACCURACY</span>
+              </span>
+              <span className="text-amber-400 font-medium">OFFLINE READY</span>
             </div>
           </div>
         );
       case 'wifi-hitmap':
         return (
-          <div className="w-full h-full bg-[#100B06] relative overflow-hidden flex flex-col justify-between p-3.5 font-mono text-[10px] text-[#E1DCC9]/80 select-none">
-            {/* Top Bar */}
-            <div className="flex items-center justify-between border-b border-[#412D15]/60 pb-1.5">
-              <span className="flex items-center gap-1.5 text-[#E1DCC9] font-semibold">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                SURVEY_HEATMAP_GRID.cad
-              </span>
-              <span className="text-[9px] text-cyan-300/80 bg-cyan-950/40 px-1.5 py-0.5 rounded border border-cyan-800/40">
-                FLOORPLAN ACTIVE
+          <div className="w-full h-full bg-[#0C0804] relative overflow-hidden flex flex-col justify-between font-mono text-[9px] text-[#E1DCC9]/80 select-none">
+            {/* Production System Screenshot with UI Blend - 4:3 Aspect Presentation */}
+            <div className="absolute inset-0 overflow-hidden">
+              <img
+                src={project.imageUrl || '/assets/aistudio/image_19d77743.png'}
+                alt="WiFi Signal Mapping & Network Infrastructure System"
+                className="w-full h-full object-cover object-top scale-[1.02] transition-transform duration-700 ease-out group-hover:scale-[1.06] opacity-88 group-hover:opacity-100"
+              />
+
+              {/* Edge Scrim Vignette: blends the bright panels into the dark coffee theme */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1F150C] via-[#1F150C]/20 to-black/60 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/55 pointer-events-none" />
+
+              {/* Subtle Warm Tone Harmonizer */}
+              <div className="absolute inset-0 bg-[#412D15]/20 mix-blend-color pointer-events-none" />
+
+              {/* Technical CAD scanline overlay */}
+              <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,0,0,0.35)_51%)] bg-[size:100%_4px] opacity-35 pointer-events-none" />
+            </div>
+
+            {/* Top HUD Telemetry Bar */}
+            <div className="relative z-10 flex items-center justify-between p-2 border-b border-[#412D15]/70 bg-[#0E0905]/80 backdrop-blur-sm">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_6px_#38bdf8]" />
+                <span className="text-[9px] font-bold text-[#E1DCC9] tracking-wider uppercase font-mono">
+                  WIFI HEATMAP v1.0.5
+                </span>
+              </div>
+              <span className="text-[8px] text-cyan-300 bg-cyan-950/70 px-1.5 py-0.5 rounded border border-cyan-700/50 font-mono tracking-wide">
+                BR-408 FLAGSHIP
               </span>
             </div>
 
-            {/* Middle visual: Simulated Interactive Floorplan Heatmap */}
-            <div className="grid grid-cols-12 gap-2 py-1 items-center">
-              {/* Heatmap Canvas Preview with Radar & Signal Rings */}
-              <div className="col-span-7 bg-[#170F09] relative rounded border border-[#412D15] p-2 h-20 overflow-hidden flex flex-col justify-between">
-                {/* Floorplan Grid Lines */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#412D1520_1px,transparent_1px),linear-gradient(to_bottom,#412D1520_1px,transparent_1px)] bg-[size:10px_10px]" />
-                
-                {/* AP 1 Signal Heatmap Rings */}
-                <div className="absolute top-2 left-3 w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center">
-                  <div className="w-8 h-8 rounded-full bg-emerald-400/20 border border-emerald-400/40 flex items-center justify-center">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" />
-                  </div>
+            {/* Center Viewfinder / Corner Reticles */}
+            <div className="relative z-10 flex-1 flex items-center justify-center p-2 pointer-events-none">
+              <div className="w-full h-full rounded border border-[#E1DCC9]/15 flex items-center justify-between p-1.5 relative">
+                {/* Corner crosshairs */}
+                <span className="absolute -top-1 -left-1 text-[7px] text-[#E1DCC9]/40 font-mono">+</span>
+                <span className="absolute -top-1 -right-1 text-[7px] text-[#E1DCC9]/40 font-mono">+</span>
+                <span className="absolute -bottom-1 -left-1 text-[7px] text-[#E1DCC9]/40 font-mono">+</span>
+                <span className="absolute -bottom-1 -right-1 text-[7px] text-[#E1DCC9]/40 font-mono">+</span>
+
+                {/* Floating Node Badge */}
+                <div className="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded bg-black/85 backdrop-blur-md border border-[#412D15] text-[7.5px] sm:text-[8px] text-emerald-400 font-mono flex items-center gap-1 shadow-md">
+                  <span className="w-1 h-1 rounded-full bg-emerald-400" />
+                  <span>MDF-01 ➔ 4 AP NODES</span>
                 </div>
 
-                {/* AP 2 Signal Rings */}
-                <div className="absolute -bottom-2 right-2 w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center">
-                  <div className="w-10 h-10 rounded-full bg-amber-400/20 border border-amber-400/40 flex items-center justify-center">
-                    <span className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_8px_#fbbf24]" />
-                  </div>
-                </div>
-
-                {/* Cable Backbone connecting MDF to AP */}
-                <svg className="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M 16 10 L 45 42 L 85 55" fill="none" stroke="#38bdf8" strokeWidth="1" strokeDasharray="2,2" opacity="0.6" />
-                </svg>
-
-                {/* Floor Labels */}
-                <div className="relative z-10 flex justify-between text-[7px] text-[#E1DCC9]/50 font-mono">
-                  <span>ZONE-A (AP-01: -48dBm)</span>
-                  <span>MDF RACK</span>
-                </div>
-                <div className="relative z-10 flex justify-between text-[7px] text-[#E1DCC9]/50 font-mono">
-                  <span>CAT6 UTP TRACE</span>
-                  <span>ZONE-B (-64dBm)</span>
-                </div>
-              </div>
-
-              {/* Network Infrastructure Telemetry */}
-              <div className="col-span-5 space-y-1.5 text-[8.5px]">
-                <div className="bg-[#1A120B] p-1.5 rounded border border-[#412D15]/80 space-y-1">
-                  <div className="flex justify-between">
-                    <span className="text-[#E1DCC9]/50">AP NODES:</span>
-                    <span className="text-emerald-400 font-bold">4 DEPLOYED</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#E1DCC9]/50">INFRA:</span>
-                    <span className="text-[#E1DCC9]">MDF • IDF</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#E1DCC9]/50">SURVEY:</span>
-                    <span className="text-cyan-400">128 PTS</span>
-                  </div>
-                </div>
-                <div className="bg-black/40 px-1.5 py-1 rounded border border-[#412D15]/50 flex items-center justify-between text-[8px] text-[#E1DCC9]/70">
-                  <span>HEATMAP:</span>
-                  <span className="text-emerald-400 font-bold">2.4 / 5GHz</span>
+                {/* Floating Coverage Pill */}
+                <div className="absolute top-1.5 right-1.5 px-1.5 py-0.5 rounded bg-black/85 backdrop-blur-md border border-[#412D15] text-[7.5px] sm:text-[8px] text-[#E1DCC9] font-mono flex items-center gap-1 shadow-md">
+                  <span className="text-amber-400 font-bold">2.4/5GHz</span>
+                  <span className="text-[#E1DCC9]/60">COVERAGE</span>
                 </div>
               </div>
             </div>
 
-            {/* Bottom Telemetry */}
-            <div className="pt-1.5 border-t border-[#412D15]/50 flex items-center justify-between text-[9px] text-[#E1DCC9]/60">
-              <span>CABLE MAPPING: MDF ➔ IDF ➔ AP</span>
-              <span className="text-cyan-400 font-medium">REPORT: PDF EXPORT</span>
+            {/* Bottom Telemetry Bar */}
+            <div className="relative z-10 px-2.5 py-1 border-t border-[#412D15]/70 bg-[#0E0905]/85 backdrop-blur-sm flex items-center justify-between text-[8px] text-[#E1DCC9]/70 font-mono">
+              <span className="flex items-center gap-1">
+                <span className="text-[#E1DCC9]/50">SURVEY:</span>
+                <span className="text-emerald-400 font-medium">INTERACTIVE FLOOR PLAN</span>
+              </span>
+              <span className="text-cyan-400 font-medium">LIVE AUDIT</span>
             </div>
           </div>
         );
       case 'decstudiohub-suite':
         return (
-          <div className="w-full h-full bg-[#110B07] relative overflow-hidden flex flex-col justify-between p-3.5 font-mono text-[10px] text-[#E1DCC9]/80 select-none">
-            {/* Top Bar */}
-            <div className="flex items-center justify-between border-b border-[#412D15]/60 pb-1.5">
-              <span className="flex items-center gap-1.5 text-[#E1DCC9] font-semibold">
-                <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-                STUDIO_UTILITY_CORE.ts
-              </span>
-              <span className="text-[9px] text-amber-300/80 bg-amber-950/40 px-1.5 py-0.5 rounded border border-amber-800/40">
+          <div className="w-full h-full bg-[#0C0905] relative overflow-hidden flex flex-col justify-between font-mono text-[9px] text-[#E1DCC9]/80 select-none">
+            {/* Production System Screenshot with UI Blend - 4:3 Aspect Presentation */}
+            <div className="absolute inset-0 overflow-hidden">
+              <img
+                src={project.imageUrl || '/assets/aistudio/image_0abff5da.png'}
+                alt="DECStudioHub — Offline Digital Utility Suite"
+                className="w-full h-full object-cover object-top scale-[1.02] transition-transform duration-700 ease-out group-hover:scale-[1.06] opacity-88 group-hover:opacity-100"
+              />
+
+              {/* Edge Scrim Vignette: blends the screenshot into the dark coffee theme */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1F150C] via-[#1F150C]/20 to-black/60 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-transparent to-black/55 pointer-events-none" />
+
+              {/* Subtle Warm Amber Tone Harmonizer */}
+              <div className="absolute inset-0 bg-[#412D15]/20 mix-blend-color pointer-events-none" />
+
+              {/* Technical CAD scanline overlay */}
+              <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,0,0,0.35)_51%)] bg-[size:100%_4px] opacity-35 pointer-events-none" />
+            </div>
+
+            {/* Top HUD Telemetry Bar */}
+            <div className="relative z-10 flex items-center justify-between p-2 border-b border-[#412D15]/70 bg-[#0E0905]/80 backdrop-blur-sm">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-lime-400 animate-pulse shadow-[0_0_6px_#a3e635]" />
+                <span className="text-[9px] font-bold text-[#E1DCC9] tracking-wider uppercase font-mono">
+                  DECSTUDIOHUB v1.0.0
+                </span>
+              </div>
+              <span className="text-[8px] text-lime-300 bg-lime-950/70 px-1.5 py-0.5 rounded border border-lime-700/50 font-mono tracking-wide">
                 100% CLIENT-SIDE
               </span>
             </div>
 
-            {/* Middle visual: Before/After Split Canvas Preview + Engine Telemetry */}
-            <div className="grid grid-cols-12 gap-2 py-1 items-center">
-              {/* Split-View Canvas Upscaler Graphic */}
-              <div className="col-span-7 bg-[#1A120B] relative rounded border border-[#412D15] p-2 h-20 overflow-hidden flex flex-col justify-between">
-                {/* Left side: Soft/Normal */}
-                <div className="absolute inset-y-0 left-0 w-1/2 bg-[#23170E] flex flex-col items-start justify-center pl-2 border-r border-amber-400/80">
-                  <span className="text-[7.5px] font-bold text-[#E1DCC9]/60 uppercase">1× Original</span>
-                  <div className="w-6 h-6 mt-1 rounded bg-[#352416] flex items-center justify-center text-[8px] text-[#E1DCC9]/40 blur-[0.5px]">
-                    RAW
-                  </div>
+            {/* Center Viewfinder / Corner Reticles */}
+            <div className="relative z-10 flex-1 flex items-center justify-center p-2 pointer-events-none">
+              <div className="w-full h-full rounded border border-[#E1DCC9]/15 flex items-center justify-between p-1.5 relative">
+                {/* Corner crosshairs */}
+                <span className="absolute -top-1 -left-1 text-[7px] text-[#E1DCC9]/40 font-mono">+</span>
+                <span className="absolute -top-1 -right-1 text-[7px] text-[#E1DCC9]/40 font-mono">+</span>
+                <span className="absolute -bottom-1 -left-1 text-[7px] text-[#E1DCC9]/40 font-mono">+</span>
+                <span className="absolute -bottom-1 -right-1 text-[7px] text-[#E1DCC9]/40 font-mono">+</span>
+
+                {/* Floating Tools Count Badge */}
+                <div className="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded bg-black/85 backdrop-blur-md border border-[#412D15] text-[7.5px] sm:text-[8px] text-lime-300 font-mono flex items-center gap-1 shadow-md">
+                  <span className="w-1 h-1 rounded-full bg-lime-400" />
+                  <span>15 IMAGE TOOLS · 52+ ENGINES</span>
                 </div>
 
-                {/* Right side: 4x Enhanced Bilateral Sharpened */}
-                <div className="absolute inset-y-0 right-0 w-1/2 bg-[#2D1E12] flex flex-col items-end justify-center pr-2">
-                  <span className="text-[7.5px] font-bold text-amber-300 uppercase">4× Enhanced</span>
-                  <div className="w-6 h-6 mt-1 rounded bg-[#4A321E] border border-amber-400/60 flex items-center justify-center text-[8px] text-amber-300 font-bold shadow-[0_0_6px_#f59e0b40]">
-                    HD
-                  </div>
-                </div>
-
-                {/* Draggable Split Handle Indicator */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-amber-400 text-black flex items-center justify-center text-[7px] font-bold shadow-md">
-                  ⇄
-                </div>
-
-                {/* Canvas Overlay Tag */}
-                <div className="relative z-10 flex justify-between text-[7px] text-[#E1DCC9]/50 font-mono mt-auto">
-                  <span>CANVAS API</span>
-                  <span>LAPLACIAN 4×</span>
-                </div>
-              </div>
-
-              {/* Suite Modules Telemetry */}
-              <div className="col-span-5 space-y-1 text-[8px]">
-                <div className="bg-[#180F08] p-1.5 rounded border border-[#412D15] space-y-0.5">
-                  <div className="flex justify-between">
-                    <span className="text-[#E1DCC9]/50">IMAGE:</span>
-                    <span className="text-amber-300 font-medium">15 Tools</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#E1DCC9]/50">NETWORK:</span>
-                    <span className="text-emerald-400 font-medium">CIDR / IP</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#E1DCC9]/50">SOLAR:</span>
-                    <span className="text-cyan-400 font-medium">PV / Battery</span>
-                  </div>
-                </div>
-                <div className="bg-black/50 px-1.5 py-0.5 rounded border border-[#412D15]/50 flex items-center justify-between text-[7.5px] text-[#E1DCC9]/70">
-                  <span>DATA EGRESS:</span>
-                  <span className="text-emerald-400 font-bold">0 KB (LOCAL)</span>
+                {/* Floating Privacy Pill */}
+                <div className="absolute top-1.5 right-1.5 px-1.5 py-0.5 rounded bg-black/85 backdrop-blur-md border border-[#412D15] text-[7.5px] sm:text-[8px] text-[#E1DCC9] font-mono flex items-center gap-1 shadow-md">
+                  <span className="text-emerald-400 font-bold">0 KB</span>
+                  <span className="text-[#E1DCC9]/60">DATA EGRESS</span>
                 </div>
               </div>
             </div>
 
-            {/* Bottom Telemetry */}
-            <div className="pt-1.5 border-t border-[#412D15]/50 flex items-center justify-between text-[9px] text-[#E1DCC9]/60">
-              <span>STORAGE: LOCAL PERSISTENCE</span>
-              <span className="text-emerald-400 font-medium">ZERO SERVER EGRESS</span>
+            {/* Bottom Telemetry Bar */}
+            <div className="relative z-10 px-2.5 py-1 border-t border-[#412D15]/70 bg-[#0E0905]/85 backdrop-blur-sm flex items-center justify-between text-[8px] text-[#E1DCC9]/70 font-mono">
+              <span className="flex items-center gap-1">
+                <span className="text-[#E1DCC9]/50">ENGINE:</span>
+                <span className="text-lime-300 font-medium">CANVAS API • NETWORKING • SOLAR</span>
+              </span>
+              <span className="text-emerald-400 font-medium">ZERO ADS</span>
             </div>
           </div>
         );
@@ -377,48 +352,48 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onViewDetails
       className="group relative flex flex-col justify-between rounded-xl border border-[#412D15] bg-[#1F150C]/50 hover:bg-[#1F150C] transition-all duration-300 hover:-translate-y-1 hover:border-[#E1DCC9]/40 hover:shadow-xl overflow-hidden"
     >
       <div>
-        {/* Preview Frame */}
+        {/* Preview Frame - 4:3 Aspect Ratio for maximum interface visibility */}
         <div
-          className="relative h-48 w-full border-b border-[#412D15] bg-[#0E0A06] overflow-hidden cursor-pointer flex flex-col"
+          className="relative aspect-[4/3] w-full border-b border-[#412D15] bg-[#0E0A06] overflow-hidden cursor-pointer flex flex-col"
           onClick={() => onViewDetails(project)}
         >
           {/* Card Top Header: Displays Category and Status cleanly without overlapping preview content */}
-          <div className="flex items-center justify-between px-3.5 py-2 bg-[#170F09] border-b border-[#412D15]/70 z-10 shrink-0">
+          <div className="flex items-center justify-between px-3 py-1.5 bg-[#170F09]/95 border-b border-[#412D15]/70 z-10 shrink-0">
             {/* Category indicator */}
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-[#1F150C] border border-[#412D15] text-[10px] font-mono text-[#E1DCC9]/90 font-medium">
+            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-[#1F150C] border border-[#412D15] text-[9px] font-mono text-[#E1DCC9]/90 font-medium">
               <span className="w-1.5 h-1.5 rounded-full bg-[#E1DCC9]/50" />
               {project.category}
             </span>
 
             {/* Status indicator */}
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-black/75 border border-[#412D15] text-[10px] font-mono text-[#E1DCC9]">
+            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-black/75 border border-[#412D15] text-[9px] font-mono text-[#E1DCC9]">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
               <span>{project.status}</span>
             </span>
           </div>
 
-          {/* Technical Graphic Preview (Unobstructed, full visibility) */}
+          {/* Technical Graphic Preview (Unobstructed, full visibility in 4:3) */}
           <div className="w-full flex-1 overflow-hidden transition-transform duration-500 group-hover:scale-[1.02]">
             {renderPreviewGraphic(project.imageTheme)}
           </div>
         </div>
 
-        {/* Content Body */}
-        <div className="p-6 space-y-3">
+        {/* Content Body - refined font sizing for compact scannability */}
+        <div className="p-4 sm:p-5 space-y-2.5">
           <h3
             onClick={() => onViewDetails(project)}
-            className="font-heading text-lg font-bold text-[#E1DCC9] cursor-pointer hover:text-white transition-colors"
+            className="font-heading text-[15px] sm:text-base font-bold text-[#E1DCC9] cursor-pointer hover:text-white transition-colors leading-snug"
           >
             {project.title}
           </h3>
 
-          <p className="text-xs sm:text-sm text-[#E1DCC9]/70 line-clamp-2 leading-relaxed">
+          <p className="text-[11px] sm:text-xs text-[#E1DCC9]/70 line-clamp-2 leading-relaxed">
             {project.shortDescription}
           </p>
 
           {/* Zero-Pill Tech Stack Metadata per Constitution */}
-          <div className="pt-2">
-            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-mono text-[#E1DCC9]/60">
+          <div className="pt-1">
+            <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-[10px] sm:text-[10.5px] font-mono text-[#E1DCC9]/60">
               {project.techStack.map((tech, idx) => (
                 <React.Fragment key={tech}>
                   <span className="hover:text-[#E1DCC9] transition-colors">{tech}</span>
@@ -435,28 +410,28 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onViewDetails
       </div>
 
       {/* Action Footer */}
-      <div className="p-6 pt-0 mt-2 flex flex-wrap items-center justify-between border-t border-[#412D15]/40 pt-4 gap-2">
+      <div className="p-4 sm:p-5 pt-0 mt-1 flex flex-wrap items-center justify-between border-t border-[#412D15]/40 pt-3 gap-2">
         <button
           onClick={() => onViewDetails(project)}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#E1DCC9] hover:underline decoration-1 underline-offset-4"
+          className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#E1DCC9] hover:underline decoration-1 underline-offset-4"
         >
           <span>View Details</span>
-          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
           </svg>
         </button>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
           {project.liveUrl && (
             <a
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Open live app for ${project.title}`}
-              className="inline-flex items-center gap-1 px-3 py-1 rounded bg-[#412D15] hover:bg-[#573d1e] text-xs font-medium text-[#E1DCC9] border border-[#E1DCC9]/30 transition-all shadow-sm"
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#412D15] hover:bg-[#573d1e] text-[10.5px] font-medium text-[#E1DCC9] border border-[#E1DCC9]/30 transition-all shadow-sm"
             >
               <span>Live System</span>
-              <span className="text-[10px]">↗</span>
+              <span className="text-[9px]">↗</span>
             </a>
           )}
 
@@ -466,9 +441,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onViewDetails
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`View ${project.title} on GitHub`}
-              className="flex items-center gap-1 text-xs font-mono text-[#E1DCC9]/70 hover:text-[#E1DCC9] transition-colors"
+              className="flex items-center gap-1 text-[10.5px] font-mono text-[#E1DCC9]/70 hover:text-[#E1DCC9] transition-colors"
             >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                 <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
               </svg>
               <span>GitHub</span>

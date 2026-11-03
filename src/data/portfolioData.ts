@@ -23,6 +23,7 @@ export interface ProjectItem {
   status: 'Production' | 'Production Ready' | 'Active System' | 'Deployed' | 'Open Source' | 'In Development' | 'Completed';
   githubUrl?: string;
   liveUrl?: string;
+  imageUrl?: string;
   architectureNotes?: string;
   imageTheme: string;
 }
@@ -64,6 +65,10 @@ export interface TestimonialItem {
   company: string;
   testimonial: string;
   avatarText?: string;
+  impactBadge?: string;
+  highlightPhrases?: string[];
+  department?: string;
+  date?: string;
 }
 
 export interface PortfolioConfig {
@@ -310,6 +315,7 @@ export const initialPortfolioData: PortfolioConfig = {
       ],
       status: 'Production',
       liveUrl: 'https://prg-dec.vercel.app/',
+      imageUrl: '/assets/aistudio/image_1d6b32bc.png',
       architectureNotes:
         'Excel Import → Data Validation → Data Processing → Module 1: PCOUNT W2W (Count Tag • Count Sheet • Locator Grouping • Barcode • 9-Tag Packing) | Module 2: ShelfTag / PP Tag (White Tag • Yellow Tag • Layout Editor • Print Preview) → Unified Rendering → Browser Print / PDF Export',
       imageTheme: 'dec-system',
@@ -339,6 +345,7 @@ export const initialPortfolioData: PortfolioConfig = {
       ],
       status: 'Production',
       liveUrl: 'https://dec-it-pro-network-tools.vercel.app/',
+      imageUrl: '/assets/aistudio/image_19d77743.png',
       architectureNotes:
         'Modular, component-based web application with interactive mapping, data management, and reporting modules.',
       imageTheme: 'wifi-hitmap',
@@ -371,6 +378,7 @@ export const initialPortfolioData: PortfolioConfig = {
       ],
       status: 'Production',
       liveUrl: 'https://dec-studio-hub-digital-tool.vercel.app/',
+      imageUrl: '/assets/aistudio/image_0abff5da.png',
       architectureNotes:
         '100% Client-Side Offline Architecture: React + Canvas API + Typed Arrays executing local image processing and calculation engines without server uploads or third-party telemetry.',
       imageTheme: 'decstudiohub-suite',
@@ -679,6 +687,23 @@ export const initialPortfolioData: PortfolioConfig = {
   ],
   testimonials: [
     {
+      id: 'test-prince-its',
+      name: 'ITS Department',
+      position: 'Information Technology Services',
+      company: 'Prince Retail Group of Companies',
+      testimonial:
+        "Dante Exhibits an owner with innovative mindset he can play his thoughts. Always seeing new possibilities and opportunities. Ideas arise by opening himself up to his environment, wondering what is happening around him, or what is not happening. He doesn't let the limitations or the thought that it will never be something.\n\nThe BCP of editing process for PP printing in stores provided by Dante produces a significant reduction of time compared to its previous PP editing processes. Those previous editing process for PP printing that should be done by 1,2,4 days can now be accomplished in a matter of 5 minutes. Congrats for a job well done! 👏",
+      avatarText: 'ITS',
+      impactBadge: '⏱️ 1–4 Days Reduced to 5 Minutes',
+      highlightPhrases: [
+        'innovative mindset',
+        'significant reduction of time',
+        '1,2,4 days can now be accomplished in a matter of 5 minutes',
+        'Congrats for a job well done! 👏',
+      ],
+      department: 'Prince Retail ITS',
+    },
+    {
       id: 'test-1',
       name: 'Michael Santos',
       position: 'Operations Director',
@@ -686,6 +711,11 @@ export const initialPortfolioData: PortfolioConfig = {
       testimonial:
         'DECStudio diagnosed and resolved our retail POS network and hardware conflicts that had plagued us for weeks. Dante works with methodical precision and delivers solutions that last. Highly recommended for any technical requirement.',
       avatarText: 'MS',
+      impactBadge: '🔧 POS & Hardware Diagnostics',
+      highlightPhrases: [
+        'diagnosed and resolved our retail POS network and hardware conflicts',
+        'methodical precision and delivers solutions that last',
+      ],
     },
     {
       id: 'test-2',
@@ -695,6 +725,11 @@ export const initialPortfolioData: PortfolioConfig = {
       testimonial:
         'Working with Dante on our web portal and inventory system was seamless. He not only understands software engineering deeply but also translates technical concepts into practical, reliable tools for our everyday team.',
       avatarText: 'GA',
+      impactBadge: '💻 Portal & Systems Integration',
+      highlightPhrases: [
+        'web portal and inventory system was seamless',
+        'translates technical concepts into practical, reliable tools',
+      ],
     },
     {
       id: 'test-3',
@@ -704,6 +739,25 @@ export const initialPortfolioData: PortfolioConfig = {
       testimonial:
         'Dante combines the discipline of an experienced IT support specialist with the creative engineering of a modern software developer. His automation scripts saved our department countless hours of manual work.',
       avatarText: 'RD',
+      impactBadge: '⚡ Department Automation Scripts',
+      highlightPhrases: [
+        'discipline of an experienced IT support specialist',
+        'automation scripts saved our department countless hours of manual work',
+      ],
+    },
+    {
+      id: 'test-5',
+      name: 'Carlo Mendoza',
+      position: 'Field Operations Lead',
+      company: 'Visayas Retail Distribution Center',
+      testimonial:
+        'During our multi-branch rollout, Dante took charge of the entire networking deployment and hardware validation across regional stores. His ability to foresee operational bottlenecks and deploy rapid, field-tested workarounds kept our branches running with zero downtime.',
+      avatarText: 'CM',
+      impactBadge: '🚀 Zero Downtime Branch Rollouts',
+      highlightPhrases: [
+        'networking deployment and hardware validation across regional stores',
+        'kept our branches running with zero downtime',
+      ],
     },
   ],
 };
