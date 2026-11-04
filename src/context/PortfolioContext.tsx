@@ -18,6 +18,23 @@ const PortfolioContext = createContext<PortfolioContextType | undefined>(undefin
 const CURSOR_STORAGE_KEY = 'decstudio_cursor_enabled';
 const MOTION_STORAGE_KEY = 'decstudio_reduced_motion';
 
+const readStoredBoolean = (key: string, fallback: boolean) => {
+  try {
+    const value = localStorage.getItem(key);
+    return value === null ? fallback : value === 'true';
+  } catch {
+    return fallback;
+  }
+};
+
+const writeStoredBoolean = (key: string, value: boolean) => {
+  try {
+    localStorage.setItem(key, String(value));
+  } catch {
+    // Preferences still work for the current page when storage is unavailable.
+  }
+};
+
 const getInitialData = (): PortfolioConfig => {
   // Always enforce official initialPortfolioData containing the 3 verified production projects
   return initialPortfolioData;
@@ -27,42 +44,30 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [data, setData] = useState<PortfolioConfig>(getInitialData);
   const [activeSection, setActiveSection] = useState<string>('home');
 
-  const [isCursorEnabled, setIsCursorEnabledState] = useState<boolean>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem(CURSOR_STORAGE_KEY);
-      return saved !== null ? saved === 'true' : true;
-    }
-    return true;
-  });
+  const [isCursorEnabled, setIsCursorEnabledState] = useState<boolean>(() =>
+    typeof window === 'undefined' ? true : readStoredBoolean(CURSOR_STORAGE_KEY, true)
+  );
 
   const [isReducedMotion, setIsReducedMotionState] = useState<boolean>(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window === 'undefined') return false;
+    try {
       const saved = localStorage.getItem(MOTION_STORAGE_KEY);
-      if (saved !== null) return saved === 'true';
-      return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      return saved === null
+        ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        : saved === 'true';
+    } catch {
+      return false;
     }
-    return false;
   });
 
   const setIsCursorEnabled = useCallback((enabled: boolean) => {
     setIsCursorEnabledState(enabled);
-    localStorage.setItem(CURSOR_STORAGE_KEY, String(enabled));
+    writeStoredBoolean(CURSOR_STORAGE_KEY, enabled);
   }, []);
 
   const setIsReducedMotion = useCallback((enabled: boolean) => {
     setIsReducedMotionState(enabled);
-    localStorage.setItem(MOTION_STORAGE_KEY, String(enabled));
-  }, []);
-
-  // Clean up any legacy dummy project data or stale configurations from localStorage on load
-  useEffect(() => {
-    try {
-      localStorage.removeItem('decstudio_portfolio_data_v1');
-      localStorage.removeItem('decstudio_portfolio_data_v2');
-      localStorage.removeItem('decstudio_portfolio_data');
-    } catch {
-      // Ignore
-    }
+    writeStoredBoolean(MOTION_STORAGE_KEY, enabled);
   }, []);
 
   const updateData = useCallback((newData: PortfolioConfig) => {
@@ -72,6 +77,17 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const resetData = useCallback(() => {
     setData(initialPortfolioData);
   }, []);
+
+  // Synchronize reduced-motion preference with the document root class
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      if (isReducedMotion) {
+        document.documentElement.classList.add('reduced-motion');
+      } else {
+        document.documentElement.classList.remove('reduced-motion');
+      }
+    }
+  }, [isReducedMotion]);
 
   // Scroll spy to update active section in navigation
   useEffect(() => {

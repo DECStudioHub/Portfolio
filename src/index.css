@@ -90,6 +90,27 @@
   animation: pulse-subtle 4s ease-in-out infinite;
 }
 
+/* Reduced motion handling (UI/UX Pro Max Priority 1 & 7) */
+@media (prefers-reduced-motion: reduce) {
+  .animate-spin-slow,
+  .animate-spin-reverse,
+  .animate-pulse-subtle {
+    animation: none !important;
+  }
+}
+
+.reduced-motion .animate-spin-slow,
+.reduced-motion .animate-spin-reverse,
+.reduced-motion .animate-pulse-subtle {
+  animation: none !important;
+}
+
+/* Accessible focus visible outlines */
+:focus-visible {
+  outline: 2px solid var(--color-highlight);
+  outline-offset: 2px;
+}
+
 /* Technical grid background */
 .bg-tech-grid {
   background-image: 

@@ -7,6 +7,7 @@ import decSystemImg from '../assets/images/projects/dec-system.png';
 import wifiHeatmapImg from '../assets/images/projects/wifi-heatmap.png';
 import decstudiohubImg from '../assets/images/projects/decstudiohub.png';
 import vibeCodingVideo from '../assets/video/vibe-coding-portfolio.mp4';
+import itProfessionalVideo from '../assets/video/it-professional-systems-infrastructure.mp4';
 
 export interface SocialLink {
   id: string;
@@ -112,6 +113,12 @@ export interface PortfolioConfig {
       subtitle: string;
       description: string;
       videoUrl?: string;
+      videoFallbackUrl?: string;
+      badge?: string;
+      modalTag?: string;
+      modalTitle?: string;
+      modalQuote?: string;
+      resolutionNote?: string;
     }[];
   };
   skills: SkillCategory[];
@@ -206,12 +213,27 @@ export const initialPortfolioData: PortfolioConfig = {
         description:
           'Building web applications and digital solutions using AI tools and natural language prompts, with minimal manual coding.',
         videoUrl: vibeCodingVideo,
+        videoFallbackUrl: './video/vibe-coding-portfolio.mp4',
+        badge: 'VIBE CODING · HD',
+        modalTag: 'AI-POWERED NO-CODE BUILDING',
+        modalTitle: 'VIBE Coding (No Code) — Digital Innovation Showcase',
+        modalQuote:
+          '“From a thought to a working product — Building web apps and digital solutions with minimal manual coding.”',
+        resolutionNote: '1440 × 1080 HD · 4:3 Master',
       },
       {
         title: 'IT Professional',
         subtitle: 'Systems & Infrastructure',
         description:
           'Hands-on troubleshooting of hardware, networking, POS systems, enterprise devices, security configurations, and operational continuity.',
+        videoUrl: itProfessionalVideo,
+        videoFallbackUrl: './video/it-professional-systems-infrastructure.mp4',
+        badge: 'IT INFRASTRUCTURE · HD',
+        modalTag: 'ENTERPRISE SYSTEMS & INFRASTRUCTURE',
+        modalTitle: 'IT Professional — Systems & Infrastructure Showcase',
+        modalQuote:
+          '“Hands-on troubleshooting of hardware, networking, POS systems, enterprise devices, security configurations, and operational continuity across 27 retail branches.”',
+        resolutionNote: 'HD Video · Enterprise Operations',
       },
       {
         title: 'Problem Solver',

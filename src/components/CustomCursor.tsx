@@ -15,13 +15,14 @@ export const CustomCursor: React.FC = () => {
 
     if (isTouch || prefersReducedMotion || !isCursorEnabled) {
       setIsTouchDevice(true);
+      setIsVisible(false);
       return;
     }
     setIsTouchDevice(false);
 
     const onMouseMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
-      if (!isVisible) setIsVisible(true);
+      setIsVisible(true);
 
       const target = e.target as HTMLElement | null;
       if (target) {
@@ -44,7 +45,7 @@ export const CustomCursor: React.FC = () => {
       document.removeEventListener('mouseleave', onMouseLeave);
       document.removeEventListener('mouseenter', onMouseEnter);
     };
-  }, [isVisible]);
+  }, [isCursorEnabled, isReducedMotion]);
 
   if (isTouchDevice || !isVisible) return null;
 

@@ -36,6 +36,12 @@
       "sourceType": "github",
       "skillPath": "skills/sound-effects/SKILL.md",
       "computedHash": "2aab69bb456940b6522c1b4e335e9110d0316a7975f2f1bac84e0e1227201a05"
+    },
+    "ui-ux-pro-max": {
+      "source": "~/.codex/skills/ui-ux-pro-max",
+      "sourceType": "codex",
+      "skillPath": "skills/ui-ux-pro-max/SKILL.md",
+      "computedHash": "41bcd034dbc9365211f67b19053f07579ac9e45b2df4386802eff43c61b95c05"
     }
   }
 }

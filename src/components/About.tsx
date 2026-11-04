@@ -4,10 +4,17 @@ import vibeCodingVideo from '../assets/video/vibe-coding-portfolio.mp4';
 
 interface PillarVideoPlayerProps {
   videoUrl: string;
+  badgeLabel?: string;
+  fallbackUrl?: string;
   onExpand: () => void;
 }
 
-const PillarVideoPlayer: React.FC<PillarVideoPlayerProps> = ({ videoUrl, onExpand }) => {
+const PillarVideoPlayer: React.FC<PillarVideoPlayerProps> = ({
+  videoUrl,
+  badgeLabel = 'VIBE CODING · HD',
+  fallbackUrl,
+  onExpand,
+}) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [isMuted, setIsMuted] = useState<boolean>(true);
@@ -50,13 +57,13 @@ const PillarVideoPlayer: React.FC<PillarVideoPlayerProps> = ({ videoUrl, onExpan
         className="w-full h-full object-cover transition-transform duration-500 group-hover/vid:scale-[1.03]"
       >
         <source src={videoUrl} type="video/mp4" />
-        <source src="./video/vibe-coding-portfolio.mp4" type="video/mp4" />
+        {fallbackUrl && <source src={fallbackUrl} type="video/mp4" />}
       </video>
 
       {/* Top subtle HUD badge */}
       <div className="absolute top-2 left-2 z-10 flex items-center gap-1.5 px-2 py-0.5 rounded bg-black/85 backdrop-blur-md border border-[#412D15] text-[8px] font-mono text-[#E1DCC9]">
         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#34d399]" />
-        <span>VIBE CODING · HD</span>
+        <span>{badgeLabel}</span>
       </div>
 
       {/* Scrim vignette: softens edges into coffee theme */}
@@ -122,21 +129,30 @@ const PillarVideoPlayer: React.FC<PillarVideoPlayerProps> = ({ videoUrl, onExpan
   );
 };
 
+interface ModalVideoData {
+  tag: string;
+  title: string;
+  videoUrl: string;
+  fallbackUrl?: string;
+  quote: string;
+  resolutionNote?: string;
+}
+
 export const About: React.FC = () => {
   const { data } = usePortfolio();
-  const [videoModalOpen, setVideoModalOpen] = useState<boolean>(false);
+  const [activeModalVideo, setActiveModalVideo] = useState<ModalVideoData | null>(null);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        setVideoModalOpen(false);
+        setActiveModalVideo(null);
       }
     };
-    if (videoModalOpen) {
+    if (activeModalVideo) {
       window.addEventListener('keydown', handleKeyDown);
     }
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [videoModalOpen]);
+  }, [activeModalVideo]);
 
   const getPillarIcon = (index: number) => {
     switch (index) {
@@ -243,8 +259,21 @@ export const About: React.FC = () => {
         {/* 4 Minimalist Pillar Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
           {data.about.pillars.map((pillar, idx) => {
-            const hasVideo = Boolean(pillar.videoUrl || idx === 0 || pillar.title.includes('VIBE Coding'));
-            const videoSource = pillar.videoUrl || vibeCodingVideo;
+            const hasVideo = Boolean(pillar.videoUrl || (idx === 0 && vibeCodingVideo));
+            const videoSource = pillar.videoUrl || (idx === 0 ? vibeCodingVideo : '');
+            const badgeLabel = pillar.badge || (idx === 0 ? 'VIBE CODING · HD' : 'IT INFRASTRUCTURE · HD');
+
+            const handleExpand = () => {
+              if (!hasVideo || !videoSource) return;
+              setActiveModalVideo({
+                tag: pillar.modalTag || (idx === 0 ? 'AI-POWERED NO-CODE BUILDING' : 'ENTERPRISE SYSTEMS & INFRASTRUCTURE'),
+                title: pillar.modalTitle || `${pillar.title} — Video Showcase`,
+                videoUrl: videoSource,
+                fallbackUrl: pillar.videoFallbackUrl,
+                quote: pillar.modalQuote || pillar.description,
+                resolutionNote: pillar.resolutionNote || 'HD Master Showcase',
+              });
+            };
 
             return (
               <div
@@ -272,12 +301,14 @@ export const About: React.FC = () => {
                     </span>
                   </div>
 
-                  {/* Card Body: Replaced with 4:3 Video for VIBE Coding */}
-                  {hasVideo ? (
+                  {/* Card Body: Replaced with 4:3 Video if hasVideo */}
+                  {hasVideo && videoSource ? (
                     <div className="pt-1">
                       <PillarVideoPlayer
                         videoUrl={videoSource}
-                        onExpand={() => setVideoModalOpen(true)}
+                        badgeLabel={badgeLabel}
+                        fallbackUrl={pillar.videoFallbackUrl}
+                        onExpand={handleExpand}
                       />
                     </div>
                   ) : (
@@ -296,7 +327,7 @@ export const About: React.FC = () => {
                     </span>
                     <button
                       type="button"
-                      onClick={() => setVideoModalOpen(true)}
+                      onClick={handleExpand}
                       className="group-hover:text-[#E1DCC9] transition-colors flex items-center gap-1 hover:underline text-[#E1DCC9]/80"
                     >
                       <span>Watch Full HD</span>
@@ -316,13 +347,13 @@ export const About: React.FC = () => {
       </div>
 
       {/* Lightbox Video Modal for Full-Screen HD Viewing */}
-      {videoModalOpen && (
+      {activeModalVideo && (
         <div
           role="dialog"
           aria-modal="true"
-          aria-labelledby="vibe-video-title"
+          aria-labelledby="pillar-video-title"
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md"
-          onClick={() => setVideoModalOpen(false)}
+          onClick={() => setActiveModalVideo(null)}
         >
           <div
             className="relative w-full max-w-4xl rounded-2xl border border-[#412D15] bg-[#160E08] p-4 sm:p-6 shadow-2xl space-y-4"
@@ -333,15 +364,15 @@ export const About: React.FC = () => {
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2 text-xs font-mono text-emerald-400">
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#34d399]" />
-                  <span>AI-POWERED NO-CODE BUILDING</span>
+                  <span>{activeModalVideo.tag}</span>
                 </div>
-                <h3 id="vibe-video-title" className="font-heading text-lg sm:text-xl font-bold text-[#E1DCC9]">
-                  VIBE Coding (No Code) — Digital Innovation Showcase
+                <h3 id="pillar-video-title" className="font-heading text-lg sm:text-xl font-bold text-[#E1DCC9]">
+                  {activeModalVideo.title}
                 </h3>
               </div>
               <button
                 type="button"
-                onClick={() => setVideoModalOpen(false)}
+                onClick={() => setActiveModalVideo(null)}
                 aria-label="Close modal"
                 className="w-8 h-8 rounded-lg border border-[#412D15] flex items-center justify-center text-[#E1DCC9]/70 hover:text-white hover:bg-[#2A1E11] transition-colors"
               >
@@ -352,21 +383,26 @@ export const About: React.FC = () => {
             {/* Video Viewport (4:3 Native Aspect) */}
             <div className="relative aspect-[4/3] w-full max-h-[70vh] rounded-xl overflow-hidden border border-[#412D15] bg-black shadow-inner flex items-center justify-center">
               <video
-                src={vibeCodingVideo}
+                key={activeModalVideo.videoUrl}
+                src={activeModalVideo.videoUrl}
                 controls
                 autoPlay
                 playsInline
                 className="w-full h-full object-contain bg-black"
               >
-                <source src={vibeCodingVideo} type="video/mp4" />
-                <source src="./video/vibe-coding-portfolio.mp4" type="video/mp4" />
+                <source src={activeModalVideo.videoUrl} type="video/mp4" />
+                {activeModalVideo.fallbackUrl && (
+                  <source src={activeModalVideo.fallbackUrl} type="video/mp4" />
+                )}
               </video>
             </div>
 
             {/* Modal Footer */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 text-xs font-mono text-[#E1DCC9]/70 border-t border-[#412D15]/40">
-              <p>“From a thought to a working product — Building web apps and digital solutions with minimal manual coding.”</p>
-              <span className="text-emerald-400 font-semibold shrink-0">1440 × 1080 HD · 4:3 Master</span>
+              <p>{activeModalVideo.quote}</p>
+              <span className="text-emerald-400 font-semibold shrink-0">
+                {activeModalVideo.resolutionNote || 'HD Master Showcase'}
+              </span>
             </div>
           </div>
         </div>
