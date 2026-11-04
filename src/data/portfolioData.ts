@@ -8,6 +8,8 @@ import wifiHeatmapImg from '../assets/images/projects/wifi-heatmap.png';
 import decstudiohubImg from '../assets/images/projects/decstudiohub.png';
 import vibeCodingVideo from '../assets/video/vibe-coding-portfolio.mp4';
 import itProfessionalVideo from '../assets/video/it-professional-systems-infrastructure.mp4';
+import problemSolverVideo from '../assets/video/problem-solver.mp4';
+import contentCreatorVideo from '../assets/video/content-creator.mp4';
 
 export interface SocialLink {
   id: string;
@@ -240,12 +242,28 @@ export const initialPortfolioData: PortfolioConfig = {
         subtitle: 'System & Automation Logic',
         description:
           'Streamlining repetitive manual operations through custom batch scripts, API integrations, database workflows, and fault-tolerant system design.',
+        videoUrl: problemSolverVideo,
+        videoFallbackUrl: './video/problem-solver.mp4',
+        badge: 'AUTOMATION LOGIC · HD',
+        modalTag: 'SYSTEM & AUTOMATION LOGIC',
+        modalTitle: 'Problem Solver — System & Automation Logic Showcase',
+        modalQuote:
+          '“Make busywork run itself. Streamlining repetitive manual operations through custom batch scripts, API integrations, database workflows, and fault-tolerant system design.”',
+        resolutionNote: '1440 × 1080 HD · 4:3 Master',
       },
       {
         title: 'Content Creator',
         subtitle: 'Digital Content & Studio Media',
         description:
           'Producing engaging technology content, visual media, technical tutorials, and creative brand experiences across YouTube, TikTok, and digital channels.',
+        videoUrl: contentCreatorVideo,
+        videoFallbackUrl: './video/content-creator.mp4',
+        badge: 'STUDIO MEDIA · HD',
+        modalTag: 'DIGITAL CONTENT & STUDIO MEDIA',
+        modalTitle: 'Content Creator — Digital Content & Studio Media Showcase',
+        modalQuote:
+          '“Ideas into experiences. Technology, made visual. Producing engaging technology content, visual media, technical tutorials, and creative brand experiences across YouTube, TikTok, and digital channels.”',
+        resolutionNote: '1440 × 1080 HD · 4:3 Master',
       },
     ],
   },

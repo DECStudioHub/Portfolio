@@ -1,6 +1,59 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { usePortfolio } from '../context/PortfolioContext';
 import vibeCodingVideo from '../assets/video/vibe-coding-portfolio.mp4';
+import itProfessionalVideo from '../assets/video/it-professional-systems-infrastructure.mp4';
+import problemSolverVideo from '../assets/video/problem-solver.mp4';
+import contentCreatorVideo from '../assets/video/content-creator.mp4';
+
+const defaultPillarVideos: Record<
+  number,
+  {
+    video: string;
+    fallback: string;
+    badge: string;
+    tag: string;
+    title: string;
+    quote: string;
+    note: string;
+  }
+> = {
+  0: {
+    video: vibeCodingVideo,
+    fallback: './video/vibe-coding-portfolio.mp4',
+    badge: 'VIBE CODING · HD',
+    tag: 'AI-POWERED NO-CODE BUILDING',
+    title: 'VIBE Coding (No Code) — Digital Innovation Showcase',
+    quote: '“From a thought to a working product — Building web apps and digital solutions with minimal manual coding.”',
+    note: '1440 × 1080 HD · 4:3 Master',
+  },
+  1: {
+    video: itProfessionalVideo,
+    fallback: './video/it-professional-systems-infrastructure.mp4',
+    badge: 'IT INFRASTRUCTURE · HD',
+    tag: 'ENTERPRISE SYSTEMS & INFRASTRUCTURE',
+    title: 'IT Professional — Systems & Infrastructure Showcase',
+    quote: '“Hands-on troubleshooting of hardware, networking, POS systems, enterprise devices, security configurations, and operational continuity across 27 retail branches.”',
+    note: 'HD Video · Enterprise Operations',
+  },
+  2: {
+    video: problemSolverVideo,
+    fallback: './video/problem-solver.mp4',
+    badge: 'AUTOMATION LOGIC · HD',
+    tag: 'SYSTEM & AUTOMATION LOGIC',
+    title: 'Problem Solver — System & Automation Logic Showcase',
+    quote: '“Make busywork run itself. Streamlining repetitive manual operations through custom batch scripts, API integrations, database workflows, and fault-tolerant system design.”',
+    note: '1440 × 1080 HD · 4:3 Master',
+  },
+  3: {
+    video: contentCreatorVideo,
+    fallback: './video/content-creator.mp4',
+    badge: 'STUDIO MEDIA · HD',
+    tag: 'DIGITAL CONTENT & STUDIO MEDIA',
+    title: 'Content Creator — Digital Content & Studio Media Showcase',
+    quote: '“Ideas into experiences. Technology, made visual. Producing engaging technology content, visual media, technical tutorials, and creative brand experiences across YouTube, TikTok, and digital channels.”',
+    note: '1440 × 1080 HD · 4:3 Master',
+  },
+};
 
 interface PillarVideoPlayerProps {
   videoUrl: string;
@@ -259,28 +312,30 @@ export const About: React.FC = () => {
         {/* 4 Minimalist Pillar Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
           {data.about.pillars.map((pillar, idx) => {
-            const hasVideo = Boolean(pillar.videoUrl || (idx === 0 && vibeCodingVideo));
-            const videoSource = pillar.videoUrl || (idx === 0 ? vibeCodingVideo : '');
-            const badgeLabel = pillar.badge || (idx === 0 ? 'VIBE CODING · HD' : 'IT INFRASTRUCTURE · HD');
+            const defaultMeta = defaultPillarVideos[idx];
+            const hasVideo = Boolean(pillar.videoUrl || defaultMeta?.video);
+            const videoSource = pillar.videoUrl || defaultMeta?.video || '';
+            const fallbackSource = pillar.videoFallbackUrl || defaultMeta?.fallback;
+            const badgeLabel = pillar.badge || defaultMeta?.badge || 'HD VIDEO';
 
             const handleExpand = () => {
               if (!hasVideo || !videoSource) return;
               setActiveModalVideo({
-                tag: pillar.modalTag || (idx === 0 ? 'AI-POWERED NO-CODE BUILDING' : 'ENTERPRISE SYSTEMS & INFRASTRUCTURE'),
-                title: pillar.modalTitle || `${pillar.title} — Video Showcase`,
+                tag: pillar.modalTag || defaultMeta?.tag || 'TECHNICAL SHOWCASE',
+                title: pillar.modalTitle || defaultMeta?.title || `${pillar.title} — Video Showcase`,
                 videoUrl: videoSource,
-                fallbackUrl: pillar.videoFallbackUrl,
-                quote: pillar.modalQuote || pillar.description,
-                resolutionNote: pillar.resolutionNote || 'HD Master Showcase',
+                fallbackUrl: fallbackSource,
+                quote: pillar.modalQuote || defaultMeta?.quote || pillar.description,
+                resolutionNote: pillar.resolutionNote || defaultMeta?.note || 'HD Master Showcase',
               });
             };
 
             return (
               <div
                 key={idx}
-                className="group relative flex flex-col justify-between p-6 rounded-xl border border-[#412D15] bg-[#1F150C]/40 hover:bg-[#1F150C] transition-all duration-200 hover:-translate-y-1 hover:border-[#E1DCC9]/40 overflow-hidden"
+                className="group relative flex flex-col justify-between px-3.5 sm:px-4 py-5 rounded-xl border border-[#412D15] bg-[#1F150C]/40 hover:bg-[#1F150C] transition-all duration-200 hover:-translate-y-1 hover:border-[#E1DCC9]/40 overflow-hidden"
               >
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {/* Card Header: Icon & Index */}
                   <div className="flex items-center justify-between">
                     <div className="w-10 h-10 rounded-lg border border-[#412D15] bg-[#2A1E11] flex items-center justify-center group-hover:border-[#E1DCC9]/40 transition-colors">
@@ -303,11 +358,11 @@ export const About: React.FC = () => {
 
                   {/* Card Body: Replaced with 4:3 Video if hasVideo */}
                   {hasVideo && videoSource ? (
-                    <div className="pt-1">
+                    <div className="w-full">
                       <PillarVideoPlayer
                         videoUrl={videoSource}
                         badgeLabel={badgeLabel}
-                        fallbackUrl={pillar.videoFallbackUrl}
+                        fallbackUrl={fallbackSource}
                         onExpand={handleExpand}
                       />
                     </div>
@@ -320,7 +375,7 @@ export const About: React.FC = () => {
 
                 {/* Card Footer */}
                 {hasVideo ? (
-                  <div className="mt-4 pt-3 border-t border-[#412D15]/40 flex items-center justify-between text-[11px] font-mono text-[#E1DCC9]/70">
+                  <div className="mt-3.5 pt-2.5 border-t border-[#412D15]/40 flex items-center justify-between text-[11px] font-mono text-[#E1DCC9]/70">
                     <span className="flex items-center gap-1.5 text-emerald-400 font-medium">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#34d399]" />
                       Motion Showcase
@@ -335,7 +390,7 @@ export const About: React.FC = () => {
                     </button>
                   </div>
                 ) : (
-                  <div className="mt-4 pt-3 border-t border-[#412D15]/40 flex items-center justify-between text-[11px] font-mono text-[#E1DCC9]/50">
+                  <div className="mt-3.5 pt-2.5 border-t border-[#412D15]/40 flex items-center justify-between text-[11px] font-mono text-[#E1DCC9]/50">
                     <span>Practiced</span>
                     <span className="group-hover:text-[#E1DCC9] transition-colors">→</span>
                   </div>
