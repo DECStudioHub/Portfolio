@@ -1,6 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { usePortfolio } from '../context/PortfolioContext';
 
+import vibePoster from '../assets/video/vibe-coding-portfolio-poster.webp';
+import itPoster from '../assets/video/it-professional-poster.webp';
+import problemPoster from '../assets/video/problem-solver-poster.webp';
+import contentPoster from '../assets/video/content-creator-poster.webp';
+
+import vibePreview from '../assets/video/vibe-coding-preview.mp4';
+import itPreview from '../assets/video/it-professional-preview.mp4';
+import problemPreview from '../assets/video/problem-solver-preview.mp4';
+import contentPreview from '../assets/video/content-creator-preview.mp4';
+
+import vibeVideo from '../assets/video/vibe-coding-portfolio.mp4';
+import itVideo from '../assets/video/it-professional-systems-infrastructure.mp4';
+import problemVideo from '../assets/video/problem-solver.mp4';
+import contentVideo from '../assets/video/content-creator.mp4';
+
 const defaultPillarVideos: Record<
   number,
   {
@@ -16,10 +31,10 @@ const defaultPillarVideos: Record<
   }
 > = {
   0: {
-    video: '/video/vibe-coding-portfolio.mp4',
-    preview: '/video/vibe-coding-preview.mp4',
-    poster: '/video/vibe-coding-portfolio-poster.webp',
-    fallback: '/video/vibe-coding-portfolio.mp4',
+    video: vibeVideo,
+    preview: vibePreview,
+    poster: vibePoster,
+    fallback: vibeVideo,
     badge: 'VIBE CODING · HD',
     tag: 'AI-POWERED NO-CODE BUILDING',
     title: 'VIBE Coding (No Code) — Digital Innovation Showcase',
@@ -27,10 +42,10 @@ const defaultPillarVideos: Record<
     note: '1440 × 1080 HD · 4:3 Master',
   },
   1: {
-    video: '/video/it-professional-systems-infrastructure.mp4',
-    preview: '/video/it-professional-preview.mp4',
-    poster: '/video/it-professional-poster.webp',
-    fallback: '/video/it-professional-systems-infrastructure.mp4',
+    video: itVideo,
+    preview: itPreview,
+    poster: itPoster,
+    fallback: itVideo,
     badge: 'IT INFRASTRUCTURE · HD',
     tag: 'ENTERPRISE SYSTEMS & INFRASTRUCTURE',
     title: 'IT Professional — Systems & Infrastructure Showcase',
@@ -38,10 +53,10 @@ const defaultPillarVideos: Record<
     note: 'HD Video · Enterprise Operations',
   },
   2: {
-    video: '/video/problem-solver.mp4',
-    preview: '/video/problem-solver-preview.mp4',
-    poster: '/video/problem-solver-poster.webp',
-    fallback: '/video/problem-solver.mp4',
+    video: problemVideo,
+    preview: problemPreview,
+    poster: problemPoster,
+    fallback: problemVideo,
     badge: 'AUTOMATION LOGIC · HD',
     tag: 'SYSTEM & AUTOMATION LOGIC',
     title: 'Problem Solver — System & Automation Logic Showcase',
@@ -49,10 +64,10 @@ const defaultPillarVideos: Record<
     note: '1440 × 1080 HD · 4:3 Master',
   },
   3: {
-    video: '/video/content-creator.mp4',
-    preview: '/video/content-creator-preview.mp4',
-    poster: '/video/content-creator-poster.webp',
-    fallback: '/video/content-creator.mp4',
+    video: contentVideo,
+    preview: contentPreview,
+    poster: contentPoster,
+    fallback: contentVideo,
     badge: 'STUDIO MEDIA · HD',
     tag: 'DIGITAL CONTENT & STUDIO MEDIA',
     title: 'Content Creator — Digital Content & Studio Media Showcase',
@@ -64,7 +79,7 @@ const defaultPillarVideos: Record<
 interface PillarVideoPlayerProps {
   videoUrl: string;
   previewUrl?: string;
-  posterUrl?: string;
+  posterUrl: string;
   badgeLabel?: string;
   fallbackUrl?: string;
   onExpand: () => void;
@@ -83,7 +98,6 @@ const PillarVideoPlayer: React.FC<PillarVideoPlayerProps> = ({
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isMuted, setIsMuted] = useState<boolean>(true);
   const [isInView, setIsInView] = useState<boolean>(false);
-  const [hasLoaded, setHasLoaded] = useState<boolean>(false);
 
   const activeSrc = previewUrl || videoUrl;
 
@@ -108,7 +122,7 @@ const PillarVideoPlayer: React.FC<PillarVideoPlayerProps> = ({
           }
         }
       },
-      { threshold: 0.25 }
+      { threshold: 0.2 }
     );
 
     observer.observe(el);
@@ -126,7 +140,6 @@ const PillarVideoPlayer: React.FC<PillarVideoPlayerProps> = ({
       playPromise
         .then(() => {
           setIsPlaying(true);
-          setHasLoaded(true);
         })
         .catch(() => {
           // Autoplay blocked by mobile browser - show poster with play button
@@ -162,29 +175,30 @@ const PillarVideoPlayer: React.FC<PillarVideoPlayerProps> = ({
       className="relative aspect-[4/3] w-full rounded-lg overflow-hidden border border-[#412D15] bg-[#0C0804] cursor-pointer group/vid shadow-md select-none"
       title="Click to expand video in Full HD"
     >
-      {/* Video Element with lightweight source and instant WebP poster */}
+      {/* Underlying Video Element */}
       <video
         ref={videoRef}
+        src={isInView ? activeSrc : undefined}
         poster={posterUrl}
         loop
         muted={isMuted}
         playsInline
         preload="metadata"
-        onPlay={() => setIsPlaying(true)}
+        onPlaying={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
         className="w-full h-full object-cover transition-transform duration-500 group-hover/vid:scale-[1.03]"
-      >
-        {isInView && <source src={activeSrc} type="video/mp4" />}
-        {isInView && fallbackUrl && <source src={fallbackUrl} type="video/mp4" />}
-      </video>
+      />
 
-      {/* Instant fallback poster background if video not loaded */}
-      {!hasLoaded && posterUrl && (
-        <div
-          className="absolute inset-0 bg-cover bg-center pointer-events-none transition-opacity duration-300"
-          style={{ backgroundImage: `url(${posterUrl})` }}
-        />
-      )}
+      {/* Instant Eager Poster Image: Always visible immediately, fades away only when video frames actively play */}
+      <img
+        src={posterUrl}
+        alt={badgeLabel}
+        loading="eager"
+        decoding="sync"
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 pointer-events-none ${
+          isPlaying ? 'opacity-0' : 'opacity-100'
+        }`}
+      />
 
       {/* Top subtle HUD badge */}
       <div className="absolute top-2 left-2 z-10 flex items-center gap-1.5 px-2 py-0.5 rounded bg-black/85 backdrop-blur-md border border-[#412D15] text-[8px] font-mono text-[#E1DCC9]">
@@ -522,17 +536,13 @@ export const About: React.FC = () => {
             <div className="relative aspect-[4/3] w-full max-h-[70vh] rounded-xl overflow-hidden border border-[#412D15] bg-black shadow-inner flex items-center justify-center">
               <video
                 key={activeModalVideo.videoUrl}
+                src={activeModalVideo.videoUrl}
                 poster={activeModalVideo.posterUrl}
                 controls
                 autoPlay
                 playsInline
                 className="w-full h-full object-contain bg-black"
-              >
-                <source src={activeModalVideo.videoUrl} type="video/mp4" />
-                {activeModalVideo.fallbackUrl && (
-                  <source src={activeModalVideo.fallbackUrl} type="video/mp4" />
-                )}
-              </video>
+              />
             </div>
 
             {/* Modal Footer */}

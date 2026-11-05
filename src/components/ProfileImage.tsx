@@ -1,19 +1,28 @@
 import React, { useState } from 'react';
 import { usePortfolio } from '../context/PortfolioContext';
-import profileAvatar from '../assets/images/PP.jpg';
+import ppWebp from '../assets/images/PP.webp';
+import ppJpg from '../assets/images/PP.jpg';
+import decWebp from '../assets/images/dec.webp';
+import decJpg from '../assets/images/dec.jpg';
+
+const AVATAR_FALLBACKS = [ppWebp, ppJpg, decWebp, decJpg];
 
 export const ProfileImage: React.FC = () => {
   const { data } = usePortfolio();
-  const [imgSrc, setImgSrc] = useState<string>(data.profile.avatarUrl || profileAvatar);
-  const [retryCount, setRetryCount] = useState<number>(0);
+  // If data.profile.avatarUrl is an absolute path string like '/PP.jpg', prefer the imported WebP asset
+  const initialSource =
+    data.profile.avatarUrl && !data.profile.avatarUrl.startsWith('/')
+      ? data.profile.avatarUrl
+      : ppWebp;
+
+  const [imgSrc, setImgSrc] = useState<string>(initialSource);
+  const [fallbackIndex, setFallbackIndex] = useState<number>(0);
 
   const handleImageError = () => {
-    if (retryCount === 0) {
-      setImgSrc('/PP.jpg');
-      setRetryCount(1);
-    } else if (retryCount === 1) {
-      setImgSrc('/dec.jpg');
-      setRetryCount(2);
+    const nextIdx = fallbackIndex + 1;
+    if (nextIdx < AVATAR_FALLBACKS.length) {
+      setFallbackIndex(nextIdx);
+      setImgSrc(AVATAR_FALLBACKS[nextIdx]);
     }
   };
 
@@ -47,14 +56,18 @@ export const ProfileImage: React.FC = () => {
 
         {/* Inner Solid Border & Fixed Profile Photo Frame */}
         <div className="relative w-[84%] h-[84%] rounded-full overflow-hidden border-2 border-[#412D15] bg-[#1F150C] shadow-[0_10px_35px_rgba(0,0,0,0.8)] transition-all duration-300 group-hover:border-[#E1DCC9]/80 group-hover:shadow-[0_10px_45px_rgba(225,220,201,0.15)]">
-          <img
-            src={imgSrc}
-            alt={`${data.profile.name} - DECStudio`}
-            loading="eager"
-            decoding="sync"
-            onError={handleImageError}
-            className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-          />
+          <picture className="w-full h-full block">
+            <source type="image/webp" srcSet={ppWebp} />
+            <source type="image/jpeg" srcSet={ppJpg} />
+            <img
+              src={imgSrc}
+              alt={`${data.profile.name} - DECStudio`}
+              loading="eager"
+              decoding="sync"
+              onError={handleImageError}
+              className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+            />
+          </picture>
 
           {/* Subtle vignette rim inside the frame */}
           <div className="absolute inset-0 rounded-full ring-1 ring-inset ring-black/30 pointer-events-none" />
