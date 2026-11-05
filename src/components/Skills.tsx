@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { usePortfolio } from '../context/PortfolioContext';
+import { SkillCategoryIntegrations } from './SkillCategoryIntegrations';
+import { LayoutGrid, Network } from 'lucide-react';
 
 export const Skills: React.FC = () => {
   const { data } = usePortfolio();
   const [activeCategoryIndex, setActiveCategoryIndex] = useState<number>(0);
+  const [viewMode, setViewMode] = useState<'integrations' | 'grid'>('integrations');
 
   return (
     <section
@@ -56,45 +59,88 @@ export const Skills: React.FC = () => {
         </div>
 
         {/* Active Category Display */}
-        <div className="space-y-6">
-          <div className="flex items-center justify-between text-xs font-mono text-[#E1DCC9]/70 border-b border-[#412D15]/40 pb-3">
-            <span>{data.skills[activeCategoryIndex].description}</span>
-            <span className="hidden sm:inline">Verification: Production Ready</span>
-          </div>
+        {(() => {
+          const currentCategory = data.skills[activeCategoryIndex];
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {data.skills[activeCategoryIndex].skills.map((skill, sIdx) => (
-              <div
-                key={skill.name}
-                className="group relative flex flex-col justify-between p-5 rounded-xl border border-[#412D15] bg-[#1F150C]/40 hover:bg-[#1F150C] transition-all duration-200 hover:border-[#E1DCC9]/40"
-              >
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="font-heading text-sm sm:text-base font-semibold text-[#E1DCC9] group-hover:text-white transition-colors">
-                      {skill.name}
-                    </span>
-                    <span className="font-mono text-[10px] text-[#E1DCC9]/50">
-                      #{sIdx + 1}
-                    </span>
+          return (
+            <div className="space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono text-[#E1DCC9]/70 border-b border-[#412D15]/40 pb-3">
+                <span>{currentCategory.description}</span>
+
+                <div className="flex items-center gap-3">
+                  <div className="inline-flex items-center p-0.5 rounded-lg border border-[#412D15] bg-[#160E08]">
+                    <button
+                      type="button"
+                      onClick={() => setViewMode('integrations')}
+                      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono transition-all ${
+                        viewMode === 'integrations'
+                          ? 'bg-[#412D15] text-[#E1DCC9] shadow-sm font-semibold'
+                          : 'text-[#E1DCC9]/60 hover:text-[#E1DCC9]'
+                      }`}
+                    >
+                      <Network className="w-3 h-3 text-amber-400" />
+                      <span>Integrations Hub</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setViewMode('grid')}
+                      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono transition-all ${
+                        viewMode === 'grid'
+                          ? 'bg-[#412D15] text-[#E1DCC9] shadow-sm font-semibold'
+                          : 'text-[#E1DCC9]/60 hover:text-[#E1DCC9]'
+                      }`}
+                    >
+                      <LayoutGrid className="w-3 h-3" />
+                      <span>Card Grid</span>
+                    </button>
                   </div>
-
-                  <p className="text-xs text-[#E1DCC9]/70 leading-relaxed">
-                    {skill.experience}
-                  </p>
-                </div>
-
-                {/* Level Tag (Unboxed text with status indicator) */}
-                <div className="mt-4 pt-3 border-t border-[#412D15]/30 flex items-center justify-between text-[11px] font-mono">
-                  <span className="text-[#E1DCC9]/50">Proficiency</span>
-                  <span className="flex items-center gap-1.5 text-[#E1DCC9]">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                    <span>{skill.level}</span>
-                  </span>
+                  <span className="hidden sm:inline text-[#E1DCC9]/50">Verification: Production Ready</span>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
+
+              {viewMode === 'integrations' ? (
+                <SkillCategoryIntegrations
+                  categoryTitle={currentCategory.title}
+                  categoryDescription={currentCategory.description}
+                  skills={currentCategory.skills}
+                />
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {currentCategory.skills.map((skill, sIdx) => (
+                    <div
+                      key={skill.name}
+                      className="group relative flex flex-col justify-between p-5 rounded-xl border border-[#412D15] bg-[#1F150C]/40 hover:bg-[#1F150C] transition-all duration-200 hover:border-[#E1DCC9]/40"
+                    >
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="font-heading text-sm sm:text-base font-semibold text-[#E1DCC9] group-hover:text-white transition-colors">
+                            {skill.name}
+                          </span>
+                          <span className="font-mono text-[10px] text-[#E1DCC9]/50">
+                            #{sIdx + 1}
+                          </span>
+                        </div>
+
+                        <p className="text-xs text-[#E1DCC9]/70 leading-relaxed">
+                          {skill.experience}
+                        </p>
+                      </div>
+
+                      {/* Level Tag (Unboxed text with status indicator) */}
+                      <div className="mt-4 pt-3 border-t border-[#412D15]/30 flex items-center justify-between text-[11px] font-mono">
+                        <span className="text-[#E1DCC9]/50">Proficiency</span>
+                        <span className="flex items-center gap-1.5 text-[#E1DCC9]">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                          <span>{skill.level}</span>
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })()}
       </div>
     </section>
   );
