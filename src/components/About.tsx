@@ -1,14 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { usePortfolio } from '../context/PortfolioContext';
-import vibeCodingVideo from '../assets/video/vibe-coding-portfolio.mp4';
-import itProfessionalVideo from '../assets/video/it-professional-systems-infrastructure.mp4';
-import problemSolverVideo from '../assets/video/problem-solver.mp4';
-import contentCreatorVideo from '../assets/video/content-creator.mp4';
 
 const defaultPillarVideos: Record<
   number,
   {
     video: string;
+    preview: string;
+    poster: string;
     fallback: string;
     badge: string;
     tag: string;
@@ -18,8 +16,10 @@ const defaultPillarVideos: Record<
   }
 > = {
   0: {
-    video: vibeCodingVideo,
-    fallback: './video/vibe-coding-portfolio.mp4',
+    video: '/video/vibe-coding-portfolio.mp4',
+    preview: '/video/vibe-coding-preview.mp4',
+    poster: '/video/vibe-coding-portfolio-poster.webp',
+    fallback: '/video/vibe-coding-portfolio.mp4',
     badge: 'VIBE CODING · HD',
     tag: 'AI-POWERED NO-CODE BUILDING',
     title: 'VIBE Coding (No Code) — Digital Innovation Showcase',
@@ -27,8 +27,10 @@ const defaultPillarVideos: Record<
     note: '1440 × 1080 HD · 4:3 Master',
   },
   1: {
-    video: itProfessionalVideo,
-    fallback: './video/it-professional-systems-infrastructure.mp4',
+    video: '/video/it-professional-systems-infrastructure.mp4',
+    preview: '/video/it-professional-preview.mp4',
+    poster: '/video/it-professional-poster.webp',
+    fallback: '/video/it-professional-systems-infrastructure.mp4',
     badge: 'IT INFRASTRUCTURE · HD',
     tag: 'ENTERPRISE SYSTEMS & INFRASTRUCTURE',
     title: 'IT Professional — Systems & Infrastructure Showcase',
@@ -36,8 +38,10 @@ const defaultPillarVideos: Record<
     note: 'HD Video · Enterprise Operations',
   },
   2: {
-    video: problemSolverVideo,
-    fallback: './video/problem-solver.mp4',
+    video: '/video/problem-solver.mp4',
+    preview: '/video/problem-solver-preview.mp4',
+    poster: '/video/problem-solver-poster.webp',
+    fallback: '/video/problem-solver.mp4',
     badge: 'AUTOMATION LOGIC · HD',
     tag: 'SYSTEM & AUTOMATION LOGIC',
     title: 'Problem Solver — System & Automation Logic Showcase',
@@ -45,8 +49,10 @@ const defaultPillarVideos: Record<
     note: '1440 × 1080 HD · 4:3 Master',
   },
   3: {
-    video: contentCreatorVideo,
-    fallback: './video/content-creator.mp4',
+    video: '/video/content-creator.mp4',
+    preview: '/video/content-creator-preview.mp4',
+    poster: '/video/content-creator-poster.webp',
+    fallback: '/video/content-creator.mp4',
     badge: 'STUDIO MEDIA · HD',
     tag: 'DIGITAL CONTENT & STUDIO MEDIA',
     title: 'Content Creator — Digital Content & Studio Media Showcase',
@@ -57,6 +63,8 @@ const defaultPillarVideos: Record<
 
 interface PillarVideoPlayerProps {
   videoUrl: string;
+  previewUrl?: string;
+  posterUrl?: string;
   badgeLabel?: string;
   fallbackUrl?: string;
   onExpand: () => void;
@@ -64,20 +72,74 @@ interface PillarVideoPlayerProps {
 
 const PillarVideoPlayer: React.FC<PillarVideoPlayerProps> = ({
   videoUrl,
+  previewUrl,
+  posterUrl,
   badgeLabel = 'VIBE CODING · HD',
   fallbackUrl,
   onExpand,
 }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isPlaying, setIsPlaying] = useState<boolean>(true);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isMuted, setIsMuted] = useState<boolean>(true);
+  const [isInView, setIsInView] = useState<boolean>(false);
+  const [hasLoaded, setHasLoaded] = useState<boolean>(false);
+
+  const activeSrc = previewUrl || videoUrl;
+
+  // IntersectionObserver: Only stream and play when card is in viewport (huge mobile optimization)
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') {
+      setIsInView(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        } else {
+          setIsInView(false);
+          if (videoRef.current && !videoRef.current.paused) {
+            videoRef.current.pause();
+            setIsPlaying(false);
+          }
+        }
+      },
+      { threshold: 0.25 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Attempt play when in view, but gracefully handle mobile autoplay policy
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !isInView) return;
+
+    video.muted = true;
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          setIsPlaying(true);
+          setHasLoaded(true);
+        })
+        .catch(() => {
+          // Autoplay blocked by mobile browser - show poster with play button
+          setIsPlaying(false);
+        });
+    }
+  }, [isInView, activeSrc]);
 
   const togglePlay = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (videoRef.current) {
       if (videoRef.current.paused) {
-        videoRef.current.play();
-        setIsPlaying(true);
+        videoRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
       } else {
         videoRef.current.pause();
         setIsPlaying(false);
@@ -95,23 +157,34 @@ const PillarVideoPlayer: React.FC<PillarVideoPlayerProps> = ({
 
   return (
     <div
+      ref={containerRef}
       onClick={onExpand}
       className="relative aspect-[4/3] w-full rounded-lg overflow-hidden border border-[#412D15] bg-[#0C0804] cursor-pointer group/vid shadow-md select-none"
       title="Click to expand video in Full HD"
     >
+      {/* Video Element with lightweight source and instant WebP poster */}
       <video
         ref={videoRef}
-        src={videoUrl}
-        autoPlay
+        poster={posterUrl}
         loop
         muted={isMuted}
         playsInline
         preload="metadata"
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
         className="w-full h-full object-cover transition-transform duration-500 group-hover/vid:scale-[1.03]"
       >
-        <source src={videoUrl} type="video/mp4" />
-        {fallbackUrl && <source src={fallbackUrl} type="video/mp4" />}
+        {isInView && <source src={activeSrc} type="video/mp4" />}
+        {isInView && fallbackUrl && <source src={fallbackUrl} type="video/mp4" />}
       </video>
+
+      {/* Instant fallback poster background if video not loaded */}
+      {!hasLoaded && posterUrl && (
+        <div
+          className="absolute inset-0 bg-cover bg-center pointer-events-none transition-opacity duration-300"
+          style={{ backgroundImage: `url(${posterUrl})` }}
+        />
+      )}
 
       {/* Top subtle HUD badge */}
       <div className="absolute top-2 left-2 z-10 flex items-center gap-1.5 px-2 py-0.5 rounded bg-black/85 backdrop-blur-md border border-[#412D15] text-[8px] font-mono text-[#E1DCC9]">
@@ -124,6 +197,17 @@ const PillarVideoPlayer: React.FC<PillarVideoPlayerProps> = ({
 
       {/* Subtle CAD scanline overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,0,0,0.3)_51%)] bg-[size:100%_4px] opacity-25 pointer-events-none" />
+
+      {/* Big Play Glyph overlay if paused (so it's inviting and never looks broken or black) */}
+      {!isPlaying && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+          <div className="w-11 h-11 rounded-full bg-black/75 border border-[#E1DCC9]/40 flex items-center justify-center text-[#E1DCC9] shadow-xl backdrop-blur-sm group-hover/vid:scale-110 group-hover/vid:border-[#E1DCC9] transition-all">
+            <svg className="w-4 h-4 fill-current ml-0.5" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        </div>
+      )}
 
       {/* Bottom video controls */}
       <div className="absolute bottom-2 inset-x-2 z-10 flex items-center justify-between text-[9px] font-mono">
@@ -186,6 +270,7 @@ interface ModalVideoData {
   tag: string;
   title: string;
   videoUrl: string;
+  posterUrl?: string;
   fallbackUrl?: string;
   quote: string;
   resolutionNote?: string;
@@ -201,33 +286,31 @@ export const About: React.FC = () => {
         setActiveModalVideo(null);
       }
     };
-    if (activeModalVideo) {
-      window.addEventListener('keydown', handleKeyDown);
-    }
+    window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activeModalVideo]);
+  }, []);
 
   const getPillarIcon = (index: number) => {
     switch (index) {
-      case 0: // Developer / Vibe Coding
+      case 0:
         return (
           <svg className="w-5 h-5 text-[#E1DCC9]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
           </svg>
         );
-      case 1: // IT Professional
+      case 1:
         return (
           <svg className="w-5 h-5 text-[#E1DCC9]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
           </svg>
         );
-      case 2: // Problem Solver
+      case 2:
         return (
           <svg className="w-5 h-5 text-[#E1DCC9]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
           </svg>
         );
-      case 3: // Content Creator
+      case 3:
         return (
           <svg className="w-5 h-5 text-[#E1DCC9]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -241,32 +324,25 @@ export const About: React.FC = () => {
   return (
     <section
       id="about"
-      className="relative py-20 px-4 sm:px-6 lg:px-8 border-t border-[#412D15]/40"
+      className="relative py-14 sm:py-20 px-4 sm:px-6 lg:px-8 border-t border-[#412D15]/40"
     >
       <div className="max-w-7xl mx-auto space-y-12">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#412D15]/40 pb-6">
-          <div className="space-y-1.5">
+          <div className="space-y-1">
             <span className="text-xs font-mono uppercase tracking-widest text-[#E1DCC9]/60">
-              01. Background & Philosophy
+              01. Background & Overview
             </span>
             <h2 className="font-heading text-3xl sm:text-4xl font-bold text-[#E1DCC9]">
-              About DECStudio
+              About Dante
             </h2>
-            <p className="text-sm sm:text-base font-mono text-[#E1DCC9]/90 font-medium tracking-wide">
-              {data.about.tagline || 'IT Professional • Technology Innovator • Problem Solver'}
-            </p>
           </div>
-          <div className="flex items-center gap-3 text-xs font-mono text-[#E1DCC9]/60">
-            <span>27 Retail Branches</span>
-            <span aria-hidden="true">·</span>
-            <span>3 Distribution Centers</span>
-            <span aria-hidden="true">·</span>
-            <span>24 Stores</span>
-          </div>
+          <p className="text-xs sm:text-sm text-[#E1DCC9]/70 max-w-md font-mono">
+            {data.about.tagline || 'Supervising regional IT client support operations and crafting digital utilities.'}
+          </p>
         </div>
 
-        {/* Narrative Split */}
+        {/* Narrative & Operational Scope Bento */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-6 space-y-5 text-base sm:text-lg text-[#E1DCC9]/85 leading-relaxed">
             {data.about.bio.map((paragraph, idx) => (
@@ -315,6 +391,8 @@ export const About: React.FC = () => {
             const defaultMeta = defaultPillarVideos[idx];
             const hasVideo = Boolean(pillar.videoUrl || defaultMeta?.video);
             const videoSource = pillar.videoUrl || defaultMeta?.video || '';
+            const previewSource = pillar.previewUrl || defaultMeta?.preview || videoSource;
+            const posterSource = pillar.posterUrl || defaultMeta?.poster || '';
             const fallbackSource = pillar.videoFallbackUrl || defaultMeta?.fallback;
             const badgeLabel = pillar.badge || defaultMeta?.badge || 'HD VIDEO';
 
@@ -324,6 +402,7 @@ export const About: React.FC = () => {
                 tag: pillar.modalTag || defaultMeta?.tag || 'TECHNICAL SHOWCASE',
                 title: pillar.modalTitle || defaultMeta?.title || `${pillar.title} — Video Showcase`,
                 videoUrl: videoSource,
+                posterUrl: posterSource,
                 fallbackUrl: fallbackSource,
                 quote: pillar.modalQuote || defaultMeta?.quote || pillar.description,
                 resolutionNote: pillar.resolutionNote || defaultMeta?.note || 'HD Master Showcase',
@@ -333,7 +412,7 @@ export const About: React.FC = () => {
             return (
               <div
                 key={idx}
-                className="group relative flex flex-col justify-between px-3.5 sm:px-4 py-5 rounded-xl border border-[#412D15] bg-[#1F150C]/40 hover:bg-[#1F150C] transition-all duration-200 hover:-translate-y-1 hover:border-[#E1DCC9]/40 overflow-hidden"
+                className="group relative flex flex-col justify-between px-3.5 sm:px-4 py-4 sm:py-5 rounded-xl border border-[#412D15] bg-[#1F150C]/40 hover:bg-[#1F150C] transition-all duration-200 hover:-translate-y-1 hover:border-[#E1DCC9]/40 overflow-hidden"
               >
                 <div className="space-y-3">
                   {/* Card Header: Icon & Index */}
@@ -361,6 +440,8 @@ export const About: React.FC = () => {
                     <div className="w-full">
                       <PillarVideoPlayer
                         videoUrl={videoSource}
+                        previewUrl={previewSource}
+                        posterUrl={posterSource}
                         badgeLabel={badgeLabel}
                         fallbackUrl={fallbackSource}
                         onExpand={handleExpand}
@@ -390,9 +471,11 @@ export const About: React.FC = () => {
                     </button>
                   </div>
                 ) : (
-                  <div className="mt-3.5 pt-2.5 border-t border-[#412D15]/40 flex items-center justify-between text-[11px] font-mono text-[#E1DCC9]/50">
+                  <div className="mt-4 pt-3 border-t border-[#412D15]/40 flex items-center justify-between text-xs font-mono text-[#E1DCC9]/60">
                     <span>Practiced</span>
-                    <span className="group-hover:text-[#E1DCC9] transition-colors">→</span>
+                    <span className="group-hover:translate-x-1 transition-transform duration-200">
+                      →
+                    </span>
                   </div>
                 )}
               </div>
@@ -401,27 +484,27 @@ export const About: React.FC = () => {
         </div>
       </div>
 
-      {/* Lightbox Video Modal for Full-Screen HD Viewing */}
+      {/* Full HD Video Modal Dialog */}
       {activeModalVideo && (
         <div
           role="dialog"
           aria-modal="true"
-          aria-labelledby="pillar-video-title"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md"
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/90 backdrop-blur-md animate-fade-in"
           onClick={() => setActiveModalVideo(null)}
         >
           <div
-            className="relative w-full max-w-4xl rounded-2xl border border-[#412D15] bg-[#160E08] p-4 sm:p-6 shadow-2xl space-y-4"
+            className="relative w-full max-w-4xl bg-[#140D07] border border-[#412D15] rounded-2xl p-4 sm:p-6 shadow-2xl space-y-4 max-h-[95vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between border-b border-[#412D15]/70 pb-3">
-              <div className="space-y-0.5">
-                <div className="flex items-center gap-2 text-xs font-mono text-emerald-400">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#34d399]" />
-                  <span>{activeModalVideo.tag}</span>
-                </div>
-                <h3 id="pillar-video-title" className="font-heading text-lg sm:text-xl font-bold text-[#E1DCC9]">
+            <div className="flex items-center justify-between border-b border-[#412D15]/60 pb-3">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-xs font-mono text-emerald-400 uppercase tracking-wider">
+                  {activeModalVideo.tag}
+                </span>
+                <span className="text-[#E1DCC9]/40">•</span>
+                <h3 className="font-heading text-sm sm:text-base font-bold text-[#E1DCC9] line-clamp-1">
                   {activeModalVideo.title}
                 </h3>
               </div>
@@ -439,7 +522,7 @@ export const About: React.FC = () => {
             <div className="relative aspect-[4/3] w-full max-h-[70vh] rounded-xl overflow-hidden border border-[#412D15] bg-black shadow-inner flex items-center justify-center">
               <video
                 key={activeModalVideo.videoUrl}
-                src={activeModalVideo.videoUrl}
+                poster={activeModalVideo.posterUrl}
                 controls
                 autoPlay
                 playsInline

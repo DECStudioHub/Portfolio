@@ -53,17 +53,19 @@ export const Hero: React.FC = () => {
 
           {/* Main Greeting and Name */}
           <div className="space-y-2">
-            <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#E1DCC9] leading-[1.1] text-balance">
-              {data.profile.headline}
+            <h1 className="font-heading text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.15] text-balance">
+              <span className="headline-gradient-glint">
+                {data.profile.headline}
+              </span>
             </h1>
 
             {/* Dynamic Role Animator */}
             <div className="h-10 sm:h-12 flex items-center">
-              <span className="text-lg sm:text-xl md:text-2xl font-semibold text-[#E1DCC9]/80 mr-2">
+              <span className="text-base sm:text-xl md:text-2xl font-semibold text-[#E1DCC9]/80 mr-2">
                 Specializing in
               </span>
               <span
-                className={`font-heading text-xl sm:text-2xl md:text-3xl font-bold text-[#E1DCC9] border-b-2 border-[#412D15] pb-0.5 transition-all duration-200 ${
+                className={`font-heading text-lg sm:text-2xl md:text-3xl font-bold text-[#E1DCC9] border-b-2 border-[#412D15] pb-0.5 transition-all duration-200 ${
                   fadeState === 'in'
                     ? 'opacity-100 translate-y-0'
                     : 'opacity-0 -translate-y-2'
@@ -75,7 +77,7 @@ export const Hero: React.FC = () => {
           </div>
 
           {/* Static Sub-headline */}
-          <p className="text-sm sm:text-base font-medium tracking-wide text-[#E1DCC9]/90 uppercase font-mono">
+          <p className="text-xs sm:text-base font-medium tracking-wide text-[#E1DCC9]/90 uppercase font-mono">
             {data.profile.subHeadline}
           </p>
 

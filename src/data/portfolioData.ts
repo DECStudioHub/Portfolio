@@ -6,10 +6,6 @@
 import decSystemImg from '../assets/images/projects/dec-system.png';
 import wifiHeatmapImg from '../assets/images/projects/wifi-heatmap.png';
 import decstudiohubImg from '../assets/images/projects/decstudiohub.png';
-import vibeCodingVideo from '../assets/video/vibe-coding-portfolio.mp4';
-import itProfessionalVideo from '../assets/video/it-professional-systems-infrastructure.mp4';
-import problemSolverVideo from '../assets/video/problem-solver.mp4';
-import contentCreatorVideo from '../assets/video/content-creator.mp4';
 
 export interface SocialLink {
   id: string;
@@ -115,6 +111,8 @@ export interface PortfolioConfig {
       subtitle: string;
       description: string;
       videoUrl?: string;
+      previewUrl?: string;
+      posterUrl?: string;
       videoFallbackUrl?: string;
       badge?: string;
       modalTag?: string;
@@ -216,8 +214,10 @@ export const initialPortfolioData: PortfolioConfig = {
         subtitle: 'AI-Powered No-Code Development',
         description:
           'Building web applications and digital solutions using AI tools and natural language prompts, with minimal manual coding.',
-        videoUrl: vibeCodingVideo,
-        videoFallbackUrl: './video/vibe-coding-portfolio.mp4',
+        videoUrl: '/video/vibe-coding-portfolio.mp4',
+        previewUrl: '/video/vibe-coding-preview.mp4',
+        posterUrl: '/video/vibe-coding-portfolio-poster.webp',
+        videoFallbackUrl: '/video/vibe-coding-portfolio.mp4',
         badge: 'VIBE CODING · HD',
         modalTag: 'AI-POWERED NO-CODE BUILDING',
         modalTitle: 'VIBE Coding (No Code) — Digital Innovation Showcase',
@@ -230,8 +230,10 @@ export const initialPortfolioData: PortfolioConfig = {
         subtitle: 'Systems & Infrastructure',
         description:
           'Hands-on troubleshooting of hardware, networking, POS systems, enterprise devices, security configurations, and operational continuity.',
-        videoUrl: itProfessionalVideo,
-        videoFallbackUrl: './video/it-professional-systems-infrastructure.mp4',
+        videoUrl: '/video/it-professional-systems-infrastructure.mp4',
+        previewUrl: '/video/it-professional-preview.mp4',
+        posterUrl: '/video/it-professional-poster.webp',
+        videoFallbackUrl: '/video/it-professional-systems-infrastructure.mp4',
         badge: 'IT INFRASTRUCTURE · HD',
         modalTag: 'ENTERPRISE SYSTEMS & INFRASTRUCTURE',
         modalTitle: 'IT Professional — Systems & Infrastructure Showcase',
@@ -244,8 +246,10 @@ export const initialPortfolioData: PortfolioConfig = {
         subtitle: 'System & Automation Logic',
         description:
           'Streamlining repetitive manual operations through custom batch scripts, API integrations, database workflows, and fault-tolerant system design.',
-        videoUrl: problemSolverVideo,
-        videoFallbackUrl: './video/problem-solver.mp4',
+        videoUrl: '/video/problem-solver.mp4',
+        previewUrl: '/video/problem-solver-preview.mp4',
+        posterUrl: '/video/problem-solver-poster.webp',
+        videoFallbackUrl: '/video/problem-solver.mp4',
         badge: 'AUTOMATION LOGIC · HD',
         modalTag: 'SYSTEM & AUTOMATION LOGIC',
         modalTitle: 'Problem Solver — System & Automation Logic Showcase',
@@ -258,8 +262,10 @@ export const initialPortfolioData: PortfolioConfig = {
         subtitle: 'Digital Content & Studio Media',
         description:
           'Producing engaging technology content, visual media, technical tutorials, and creative brand experiences across YouTube, TikTok, and digital channels.',
-        videoUrl: contentCreatorVideo,
-        videoFallbackUrl: './video/content-creator.mp4',
+        videoUrl: '/video/content-creator.mp4',
+        previewUrl: '/video/content-creator-preview.mp4',
+        posterUrl: '/video/content-creator-poster.webp',
+        videoFallbackUrl: '/video/content-creator.mp4',
         badge: 'STUDIO MEDIA · HD',
         modalTag: 'DIGITAL CONTENT & STUDIO MEDIA',
         modalTitle: 'Content Creator — Digital Content & Studio Media Showcase',
@@ -321,10 +327,10 @@ export const initialPortfolioData: PortfolioConfig = {
       title: 'VIBE Coding',
       description: 'AI-powered no-code development and rapid prototyping.',
       skills: [
-        { name: 'Web Appl Front End & Back End', level: 'AI-Powered No-Code', experience: 'AI-assisted frontend and backend web application development.' },
-        { name: 'Website Design', level: 'AI-Powered No-Code', experience: 'AI-assisted responsive layouts and visual design.' },
-        { name: 'System Front End & Back End', level: 'AI-Powered No-Code', experience: 'AI-assisted frontend and backend systems development.' },
-        { name: 'Android App Front End & Back End', level: 'AI-Powered No-Code', experience: 'AI-assisted Android app interfaces and backend integration.' },
+        { name: 'Website Application', level: 'AI-Powered No-Code', experience: 'AI-assisted full-featured interactive web applications and frontend engineering.' },
+        { name: 'Website Development', level: 'AI-Powered No-Code', experience: 'AI-assisted modern responsive website layouts, UI/UX structure, and deployment.' },
+        { name: 'Android Development', level: 'AI-Powered No-Code', experience: 'AI-assisted Android mobile applications, responsive UI, and backend integration.' },
+        { name: 'FullStack System', level: 'AI-Powered No-Code', experience: 'AI-assisted end-to-end full stack architecture, database persistence, and system logic.' },
       ],
     },
   ],

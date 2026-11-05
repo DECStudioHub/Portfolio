@@ -11,9 +11,9 @@ export const Skills: React.FC = () => {
   return (
     <section
       id="skills"
-      className="relative py-20 px-4 sm:px-6 lg:px-8 border-t border-[#412D15]/40"
+      className="relative py-14 sm:py-20 px-3.5 sm:px-6 lg:px-8 border-t border-[#412D15]/40"
     >
-      <div className="max-w-7xl mx-auto space-y-12">
+      <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#412D15]/40 pb-6">
           <div className="space-y-1">
@@ -37,20 +37,20 @@ export const Skills: React.FC = () => {
               <button
                 key={category.title}
                 onClick={() => setActiveCategoryIndex(index)}
-                className={`p-4 rounded-xl border text-left transition-all duration-200 ${
+                className={`p-3 sm:p-4 rounded-xl border text-left transition-all duration-200 ${
                   isActive
                     ? 'border-[#E1DCC9]/50 bg-[#1F150C] shadow-lg -translate-y-0.5'
                     : 'border-[#412D15] bg-[#1F150C]/40 hover:bg-[#1F150C]/70 text-[#E1DCC9]/70'
                 }`}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <span className="font-mono text-[11px] text-[#E1DCC9]/50">0{index + 1}</span>
+                  <span className="font-mono text-[10px] sm:text-[11px] text-[#E1DCC9]/50">0{index + 1}</span>
                   {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#E1DCC9]" />}
                 </div>
-                <h3 className="font-heading text-sm sm:text-base font-bold text-[#E1DCC9]">
+                <h3 className="font-heading text-xs sm:text-base font-bold text-[#E1DCC9] truncate">
                   {category.title}
                 </h3>
-                <span className="text-[11px] font-mono text-[#E1DCC9]/60 line-clamp-1 mt-0.5">
+                <span className="text-[10px] sm:text-[11px] font-mono text-[#E1DCC9]/60 line-clamp-1 mt-0.5">
                   {category.skills.length} Competencies
                 </span>
               </button>
@@ -65,14 +65,14 @@ export const Skills: React.FC = () => {
           return (
             <div className="space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono text-[#E1DCC9]/70 border-b border-[#412D15]/40 pb-3">
-                <span>{currentCategory.description}</span>
+                <span className="text-balance">{currentCategory.description}</span>
 
-                <div className="flex items-center gap-3">
-                  <div className="inline-flex items-center p-0.5 rounded-lg border border-[#412D15] bg-[#160E08]">
+                <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto">
+                  <div className="inline-flex items-center p-0.5 rounded-lg border border-[#412D15] bg-[#160E08] w-full sm:w-auto">
                     <button
                       type="button"
                       onClick={() => setViewMode('integrations')}
-                      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono transition-all ${
+                      className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-mono transition-all ${
                         viewMode === 'integrations'
                           ? 'bg-[#412D15] text-[#E1DCC9] shadow-sm font-semibold'
                           : 'text-[#E1DCC9]/60 hover:text-[#E1DCC9]'
@@ -84,7 +84,7 @@ export const Skills: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setViewMode('grid')}
-                      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono transition-all ${
+                      className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-mono transition-all ${
                         viewMode === 'grid'
                           ? 'bg-[#412D15] text-[#E1DCC9] shadow-sm font-semibold'
                           : 'text-[#E1DCC9]/60 hover:text-[#E1DCC9]'
@@ -94,7 +94,7 @@ export const Skills: React.FC = () => {
                       <span>Card Grid</span>
                     </button>
                   </div>
-                  <span className="hidden sm:inline text-[#E1DCC9]/50">Verification: Production Ready</span>
+                  <span className="hidden md:inline text-[#E1DCC9]/50">Verification: Production Ready</span>
                 </div>
               </div>
 

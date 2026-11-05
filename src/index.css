@@ -90,18 +90,78 @@
   animation: pulse-subtle 4s ease-in-out infinite;
 }
 
+/* Headline Shimmer / Glint Animation */
+@keyframes headlineGlintSweep {
+  0%, 15% {
+    background-position: 100% 0;
+  }
+  48% {
+    background-position: 0% 0;
+  }
+  100% {
+    background-position: 0% 0;
+  }
+}
+
+.headline-gradient-glint {
+  background: linear-gradient(
+    110deg,
+    #E1DCC9 0%,
+    #EDE8D9 15%,
+    #E1DCC9 32%,
+    #E1DCC9 40%,
+    rgba(255, 255, 255, 0.45) 45%,
+    rgba(255, 255, 255, 0.98) 50%,
+    rgba(254, 243, 199, 0.92) 53%,
+    #EDE8D9 56%,
+    #E1DCC9 62%,
+    #EDE8D9 80%,
+    #E1DCC9 100%
+  );
+  background-size: 280% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+  padding-bottom: 0.08em;
+  animation: headlineGlintSweep 6.5s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}
+
+.theme-light .headline-gradient-glint {
+  background: linear-gradient(
+    110deg,
+    #1F150C 0%,
+    #2A1D11 20%,
+    #1F150C 40%,
+    rgba(180, 130, 70, 0.5) 46%,
+    rgba(234, 179, 8, 0.95) 50%,
+    rgba(217, 119, 6, 0.8) 54%,
+    #1F150C 60%,
+    #2A1D11 80%,
+    #1F150C 100%
+  );
+  background-size: 280% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
 /* Reduced motion handling (UI/UX Pro Max Priority 1 & 7) */
 @media (prefers-reduced-motion: reduce) {
   .animate-spin-slow,
   .animate-spin-reverse,
-  .animate-pulse-subtle {
+  .animate-pulse-subtle,
+  .headline-gradient-glint {
     animation: none !important;
   }
 }
 
 .reduced-motion .animate-spin-slow,
 .reduced-motion .animate-spin-reverse,
-.reduced-motion .animate-pulse-subtle {
+.reduced-motion .animate-pulse-subtle,
+.reduced-motion .headline-gradient-glint {
   animation: none !important;
 }
 

@@ -271,37 +271,43 @@ export const SkillCategoryIntegrations: React.FC<SkillCategoryIntegrationsProps>
         };
 
       // --- Category 5: VIBE Coding ---
+      case 'Website Application':
       case 'Web Appl Front End & Back End':
         return {
           id: 'vibe-webapp',
-          tag: 'full-stack',
+          tag: 'web-app',
           color: '#10B981',
           glowColor: 'rgba(16, 185, 129, 0.45)',
           icon: <Globe className="w-4 h-4 text-emerald-400" />,
         };
+      case 'Website Development':
+      case 'Website Developement':
       case 'Website Design':
         return {
-          id: 'vibe-webdesign',
-          tag: 'ui-ux',
+          id: 'vibe-webdev',
+          tag: 'web-dev',
           color: '#A855F7',
           glowColor: 'rgba(168, 85, 247, 0.45)',
           icon: <Layout className="w-4 h-4 text-purple-400" />,
         };
-      case 'System Front End & Back End':
-        return {
-          id: 'vibe-system',
-          tag: 'architecture',
-          color: '#F59E0B',
-          glowColor: 'rgba(245, 158, 11, 0.45)',
-          icon: <Binary className="w-4 h-4 text-amber-400" />,
-        };
+      case 'Android Development':
       case 'Android App Front End & Back End':
         return {
           id: 'vibe-android',
-          tag: 'mobile-os',
+          tag: 'android-os',
           color: '#38BDF8',
           glowColor: 'rgba(56, 189, 248, 0.45)',
           icon: <Smartphone className="w-4 h-4 text-sky-400" />,
+        };
+      case 'FullStack System':
+      case 'Full Stack System':
+      case 'System Front End & Back End':
+        return {
+          id: 'vibe-system',
+          tag: 'fullstack',
+          color: '#F59E0B',
+          glowColor: 'rgba(245, 158, 11, 0.45)',
+          icon: <Binary className="w-4 h-4 text-amber-400" />,
         };
 
       default:
@@ -485,16 +491,16 @@ export const SkillCategoryIntegrations: React.FC<SkillCategoryIntegrationsProps>
     } else if (is4Nodes) {
       // 4 Nodes: 4 balanced quadrants
       if (idx === 0) {
-        x = cx - 265; // 215 Top-Left
+        x = cx - 265; // 215 Top-Left: #1 Website Application
         y = cy - 110; // 190
       } else if (idx === 1) {
-        x = cx + 265; // 745 Top-Right
+        x = cx + 265; // 745 Top-Right: #2 Website Development
         y = cy - 110; // 190
       } else if (idx === 2) {
-        x = cx + 265; // 745 Bottom-Right
+        x = cx - 265; // 215 Bottom-Left: #3 Android Development
         y = cy + 110; // 410
       } else {
-        x = cx - 265; // 215 Bottom-Left
+        x = cx + 265; // 745 Bottom-Right: #4 FullStack System
         y = cy + 110; // 410
       }
     } else {
@@ -571,13 +577,23 @@ export const SkillCategoryIntegrations: React.FC<SkillCategoryIntegrationsProps>
           DATA_PULSE_OUTWARD ➔
         </span>
 
-        {/* SVG Integrations Layer */}
-        <div className="relative w-full aspect-[16/10] sm:aspect-[16/10.2] max-h-[640px] flex items-center justify-center">
-          <svg
-            viewBox="0 0 960 600"
-            className="w-full h-full overflow-visible"
-            aria-label={`${categoryTitle} Integrations Diagram`}
-          >
+        {/* Mobile Swipe Hint Banner */}
+        <div className="sm:hidden relative z-10 flex items-center justify-between px-3 py-1.5 bg-[#1F150C]/90 border-b border-[#412D15] text-[10px] font-mono text-[#E1DCC9]/80">
+          <span className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+            <span>Swipe map horizontally to pan nodes</span>
+          </span>
+          <span className="text-emerald-400">Tap node to inspect</span>
+        </div>
+
+        {/* SVG Integrations Layer with Mobile Horizontal Scroll Container */}
+        <div className="relative w-full overflow-x-auto scrollbar-thin scrollbar-thumb-[#412D15] scrollbar-track-transparent">
+          <div className="min-w-[680px] sm:min-w-full aspect-[16/10] sm:aspect-[16/10.2] max-h-[640px] flex items-center justify-center p-2 sm:p-0">
+            <svg
+              viewBox="0 0 960 600"
+              className="w-full h-full overflow-visible"
+              aria-label={`${categoryTitle} Integrations Diagram`}
+            >
             <defs>
               {/* Glow Filter for Data Dots */}
               <filter id={`dotGlow-${componentId}`} x="-50%" y="-50%" width="200%" height="200%">
@@ -844,6 +860,7 @@ export const SkillCategoryIntegrations: React.FC<SkillCategoryIntegrationsProps>
           </svg>
         </div>
       </div>
+    </div>
 
       {/* Interactive Tool Telemetry Inspector (Below Diagram) */}
       <div className="rounded-xl border border-[#412D15] bg-[#160E08]/90 p-4 sm:p-5 backdrop-blur-md shadow-lg space-y-3 transition-all duration-300">

@@ -1,17 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { usePortfolio } from '../context/PortfolioContext';
 import profileAvatar from '../assets/images/PP.jpg';
 
 export const ProfileImage: React.FC = () => {
   const { data } = usePortfolio();
+  const [imgSrc, setImgSrc] = useState<string>(data.profile.avatarUrl || profileAvatar);
+  const [retryCount, setRetryCount] = useState<number>(0);
+
+  const handleImageError = () => {
+    if (retryCount === 0) {
+      setImgSrc('/PP.jpg');
+      setRetryCount(1);
+    } else if (retryCount === 1) {
+      setImgSrc('/dec.jpg');
+      setRetryCount(2);
+    }
+  };
 
   return (
-    <div className="relative flex flex-col items-center justify-center w-full max-w-md mx-auto gap-6 sm:gap-7">
+    <div className="relative flex flex-col items-center justify-center w-full max-w-sm sm:max-w-md mx-auto gap-5 sm:gap-6">
       {/* Outer Enhanced Glow Halo */}
-      <div className="absolute -inset-6 rounded-full bg-gradient-to-tr from-[#412D15]/30 via-[#E1DCC9]/15 to-[#412D15]/40 blur-3xl pointer-events-none" />
+      <div className="absolute -inset-4 sm:-inset-6 rounded-full bg-gradient-to-tr from-[#412D15]/30 via-[#E1DCC9]/15 to-[#412D15]/40 blur-2xl sm:blur-3xl pointer-events-none" />
 
       {/* Main Avatar Container with Technical Rotating Rings */}
-      <div className="group relative w-56 h-56 sm:w-68 sm:h-68 md:w-80 md:h-80 lg:w-92 lg:h-92 flex items-center justify-center shrink-0">
+      <div className="group relative w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 lg:w-80 lg:h-80 flex items-center justify-center shrink-0">
         {/* Outer Slow Rotating Technical Ring */}
         <div
           className="absolute inset-0 rounded-full border border-dashed border-[#412D15] animate-spin-slow pointer-events-none"
@@ -20,7 +32,7 @@ export const ProfileImage: React.FC = () => {
 
         {/* Middle Counter-Rotating Technical Accent Ring */}
         <div
-          className="absolute inset-3 rounded-full border border-dotted border-[#E1DCC9]/30 animate-spin-reverse pointer-events-none"
+          className="absolute inset-2 sm:inset-3 rounded-full border border-dotted border-[#E1DCC9]/30 animate-spin-reverse pointer-events-none"
           style={{ animationDuration: '40s' }}
         />
 
@@ -36,8 +48,11 @@ export const ProfileImage: React.FC = () => {
         {/* Inner Solid Border & Fixed Profile Photo Frame */}
         <div className="relative w-[84%] h-[84%] rounded-full overflow-hidden border-2 border-[#412D15] bg-[#1F150C] shadow-[0_10px_35px_rgba(0,0,0,0.8)] transition-all duration-300 group-hover:border-[#E1DCC9]/80 group-hover:shadow-[0_10px_45px_rgba(225,220,201,0.15)]">
           <img
-            src={profileAvatar}
+            src={imgSrc}
             alt={`${data.profile.name} - DECStudio`}
+            loading="eager"
+            decoding="sync"
+            onError={handleImageError}
             className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
           />
 
@@ -46,13 +61,13 @@ export const ProfileImage: React.FC = () => {
         </div>
       </div>
 
-      {/* Profile Details & Professional Disclaimer - flex-col with responsive gap utilities */}
-      <div className="flex flex-col items-center text-center w-full max-w-sm sm:max-w-md px-2 sm:px-4 gap-3 sm:gap-3.5">
+      {/* Profile Details & Professional Disclaimer */}
+      <div className="flex flex-col items-center text-center w-full max-w-sm sm:max-w-md px-2 sm:px-4 gap-2.5 sm:gap-3">
         {/* Role & Company Tag */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#412D15] bg-[#1F150C]/90 shadow-md backdrop-blur-sm">
+        <div className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full border border-[#412D15] bg-[#1F150C]/90 shadow-md backdrop-blur-sm max-w-full">
           <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0 shadow-[0_0_8px_#34d399]" />
-          <span className="font-mono text-xs text-[#E1DCC9] font-medium tracking-wide">
-            {data.profile.roleTag || "IT Client Support Supervisor - Team Lead at Prince Retail Group of Companies"}
+          <span className="font-mono text-[11px] sm:text-xs text-[#E1DCC9] font-medium tracking-wide truncate">
+            {data.profile.roleTag || "IT Client Support Supervisor - Team Lead"}
           </span>
         </div>
 
