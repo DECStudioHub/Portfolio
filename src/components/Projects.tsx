@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { usePortfolio } from '../context/PortfolioContext';
 import { ProjectItem } from '../data/portfolioData';
 import { ProjectCard, getProjectPreviewImage, projectImageMap } from './ProjectCard';
+import { AutomationFlowHub } from './AutomationFlowHub';
+import { EmailAutomationFlowHub } from './EmailAutomationFlowHub';
 
 export const Projects: React.FC = () => {
   const { data } = usePortfolio();
@@ -104,7 +106,7 @@ export const Projects: React.FC = () => {
             aria-labelledby="project-modal-title"
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md"
           >
-            <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl border border-[#412D15] bg-[#1F150C] p-6 sm:p-8 shadow-2xl text-[#E1DCC9] space-y-6">
+            <div className={`relative w-full ${activeProject.id === 'proj-roving-its-automation' || activeProject.id === 'proj-roving-its-email-automation' ? 'max-w-4xl' : 'max-w-2xl'} max-h-[90vh] overflow-y-auto rounded-xl border border-[#412D15] bg-[#1F150C] p-6 sm:p-8 shadow-2xl text-[#E1DCC9] space-y-6`}>
               {/* Header */}
               <div className="flex items-start justify-between gap-4 border-b border-[#412D15] pb-4">
                 <div>
@@ -126,8 +128,16 @@ export const Projects: React.FC = () => {
                 </button>
               </div>
 
-              {/* Production Screenshot Showcase if available */}
-              {(getProjectPreviewImage(activeProject) || activeProject.imageUrl) && (
+              {/* Production Showcase: Interactive Automation Flow Hub OR Screenshot */}
+              {activeProject.id === 'proj-roving-its-automation' ? (
+                <div className="space-y-3">
+                  <AutomationFlowHub />
+                </div>
+              ) : activeProject.id === 'proj-roving-its-email-automation' ? (
+                <div className="space-y-3">
+                  <EmailAutomationFlowHub />
+                </div>
+              ) : (getProjectPreviewImage(activeProject) || activeProject.imageUrl) && (
                 <div className="relative rounded-xl border border-[#412D15] overflow-hidden bg-[#0A0704] shadow-2xl group">
                   <div className="relative aspect-[16/9] w-full overflow-hidden">
                     <img

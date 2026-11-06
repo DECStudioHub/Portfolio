@@ -456,6 +456,76 @@ export const initialPortfolioData: PortfolioConfig = {
         '100% Client-Side Offline Architecture: React + Canvas API + Typed Arrays executing local image processing and calculation engines without server uploads or third-party telemetry.',
       imageTheme: 'decstudiohub-suite',
     },
+    {
+      id: 'proj-roving-its-automation',
+      title: 'Roving ITS Store Visit Checklist & Microsoft Teams Notification Automation',
+      category: 'Automation',
+      tags: ['Automation', 'IT Tools', 'Software'],
+      shortDescription:
+        'An automated Store Visit Checklist reporting and notification system designed to streamline the reporting process of Roving IT Support (ITS) during store visits.',
+      fullDescription:
+        'An automated Store Visit Checklist reporting and notification system designed to streamline the reporting process of Roving IT Support (ITS) during store visits. The system enables Roving ITS personnel to document store visits, perform preventive maintenance, conduct IT equipment inventory, and provide technical assessments. After completing the store visit, the technician submits the checklist through Microsoft Forms. The submitted data is automatically recorded in Microsoft Lists and processed through Power Automate, which calculates visit duration, resolves supervisor @mentions, evaluates condition branches, and triggers an automated Store Visit Checklist Report to the designated Microsoft Teams group chat.',
+      features: [
+        'Automated Store Visit Checklist submission via Microsoft Forms',
+        'Real-time data synchronization & centralized storage in Microsoft Lists',
+        'Power Automate duration arithmetic & SLA tracking',
+        'Dynamic Azure AD @mention token generation for on-duty supervisors',
+        'Conditional business logic routing for critical store issues & findings',
+        'Automated Microsoft Teams Adaptive Card reporting & group chat broadcast',
+        'Preventive maintenance (PM) verification for POS, network racks & UPS',
+        'Centralized visibility, team collaboration, and eliminated manual follow-ups',
+      ],
+      techStack: [
+        'Microsoft Power Automate',
+        'Microsoft Forms',
+        'Microsoft Lists',
+        'Microsoft Teams',
+        'Office 365 / Cloud Flows',
+        'Adaptive Cards JSON',
+        'Enterprise IT Automation',
+      ],
+      status: 'Production',
+      liveUrl: '',
+      imageUrl: '/assets/aistudio/power_automate_flow_optimized_afb0b287.webp',
+      architectureNotes:
+        'Microsoft Forms (Checklist Capture) ➔ Microsoft Lists (Automated Storage) ➔ Power Automate Trigger ("When an item is created or modified") ➔ Visit Duration Calculation ➔ Teams @Mention Token ➔ Condition 1 (Status Evaluation) ➔ Condition 2 (Severity Branching) ➔ Microsoft Teams Channel Broadcast ("Post message in a chat or channel")',
+      imageTheme: 'roving-its-automation',
+    },
+    {
+      id: 'proj-roving-its-email-automation',
+      title: 'Roving ITS Store Visit Checklist & Microsoft Outlook Email Notification Automation',
+      category: 'Automation',
+      tags: ['Automation', 'IT Tools', 'Software'],
+      shortDescription:
+        'An automated Store Visit Checklist reporting and email notification system designed to streamline store visit documentation, reporting, and communication among Roving IT Support (ITS) personnel.',
+      fullDescription:
+        'An automated Store Visit Checklist reporting and email notification system designed to streamline store visit documentation, reporting, and communication among Roving IT Support (ITS) personnel. The system enables Roving ITS personnel to conduct store visits, perform preventive maintenance, inspect IT equipment, conduct inventory checks, and provide technical assessments of store IT operations. After completing the store visit, the technician submits the checklist through Microsoft Forms. The submitted information is automatically stored in Microsoft Lists, where Power Automate detects new records, computes visit duration, evaluates conditional branch criteria, and triggers an automated HTML email notification through Microsoft Outlook to designated IT support recipients and supervisors.',
+      features: [
+        'Automated Store Visit Checklist submission via Microsoft Forms',
+        'Centralized checklist data synchronization in Microsoft Lists',
+        'Power Automate duration arithmetic & SLA tracking',
+        'Multi-stage conditional logic for operational exceptions & urgent concerns',
+        'Automated Microsoft Outlook HTML email notification with high-priority flagging',
+        'Standardized preventive maintenance reporting across all store locations',
+        'Direct ticket updates (#472123, #469715) and structured pending action items',
+        'Improved stakeholder communication and eliminated manual email compilation',
+      ],
+      techStack: [
+        'Microsoft Power Automate',
+        'Microsoft Forms',
+        'Microsoft Lists',
+        'Microsoft Outlook',
+        'Office 365 / Cloud Flows',
+        'HTML Email Templates',
+        'Enterprise IT Automation',
+      ],
+      status: 'Production',
+      liveUrl: '',
+      imageUrl: '/assets/aistudio/improved_workflow_diagram_d620cf79.webp',
+      architectureNotes:
+        'Microsoft Forms (Checklist Capture) ➔ Microsoft Lists (Automated Storage) ➔ Power Automate Trigger ("When an item is created or modified") ➔ Visit Duration Calculation ➔ Condition 1 (Status Evaluation) ➔ Condition 2 (Routing Check) ➔ Microsoft Outlook Notification ("Send an email (V2)")',
+      imageTheme: 'roving-its-email-automation',
+    },
   ],
   experience: [
     {

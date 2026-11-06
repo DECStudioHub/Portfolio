@@ -11,10 +11,14 @@ export const projectImageMap: Record<string, string> = {
   'proj-wifi-hitmap': wifiHeatmapImg,
   'decstudiohub-suite': decstudiohubImg,
   'proj-decstudiohub-suite': decstudiohubImg,
+  'roving-its-automation': '/assets/aistudio/power_automate_flow_optimized_afb0b287.webp',
+  'proj-roving-its-automation': '/assets/aistudio/power_automate_flow_optimized_afb0b287.webp',
+  'roving-its-email-automation': '/assets/aistudio/improved_workflow_diagram_d620cf79.webp',
+  'proj-roving-its-email-automation': '/assets/aistudio/improved_workflow_diagram_d620cf79.webp',
 };
 
 export const getProjectPreviewImage = (project: { id?: string; imageTheme?: string; imageUrl?: string }): string => {
-  if (project.imageUrl && typeof project.imageUrl === 'string' && project.imageUrl.length > 0 && !project.imageUrl.startsWith('/assets/aistudio/')) {
+  if (project.imageUrl && typeof project.imageUrl === 'string' && project.imageUrl.length > 0) {
     return project.imageUrl;
   }
   if (project.imageTheme && projectImageMap[project.imageTheme]) {
@@ -253,6 +257,196 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onViewDetails
                 <span className="text-lime-300 font-medium">CANVAS API • NETWORKING • SOLAR</span>
               </span>
               <span className="text-emerald-400 font-medium">ZERO ADS</span>
+            </div>
+          </div>
+        );
+      case 'roving-its-automation':
+        return (
+          <div className="w-full h-full bg-[#0C0806] relative overflow-hidden flex flex-col justify-between font-mono text-[9px] text-[#E1DCC9]/80 select-none">
+            {/* Ambient Background & CAD Scanlines */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(98,100,167,0.2)_0%,rgba(12,8,6,0.95)_75%)] pointer-events-none" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,0,0,0.4)_51%)] bg-[size:100%_4px] opacity-40 pointer-events-none" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(225,220,201,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(225,220,201,0.03)_1px,transparent_1px)] bg-[size:20px_20px] opacity-40 pointer-events-none" />
+
+            {/* Top HUD Telemetry Bar */}
+            <div className="relative z-10 flex items-center justify-between p-2 border-b border-[#412D15]/70 bg-[#0E0905]/85 backdrop-blur-sm">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#10b981]" />
+                <span className="text-[9px] font-bold text-[#E1DCC9] tracking-wider uppercase font-mono">
+                  M365 CLOUD FLOW v2.4
+                </span>
+              </div>
+              <span className="text-[8px] text-purple-300 bg-purple-950/70 px-1.5 py-0.5 rounded border border-purple-700/50 font-mono tracking-wide">
+                POWER AUTOMATE
+              </span>
+            </div>
+
+            {/* Center Flow Motion Mini-Canvas */}
+            <div className="relative z-10 flex-1 flex items-center justify-center p-2.5">
+              <div className="w-full h-full rounded border border-[#E1DCC9]/15 flex flex-col justify-between p-2 relative bg-black/40">
+                {/* Corner crosshairs */}
+                <span className="absolute -top-1 -left-1 text-[7px] text-[#E1DCC9]/40 font-mono">+</span>
+                <span className="absolute -top-1 -right-1 text-[7px] text-[#E1DCC9]/40 font-mono">+</span>
+                <span className="absolute -bottom-1 -left-1 text-[7px] text-[#E1DCC9]/40 font-mono">+</span>
+                <span className="absolute -bottom-1 -right-1 text-[7px] text-[#E1DCC9]/40 font-mono">+</span>
+
+                {/* Animated Horizontal Pipeline Diagram */}
+                <div className="grid grid-cols-4 gap-1.5 items-center my-auto">
+                  {/* Step 1: Forms */}
+                  <div className="p-1 rounded bg-[#008272]/20 border border-[#008272]/60 text-center">
+                    <span className="text-[7.5px] font-bold text-teal-300 block truncate">FORMS</span>
+                    <span className="text-[6.5px] text-[#E1DCC9]/60 block truncate">Checklist</span>
+                  </div>
+                  {/* Step 2: Lists */}
+                  <div className="p-1 rounded bg-[#038387]/20 border border-[#038387]/60 text-center">
+                    <span className="text-[7.5px] font-bold text-cyan-300 block truncate">LISTS</span>
+                    <span className="text-[6.5px] text-[#E1DCC9]/60 block truncate">Master DB</span>
+                  </div>
+                  {/* Step 3: Automate */}
+                  <div className="p-1 rounded bg-[#742774]/20 border border-[#818CF8]/60 text-center">
+                    <span className="text-[7.5px] font-bold text-indigo-300 block truncate">AUTOMATE</span>
+                    <span className="text-[6.5px] text-[#E1DCC9]/60 block truncate">Logic Flow</span>
+                  </div>
+                  {/* Step 4: Teams */}
+                  <div className="p-1 rounded bg-[#464EB8]/20 border border-[#6264A7] text-center shadow-[0_0_8px_rgba(98,100,167,0.3)]">
+                    <span className="text-[7.5px] font-bold text-purple-200 block truncate">TEAMS</span>
+                    <span className="text-[6.5px] text-emerald-400 block truncate">Broadcast</span>
+                  </div>
+                </div>
+
+                {/* Animated SVG Flowing Line */}
+                <div className="w-full h-3 my-0.5">
+                  <svg viewBox="0 0 200 12" className="w-full h-full overflow-visible">
+                    <path
+                      d="M 10 6 L 190 6"
+                      stroke="#412D15"
+                      strokeWidth="2"
+                      strokeDasharray="4 3"
+                    />
+                    <circle r="3" fill="#10B981">
+                      <animate
+                        attributeName="cx"
+                        values="10;190"
+                        dur="2s"
+                        repeatCount="indefinite"
+                      />
+                    </circle>
+                  </svg>
+                </div>
+
+                {/* Floating Telemetry Tags */}
+                <div className="flex items-center justify-between text-[7.5px] font-mono text-[#E1DCC9]/70 pt-0.5 border-t border-[#412D15]/40">
+                  <span className="flex items-center gap-1 text-amber-300">
+                    <span className="w-1 h-1 rounded-full bg-amber-400" />
+                    TRIGGER: ITEM CREATED
+                  </span>
+                  <span className="text-emerald-400 font-bold">100% AUTOMATED</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Telemetry Bar */}
+            <div className="relative z-10 px-2.5 py-1 border-t border-[#412D15]/70 bg-[#0E0905]/85 backdrop-blur-sm flex items-center justify-between text-[8px] text-[#E1DCC9]/70 font-mono">
+              <span className="flex items-center gap-1">
+                <span className="text-[#E1DCC9]/50">ENGINE:</span>
+                <span className="text-purple-300 font-medium">DURATION CALC • @MENTION • TEAMS</span>
+              </span>
+              <span className="text-emerald-400 font-medium">ACTIVE</span>
+            </div>
+          </div>
+        );
+      case 'roving-its-email-automation':
+        return (
+          <div className="w-full h-full bg-[#0C0806] relative overflow-hidden flex flex-col justify-between font-mono text-[9px] text-[#E1DCC9]/80 select-none">
+            {/* Ambient Background & CAD Scanlines */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,120,212,0.22)_0%,rgba(12,8,6,0.95)_75%)] pointer-events-none" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,0,0,0.4)_51%)] bg-[size:100%_4px] opacity-40 pointer-events-none" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(225,220,201,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(225,220,201,0.03)_1px,transparent_1px)] bg-[size:20px_20px] opacity-40 pointer-events-none" />
+
+            {/* Top HUD Telemetry Bar */}
+            <div className="relative z-10 flex items-center justify-between p-2 border-b border-[#412D15]/70 bg-[#0E0905]/85 backdrop-blur-sm">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse shadow-[0_0_6px_#38bdf8]" />
+                <span className="text-[9px] font-bold text-[#E1DCC9] tracking-wider uppercase font-mono">
+                  M365 CLOUD FLOW v2.5
+                </span>
+              </div>
+              <span className="text-[8px] text-sky-300 bg-sky-950/70 px-1.5 py-0.5 rounded border border-sky-700/50 font-mono tracking-wide">
+                MICROSOFT OUTLOOK
+              </span>
+            </div>
+
+            {/* Center Flow Motion Mini-Canvas */}
+            <div className="relative z-10 flex-1 flex items-center justify-center p-2.5">
+              <div className="w-full h-full rounded border border-[#E1DCC9]/15 flex flex-col justify-between p-2 relative bg-black/40">
+                {/* Corner crosshairs */}
+                <span className="absolute -top-1 -left-1 text-[7px] text-[#E1DCC9]/40 font-mono">+</span>
+                <span className="absolute -top-1 -right-1 text-[7px] text-[#E1DCC9]/40 font-mono">+</span>
+                <span className="absolute -bottom-1 -left-1 text-[7px] text-[#E1DCC9]/40 font-mono">+</span>
+                <span className="absolute -bottom-1 -right-1 text-[7px] text-[#E1DCC9]/40 font-mono">+</span>
+
+                {/* Animated Horizontal Pipeline Diagram */}
+                <div className="grid grid-cols-4 gap-1.5 items-center my-auto">
+                  {/* Step 1: Forms */}
+                  <div className="p-1 rounded bg-[#008272]/20 border border-[#008272]/60 text-center">
+                    <span className="text-[7.5px] font-bold text-teal-300 block truncate">FORMS</span>
+                    <span className="text-[6.5px] text-[#E1DCC9]/60 block truncate">Checklist</span>
+                  </div>
+                  {/* Step 2: Lists */}
+                  <div className="p-1 rounded bg-[#038387]/20 border border-[#038387]/60 text-center">
+                    <span className="text-[7.5px] font-bold text-cyan-300 block truncate">LISTS</span>
+                    <span className="text-[6.5px] text-[#E1DCC9]/60 block truncate">Master DB</span>
+                  </div>
+                  {/* Step 3: Automate */}
+                  <div className="p-1 rounded bg-[#742774]/20 border border-[#818CF8]/60 text-center">
+                    <span className="text-[7.5px] font-bold text-indigo-300 block truncate">AUTOMATE</span>
+                    <span className="text-[6.5px] text-[#E1DCC9]/60 block truncate">Duration &amp; Logic</span>
+                  </div>
+                  {/* Step 4: Outlook */}
+                  <div className="p-1 rounded bg-[#0078D4]/25 border border-[#0078D4] text-center shadow-[0_0_8px_rgba(0,120,212,0.4)]">
+                    <span className="text-[7.5px] font-bold text-sky-200 block truncate">OUTLOOK</span>
+                    <span className="text-[6.5px] text-emerald-400 block truncate">Email Report</span>
+                  </div>
+                </div>
+
+                {/* Animated SVG Flowing Line */}
+                <div className="w-full h-3 my-0.5">
+                  <svg viewBox="0 0 200 12" className="w-full h-full overflow-visible">
+                    <path
+                      d="M 10 6 L 190 6"
+                      stroke="#412D15"
+                      strokeWidth="2"
+                      strokeDasharray="4 3"
+                    />
+                    <circle r="3" fill="#0078D4">
+                      <animate
+                        attributeName="cx"
+                        values="10;190"
+                        dur="2s"
+                        repeatCount="indefinite"
+                      />
+                    </circle>
+                  </svg>
+                </div>
+
+                {/* Floating Telemetry Tags */}
+                <div className="flex items-center justify-between text-[7.5px] font-mono text-[#E1DCC9]/70 pt-0.5 border-t border-[#412D15]/40">
+                  <span className="flex items-center gap-1 text-sky-300">
+                    <span className="w-1 h-1 rounded-full bg-sky-400" />
+                    TARGET: ITS &amp; STAKEHOLDERS
+                  </span>
+                  <span className="text-emerald-400 font-bold">100% AUTOMATED</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Telemetry Bar */}
+            <div className="relative z-10 px-2.5 py-1 border-t border-[#412D15]/70 bg-[#0E0905]/85 backdrop-blur-sm flex items-center justify-between text-[8px] text-[#E1DCC9]/70 font-mono">
+              <span className="flex items-center gap-1">
+                <span className="text-[#E1DCC9]/50">ENGINE:</span>
+                <span className="text-sky-300 font-medium">DURATION • CONDITION • OUTLOOK V2</span>
+              </span>
+              <span className="text-emerald-400 font-medium">ACTIVE</span>
             </div>
           </div>
         );
