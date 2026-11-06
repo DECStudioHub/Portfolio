@@ -1,5 +1,6 @@
 import React from 'react';
 import { ProjectItem } from '../data/portfolioData';
+import { deviceAssetUrl } from '../data/devicesData';
 import decSystemImg from '../assets/images/projects/dec-system.png';
 import wifiHeatmapImg from '../assets/images/projects/wifi-heatmap.png';
 import decstudiohubImg from '../assets/images/projects/decstudiohub.png';
@@ -11,10 +12,10 @@ export const projectImageMap: Record<string, string> = {
   'proj-wifi-hitmap': wifiHeatmapImg,
   'decstudiohub-suite': decstudiohubImg,
   'proj-decstudiohub-suite': decstudiohubImg,
-  'roving-its-automation': '/assets/aistudio/power_automate_flow_optimized_afb0b287.webp',
-  'proj-roving-its-automation': '/assets/aistudio/power_automate_flow_optimized_afb0b287.webp',
-  'roving-its-email-automation': '/assets/aistudio/improved_workflow_diagram_d620cf79.webp',
-  'proj-roving-its-email-automation': '/assets/aistudio/improved_workflow_diagram_d620cf79.webp',
+  'roving-its-automation': deviceAssetUrl('/assets/aistudio/power_automate_flow_optimized_afb0b287.webp'),
+  'proj-roving-its-automation': deviceAssetUrl('/assets/aistudio/power_automate_flow_optimized_afb0b287.webp'),
+  'roving-its-email-automation': deviceAssetUrl('/assets/aistudio/improved_workflow_diagram_d620cf79.webp'),
+  'proj-roving-its-email-automation': deviceAssetUrl('/assets/aistudio/improved_workflow_diagram_d620cf79.webp'),
 };
 
 export const getProjectPreviewImage = (project: { id?: string; imageTheme?: string; imageUrl?: string }): string => {

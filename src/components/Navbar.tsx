@@ -14,8 +14,7 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const resumeFilename = 'Dante-Custodio-Jr-Resume.pdf';
-  const navLinks: { id: string; label: string; href?: string; download?: string }[] = [
+  const navLinks: { id: string; label: string }[] = [
     { id: 'home', label: 'Home' },
     { id: 'about', label: 'About' },
     { id: 'projects', label: 'Projects' },
@@ -23,12 +22,6 @@ export const Navbar: React.FC = () => {
     { id: 'experience', label: 'Experience' },
     { id: 'testimonial', label: 'Testimonial' },
     { id: 'contact', label: 'Contact' },
-    {
-      id: 'resume',
-      label: 'Resume',
-      href: `${import.meta.env.BASE_URL}${resumeFilename}`,
-      download: resumeFilename,
-    },
   ];
 
   const scrollToSection = (id: string) => {
@@ -73,13 +66,8 @@ export const Navbar: React.FC = () => {
             return (
               <a
                 key={link.id}
-                href={link.href ?? `#${link.id}`}
-                download={link.download}
+                href={`#${link.id}`}
                 onClick={(e) => {
-                  if (link.download) {
-                    setIsMobileMenuOpen(false);
-                    return;
-                  }
                   e.preventDefault();
                   scrollToSection(link.id);
                 }}
@@ -138,13 +126,8 @@ export const Navbar: React.FC = () => {
               return (
                 <a
                   key={link.id}
-                  href={link.href ?? `#${link.id}`}
-                  download={link.download}
+                  href={`#${link.id}`}
                   onClick={(e) => {
-                    if (link.download) {
-                      setIsMobileMenuOpen(false);
-                      return;
-                    }
                     e.preventDefault();
                     scrollToSection(link.id);
                   }}

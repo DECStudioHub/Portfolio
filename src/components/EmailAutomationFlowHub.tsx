@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { deviceAssetUrl } from '../data/devicesData';
 import {
   Play,
   CheckCircle2,
@@ -1067,7 +1068,7 @@ export const EmailAutomationFlowHub: React.FC = () => {
 
           <div className="rounded-xl border border-[#412D15] overflow-hidden bg-[#0A0704] p-4 flex items-center justify-center shadow-2xl">
             <img
-              src="/assets/aistudio/improved_workflow_diagram_d620cf79.webp"
+              src={deviceAssetUrl('/assets/aistudio/improved_workflow_diagram_d620cf79.webp')}
               alt="Power Automate Email Flow Reference"
               className="max-h-[640px] w-auto object-contain rounded-lg border border-[#412D15]/80 shadow-md"
             />

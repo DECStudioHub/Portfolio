@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { deviceAssetUrl } from '../data/devicesData';
 import {
   Play,
   RotateCcw,
@@ -1007,7 +1008,7 @@ export const AutomationFlowHub: React.FC = () => {
 
           <div className="rounded-xl border border-[#412D15] overflow-hidden bg-[#0A0704] p-4 flex items-center justify-center shadow-2xl">
             <img
-              src="/assets/aistudio/power_automate_flow_optimized_afb0b287.webp"
+              src={deviceAssetUrl('/assets/aistudio/power_automate_flow_optimized_afb0b287.webp')}
               alt="Power Automate Original Flow Reference"
               className="max-h-[640px] w-auto object-contain rounded-lg border border-[#412D15]/80 shadow-md"
             />

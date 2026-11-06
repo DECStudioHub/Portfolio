@@ -8,6 +8,7 @@ import wifiHeatmapImg from '../assets/images/projects/wifi-heatmap.png';
 import decstudiohubImg from '../assets/images/projects/decstudiohub.png';
 import ppAvatarWebp from '../assets/images/PP.webp';
 import decBgJpg from '../assets/images/dec.jpg';
+import { deviceAssetUrl } from './devicesData';
 
 import vibePoster from '../assets/video/vibe-coding-portfolio-poster.webp';
 import itPoster from '../assets/video/it-professional-poster.webp';
@@ -486,7 +487,7 @@ export const initialPortfolioData: PortfolioConfig = {
       ],
       status: 'Production',
       liveUrl: '',
-      imageUrl: '/assets/aistudio/power_automate_flow_optimized_afb0b287.webp',
+      imageUrl: deviceAssetUrl('/assets/aistudio/power_automate_flow_optimized_afb0b287.webp'),
       architectureNotes:
         'Microsoft Forms (Checklist Capture) ➔ Microsoft Lists (Automated Storage) ➔ Power Automate Trigger ("When an item is created or modified") ➔ Visit Duration Calculation ➔ Teams @Mention Token ➔ Condition 1 (Status Evaluation) ➔ Condition 2 (Severity Branching) ➔ Microsoft Teams Channel Broadcast ("Post message in a chat or channel")',
       imageTheme: 'roving-its-automation',
@@ -521,7 +522,7 @@ export const initialPortfolioData: PortfolioConfig = {
       ],
       status: 'Production',
       liveUrl: '',
-      imageUrl: '/assets/aistudio/improved_workflow_diagram_d620cf79.webp',
+      imageUrl: deviceAssetUrl('/assets/aistudio/improved_workflow_diagram_d620cf79.webp'),
       architectureNotes:
         'Microsoft Forms (Checklist Capture) ➔ Microsoft Lists (Automated Storage) ➔ Power Automate Trigger ("When an item is created or modified") ➔ Visit Duration Calculation ➔ Condition 1 (Status Evaluation) ➔ Condition 2 (Routing Check) ➔ Microsoft Outlook Notification ("Send an email (V2)")',
       imageTheme: 'roving-its-email-automation',
