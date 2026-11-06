@@ -12,10 +12,8 @@ export const Contact: React.FC = () => {
     fullName: '',
     email: '',
     phone: '',
-    company: '',
     inquiryType: 'Project Inquiry',
     message: '',
-    preferredMethod: 'Email',
     agreeContact: false,
   });
 
@@ -36,8 +34,6 @@ export const Contact: React.FC = () => {
     'Content Creation',
     'Other',
   ];
-
-  const contactMethods = ['Email', 'Phone', 'WhatsApp', 'LinkedIn'];
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
@@ -93,9 +89,7 @@ export const Contact: React.FC = () => {
     payload.append('name', formData.fullName);
     payload.append('email', formData.email);
     if (formData.phone) payload.append('phone', formData.phone);
-    if (formData.company) payload.append('company', formData.company);
     payload.append('inquiryType', formData.inquiryType);
-    payload.append('preferredMethod', formData.preferredMethod);
     payload.append('subject', `[DECStudio] ${formData.inquiryType} from ${formData.fullName}`);
     payload.append('message', formData.message);
     if (attachedFile) {
@@ -138,10 +132,8 @@ export const Contact: React.FC = () => {
       fullName: '',
       email: '',
       phone: '',
-      company: '',
       inquiryType: 'Project Inquiry',
       message: '',
-      preferredMethod: 'Email',
       agreeContact: false,
     });
     setAttachedFile(null);
@@ -153,9 +145,7 @@ export const Contact: React.FC = () => {
   const mailtoFallbackUrl = `mailto:${data.profile.email}?subject=${encodeURIComponent(
     `[DECStudio Inquiry] ${formData.inquiryType || 'General'} from ${formData.fullName || 'Client'}`
   )}&body=${encodeURIComponent(
-    `Name: ${formData.fullName}\nEmail: ${formData.email}\nPhone: ${formData.phone || 'N/A'}\nCompany: ${
-      formData.company || 'N/A'
-    }\nInquiry Type: ${formData.inquiryType}\nPreferred Contact: ${formData.preferredMethod}\n\nMessage:\n${formData.message}`
+    `Name: ${formData.fullName}\nEmail: ${formData.email}\nPhone: ${formData.phone || 'N/A'}\nInquiry Type: ${formData.inquiryType}\n\nMessage:\n${formData.message}`
   )}`;
 
   return (
@@ -176,61 +166,63 @@ export const Contact: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
           {/* LEFT: Contact Information & Channels */}
-          <div className="lg:col-span-5 space-y-8">
-            <div className="space-y-4">
-              <h3 className="font-heading text-xl font-bold text-[#E1DCC9]">
-                Get in Touch
-              </h3>
-              <p className="text-sm text-[#E1DCC9]/75 leading-relaxed">
-                Whether you need a dedicated web application, mobile Android development, enterprise IT support, or custom automation pipelines, reach out directly.
-              </p>
-            </div>
-
-            {/* Direct Contact Cards */}
-            <div className="space-y-3 font-mono text-xs">
-              {/* Email */}
-              <div className="p-4 rounded-xl border border-[#412D15] bg-[#1F150C]/60 flex items-center gap-3">
-                <div className="w-9 h-9 rounded-lg border border-[#412D15] bg-[#2A1E11] flex items-center justify-center text-[#E1DCC9]">
-                  ✉️
-                </div>
-                <div>
-                  <span className="text-[#E1DCC9]/50 block text-[10px] uppercase">Official Email</span>
-                  <a
-                    href={`mailto:${data.profile.email}`}
-                    className="text-[#E1DCC9] hover:underline font-semibold"
-                  >
-                    {data.profile.email}
-                  </a>
-                </div>
+          <div className="lg:col-span-5 flex flex-col justify-between h-full space-y-6 lg:space-y-0">
+            <div className="space-y-5">
+              <div className="space-y-2">
+                <h3 className="font-heading text-xl sm:text-2xl font-bold text-[#E1DCC9]">
+                  Get in Touch
+                </h3>
+                <p className="text-xs sm:text-sm text-[#E1DCC9]/75 leading-relaxed">
+                  Whether you need a dedicated web application, mobile Android development, enterprise IT support, or custom automation pipelines, reach out directly.
+                </p>
               </div>
 
-              {/* Location */}
-              <div className="p-4 rounded-xl border border-[#412D15] bg-[#1F150C]/60 flex items-center gap-3">
-                <div className="w-9 h-9 rounded-lg border border-[#412D15] bg-[#2A1E11] flex items-center justify-center text-[#E1DCC9]">
-                  📍
+              {/* Direct Contact Cards */}
+              <div className="space-y-2.5 font-mono text-xs">
+                {/* Email */}
+                <div className="p-3.5 sm:p-4 rounded-xl border border-[#412D15] bg-[#1F150C]/60 flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-lg border border-[#412D15] bg-[#2A1E11] flex items-center justify-center text-[#E1DCC9] shrink-0">
+                    ✉️
+                  </div>
+                  <div className="min-w-0">
+                    <span className="text-[#E1DCC9]/50 block text-[10px] uppercase">Official Email</span>
+                    <a
+                      href={`mailto:${data.profile.email}`}
+                      className="text-[#E1DCC9] hover:underline font-semibold text-xs sm:text-sm truncate block"
+                    >
+                      {data.profile.email}
+                    </a>
+                  </div>
                 </div>
-                <div>
-                  <span className="text-[#E1DCC9]/50 block text-[10px] uppercase">Base Location</span>
-                  <span className="text-[#E1DCC9] font-semibold">{data.profile.location}</span>
-                </div>
-              </div>
 
-              {/* Availability */}
-              <div className="p-4 rounded-xl border border-[#412D15] bg-[#1F150C]/60 flex items-center gap-3">
-                <div className="w-9 h-9 rounded-lg border border-[#412D15] bg-[#2A1E11] flex items-center justify-center text-[#E1DCC9]">
-                  ⚡
+                {/* Location */}
+                <div className="p-3.5 sm:p-4 rounded-xl border border-[#412D15] bg-[#1F150C]/60 flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-lg border border-[#412D15] bg-[#2A1E11] flex items-center justify-center text-[#E1DCC9] shrink-0">
+                    📍
+                  </div>
+                  <div>
+                    <span className="text-[#E1DCC9]/50 block text-[10px] uppercase">Base Location</span>
+                    <span className="text-[#E1DCC9] font-semibold text-xs sm:text-sm">{data.profile.location}</span>
+                  </div>
                 </div>
-                <div>
-                  <span className="text-[#E1DCC9]/50 block text-[10px] uppercase">Service Status</span>
-                  <span className="text-emerald-400 font-semibold">{data.profile.availability}</span>
+
+                {/* Availability */}
+                <div className="p-3.5 sm:p-4 rounded-xl border border-[#412D15] bg-[#1F150C]/60 flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-lg border border-[#412D15] bg-[#2A1E11] flex items-center justify-center text-[#E1DCC9] shrink-0">
+                    ⚡
+                  </div>
+                  <div>
+                    <span className="text-[#E1DCC9]/50 block text-[10px] uppercase">Service Status</span>
+                    <span className="text-emerald-400 font-semibold text-xs sm:text-sm">{data.profile.availability}</span>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Social Accounts Repeated */}
-            <div className="space-y-3 pt-2">
+            <div className="space-y-2.5 pt-4 lg:pt-0">
               <span className="block text-xs font-mono uppercase tracking-wider text-[#E1DCC9]/50">
                 Connect on Social Platforms
               </span>
@@ -239,10 +231,10 @@ export const Contact: React.FC = () => {
           </div>
 
           {/* RIGHT: Contact / Application Form */}
-          <div className="lg:col-span-7 rounded-2xl border border-[#412D15] bg-[#1F150C]/60 p-6 sm:p-8 backdrop-blur-sm shadow-xl">
+          <div className="lg:col-span-7 rounded-2xl border border-[#412D15] bg-[#1F150C]/60 p-6 sm:p-7 backdrop-blur-sm shadow-xl flex flex-col justify-between h-full">
             {submitSuccess ? (
               /* Success State */
-              <div className="py-8 text-center space-y-4">
+              <div className="py-8 text-center space-y-4 my-auto">
                 <div className="w-14 h-14 mx-auto rounded-full border border-emerald-500/50 bg-emerald-950/40 flex items-center justify-center text-2xl text-emerald-400">
                   ✓
                 </div>
@@ -250,7 +242,7 @@ export const Contact: React.FC = () => {
                   Message Dispatched Successfully
                 </h3>
                 <p className="text-xs sm:text-sm text-[#E1DCC9]/80 max-w-md mx-auto leading-relaxed">
-                  Thank you, <strong>{formData.fullName}</strong>. Your inquiry regarding <strong>{formData.inquiryType}</strong> has been dispatched and logged. I will review and get in touch with you shortly via {formData.preferredMethod}.
+                  Thank you, <strong>{formData.fullName}</strong>. Your inquiry regarding <strong>{formData.inquiryType}</strong> has been dispatched and logged. I will review and get in touch with you shortly.
                 </p>
                 <div className="pt-4 flex items-center justify-center gap-3">
                   <button
@@ -263,7 +255,7 @@ export const Contact: React.FC = () => {
               </div>
             ) : (
               /* Form State */
-              <div className="space-y-6">
+              <div className="flex flex-col justify-between h-full space-y-5">
                 {/* Error Banner with Mailto Fallback */}
                 {submitError && (
                   <div className="p-4 rounded-xl border border-red-500/50 bg-red-950/40 text-xs font-mono space-y-2.5 text-[#E1DCC9]">
@@ -297,220 +289,187 @@ export const Contact: React.FC = () => {
                   encType="multipart/form-data"
                   onSubmit={handleSubmit}
                   noValidate
-                  className="space-y-5"
+                  className="space-y-4 flex flex-col justify-between h-full"
                 >
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {/* Full Name */}
+                  <div className="space-y-4">
+                    {/* Row 1: Full Name & Email */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {/* Full Name */}
+                      <div className="space-y-1">
+                        <label htmlFor="fullName" className="block text-xs font-mono uppercase tracking-wider text-[#E1DCC9]">
+                          Full Name <span className="text-red-400">*</span>
+                        </label>
+                        <input
+                          id="fullName"
+                          name="name"
+                          type="text"
+                          placeholder="e.g. John Doe"
+                          value={formData.fullName}
+                          onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                          className={`w-full px-3.5 py-2.5 rounded-lg border bg-black/60 text-xs sm:text-sm text-[#E1DCC9] focus:outline-none transition-colors ${
+                            errors.fullName
+                              ? 'border-red-500 focus:border-red-400'
+                              : 'border-[#412D15] focus:border-[#E1DCC9]'
+                          }`}
+                        />
+                        {errors.fullName && (
+                          <span className="text-[11px] text-red-400 font-mono">{errors.fullName}</span>
+                        )}
+                      </div>
+
+                      {/* Email */}
+                      <div className="space-y-1">
+                        <label htmlFor="email" className="block text-xs font-mono uppercase tracking-wider text-[#E1DCC9]">
+                          Email Address <span className="text-red-400">*</span>
+                        </label>
+                        <input
+                          id="email"
+                          name="email"
+                          type="email"
+                          placeholder="e.g. hello@tailgrids.com"
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          className={`w-full px-3.5 py-2.5 rounded-lg border bg-black/60 text-xs sm:text-sm text-[#E1DCC9] focus:outline-none transition-colors ${
+                            errors.email
+                              ? 'border-red-500 focus:border-red-400'
+                              : 'border-[#412D15] focus:border-[#E1DCC9]'
+                          }`}
+                        />
+                        {errors.email && (
+                          <span className="text-[11px] text-red-400 font-mono">{errors.email}</span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Row 2: Phone & Inquiry Type */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {/* Phone */}
+                      <div className="space-y-1">
+                        <label htmlFor="phone" className="block text-xs font-mono uppercase tracking-wider text-[#E1DCC9]/80">
+                          Phone Number (Optional)
+                        </label>
+                        <input
+                          id="phone"
+                          name="phone"
+                          type="tel"
+                          placeholder="+63 9XX XXX XXXX"
+                          value={formData.phone}
+                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                          className="w-full px-3.5 py-2.5 rounded-lg border border-[#412D15] bg-black/60 text-xs sm:text-sm text-[#E1DCC9] focus:outline-none focus:border-[#E1DCC9]"
+                        />
+                      </div>
+
+                      {/* Inquiry Type */}
+                      <div className="space-y-1">
+                        <label htmlFor="inquiryType" className="block text-xs font-mono uppercase tracking-wider text-[#E1DCC9]">
+                          Inquiry Type <span className="text-red-400">*</span>
+                        </label>
+                        <select
+                          id="inquiryType"
+                          name="inquiryType"
+                          value={formData.inquiryType}
+                          onChange={(e) => setFormData({ ...formData, inquiryType: e.target.value })}
+                          className="w-full px-3.5 py-2.5 rounded-lg border border-[#412D15] bg-black text-xs sm:text-sm text-[#E1DCC9] focus:outline-none focus:border-[#E1DCC9]"
+                        >
+                          {inquiryTypes.map((type) => (
+                            <option key={type} value={type}>
+                              {type}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Row 3: Message */}
                     <div className="space-y-1">
-                      <label htmlFor="fullName" className="block text-xs font-mono uppercase tracking-wider text-[#E1DCC9]">
-                        Full Name <span className="text-red-400">*</span>
+                      <label htmlFor="message" className="block text-xs font-mono uppercase tracking-wider text-[#E1DCC9]">
+                        Project Specifications / Message <span className="text-red-400">*</span>
                       </label>
-                      <input
-                        id="fullName"
-                        name="name"
-                        type="text"
-                        placeholder="e.g. John Doe"
-                        value={formData.fullName}
-                        onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                      <textarea
+                        id="message"
+                        name="message"
+                        rows={4}
+                        placeholder="Type your message..."
+                        value={formData.message}
+                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                         className={`w-full px-3.5 py-2.5 rounded-lg border bg-black/60 text-xs sm:text-sm text-[#E1DCC9] focus:outline-none transition-colors ${
-                          errors.fullName
+                          errors.message
                             ? 'border-red-500 focus:border-red-400'
                             : 'border-[#412D15] focus:border-[#E1DCC9]'
                         }`}
                       />
-                      {errors.fullName && (
-                        <span className="text-[11px] text-red-400 font-mono">{errors.fullName}</span>
+                      {errors.message && (
+                        <span className="text-[11px] text-red-400 font-mono">{errors.message}</span>
                       )}
                     </div>
 
-                    {/* Email */}
-                    <div className="space-y-1">
-                      <label htmlFor="email" className="block text-xs font-mono uppercase tracking-wider text-[#E1DCC9]">
-                        Email Address <span className="text-red-400">*</span>
+                    {/* Row 4: Optional File Attachment */}
+                    <div className="space-y-1.5">
+                      <label className="block text-xs font-mono uppercase tracking-wider text-[#E1DCC9]/80">
+                        Optional File Attachment (Specs, Brief, Diagrams - max 10MB)
                       </label>
-                      <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        placeholder="e.g. hello@tailgrids.com"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className={`w-full px-3.5 py-2.5 rounded-lg border bg-black/60 text-xs sm:text-sm text-[#E1DCC9] focus:outline-none transition-colors ${
-                          errors.email
-                            ? 'border-red-500 focus:border-red-400'
-                            : 'border-[#412D15] focus:border-[#E1DCC9]'
-                        }`}
-                      />
-                      {errors.email && (
-                        <span className="text-[11px] text-red-400 font-mono">{errors.email}</span>
+                      <div className="flex items-center gap-3">
+                        <label
+                          htmlFor="contact-file-input"
+                          className="cursor-pointer inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[#412D15] bg-black/40 text-xs text-[#E1DCC9] hover:bg-[#2A1E11] transition-colors"
+                        >
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                          </svg>
+                          <span>{attachedFile ? 'Change File' : 'Attach File'}</span>
+                        </label>
+                        <input
+                          id="contact-file-input"
+                          name="attachment"
+                          type="file"
+                          onChange={handleFileChange}
+                          className="hidden"
+                        />
+                        {attachedFile && (
+                          <div className="flex items-center gap-2 text-xs font-mono text-[#E1DCC9]/80">
+                            <span className="truncate max-w-[200px]">{attachedFile.name}</span>
+                            <button
+                              type="button"
+                              onClick={() => setAttachedFile(null)}
+                              className="text-red-400 hover:text-red-300 text-xs"
+                              aria-label="Remove attached file"
+                            >
+                              ✕
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                      {errors.file && (
+                        <span className="text-[11px] text-red-400 font-mono">{errors.file}</span>
                       )}
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {/* Phone */}
-                    <div className="space-y-1">
-                      <label htmlFor="phone" className="block text-xs font-mono uppercase tracking-wider text-[#E1DCC9]/80">
-                        Phone Number (Optional)
+                  {/* Bottom Controls: Checkbox & Submit Button */}
+                  <div className="space-y-3 pt-1">
+                    {/* Checkbox agreement */}
+                    <div>
+                      <label className="flex items-start gap-2.5 cursor-pointer select-none">
+                        <input
+                          type="checkbox"
+                          checked={formData.agreeContact}
+                          onChange={(e) =>
+                            setFormData({ ...formData, agreeContact: e.target.checked })
+                          }
+                          className="mt-0.5 rounded border-[#412D15] bg-black text-[#412D15] focus:ring-0"
+                        />
+                        <span className="text-xs text-[#E1DCC9]/80">
+                          I agree to be contacted regarding this inquiry. <span className="text-red-400">*</span>
+                        </span>
                       </label>
-                      <input
-                        id="phone"
-                        name="phone"
-                        type="tel"
-                        placeholder="+63 9XX XXX XXXX"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-lg border border-[#412D15] bg-black/60 text-xs sm:text-sm text-[#E1DCC9] focus:outline-none focus:border-[#E1DCC9]"
-                      />
-                    </div>
-
-                    {/* Company */}
-                    <div className="space-y-1">
-                      <label htmlFor="company" className="block text-xs font-mono uppercase tracking-wider text-[#E1DCC9]/80">
-                        Company / Organization
-                      </label>
-                      <input
-                        id="company"
-                        name="company"
-                        type="text"
-                        placeholder="e.g. Studio or Enterprise"
-                        value={formData.company}
-                        onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-lg border border-[#412D15] bg-black/60 text-xs sm:text-sm text-[#E1DCC9] focus:outline-none focus:border-[#E1DCC9]"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {/* Inquiry Type */}
-                    <div className="space-y-1">
-                      <label htmlFor="inquiryType" className="block text-xs font-mono uppercase tracking-wider text-[#E1DCC9]">
-                        Inquiry Type <span className="text-red-400">*</span>
-                      </label>
-                      <select
-                        id="inquiryType"
-                        name="inquiryType"
-                        value={formData.inquiryType}
-                        onChange={(e) => setFormData({ ...formData, inquiryType: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-lg border border-[#412D15] bg-black text-xs sm:text-sm text-[#E1DCC9] focus:outline-none focus:border-[#E1DCC9]"
-                      >
-                        {inquiryTypes.map((type) => (
-                          <option key={type} value={type}>
-                            {type}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {/* Preferred Contact Method */}
-                    <div className="space-y-1">
-                      <label htmlFor="preferredMethod" className="block text-xs font-mono uppercase tracking-wider text-[#E1DCC9]">
-                        Preferred Method
-                      </label>
-                      <select
-                        id="preferredMethod"
-                        name="preferredMethod"
-                        value={formData.preferredMethod}
-                        onChange={(e) => setFormData({ ...formData, preferredMethod: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-lg border border-[#412D15] bg-black text-xs sm:text-sm text-[#E1DCC9] focus:outline-none focus:border-[#E1DCC9]"
-                      >
-                        {contactMethods.map((method) => (
-                          <option key={method} value={method}>
-                            {method}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Message */}
-                  <div className="space-y-1">
-                    <label htmlFor="message" className="block text-xs font-mono uppercase tracking-wider text-[#E1DCC9]">
-                      Project Specifications / Message <span className="text-red-400">*</span>
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      rows={4}
-                      placeholder="Type your message..."
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className={`w-full px-3.5 py-2.5 rounded-lg border bg-black/60 text-xs sm:text-sm text-[#E1DCC9] focus:outline-none transition-colors ${
-                        errors.message
-                          ? 'border-red-500 focus:border-red-400'
-                          : 'border-[#412D15] focus:border-[#E1DCC9]'
-                      }`}
-                    />
-                    {errors.message && (
-                      <span className="text-[11px] text-red-400 font-mono">{errors.message}</span>
-                    )}
-                  </div>
-
-                  {/* Optional File Attachment */}
-                  <div className="space-y-1.5">
-                    <label className="block text-xs font-mono uppercase tracking-wider text-[#E1DCC9]/80">
-                      Optional File Attachment (Specs, Brief, Diagrams - max 10MB)
-                    </label>
-                    <div className="flex items-center gap-3">
-                      <label
-                        htmlFor="contact-file-input"
-                        className="cursor-pointer inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[#412D15] bg-black/40 text-xs text-[#E1DCC9] hover:bg-[#2A1E11] transition-colors"
-                      >
-                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
-                        </svg>
-                        <span>{attachedFile ? 'Change File' : 'Attach File'}</span>
-                      </label>
-                      <input
-                        id="contact-file-input"
-                        name="attachment"
-                        type="file"
-                        onChange={handleFileChange}
-                        className="hidden"
-                      />
-                      {attachedFile && (
-                        <div className="flex items-center gap-2 text-xs font-mono text-[#E1DCC9]/80">
-                          <span className="truncate max-w-[200px]">{attachedFile.name}</span>
-                          <button
-                            type="button"
-                            onClick={() => setAttachedFile(null)}
-                            className="text-red-400 hover:text-red-300 text-xs"
-                            aria-label="Remove attached file"
-                          >
-                            ✕
-                          </button>
-                        </div>
+                      {errors.agreeContact && (
+                        <span className="block text-[11px] text-red-400 font-mono mt-1">
+                          {errors.agreeContact}
+                        </span>
                       )}
                     </div>
-                    {errors.file && (
-                      <span className="text-[11px] text-red-400 font-mono">{errors.file}</span>
-                    )}
-                  </div>
 
-                  {/* Checkbox agreement */}
-                  <div className="pt-1">
-                    <label className="flex items-start gap-2.5 cursor-pointer select-none">
-                      <input
-                        type="checkbox"
-                        checked={formData.agreeContact}
-                        onChange={(e) =>
-                          setFormData({ ...formData, agreeContact: e.target.checked })
-                        }
-                        className="mt-0.5 rounded border-[#412D15] bg-black text-[#412D15] focus:ring-0"
-                      />
-                      <span className="text-xs text-[#E1DCC9]/80">
-                        I agree to be contacted regarding this inquiry. <span className="text-red-400">*</span>
-                      </span>
-                    </label>
-                    {errors.agreeContact && (
-                      <span className="block text-[11px] text-red-400 font-mono mt-1">
-                        {errors.agreeContact}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Submit Button */}
-                  <div className="pt-2">
+                    {/* Submit Button */}
                     <button
                       type="submit"
                       disabled={isSubmitting}

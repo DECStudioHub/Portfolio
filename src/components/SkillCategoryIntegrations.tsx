@@ -183,6 +183,40 @@ export const SkillCategoryIntegrations: React.FC<SkillCategoryIntegrationsProps>
           glowColor: 'rgba(245, 158, 11, 0.45)',
           icon: <Flame className="w-4 h-4 text-amber-400" />,
         };
+      case 'Python':
+        return {
+          id: 'python',
+          tag: 'language',
+          color: '#38BDF8',
+          glowColor: 'rgba(56, 189, 248, 0.45)',
+          icon: (
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 2C8.5 2 8 3.5 8 5V7H13V8H6.5C4.5 8 3 9.5 3 12C3 14.5 4.5 16 6.5 16H8V14C8 12.5 9.5 11 11 11H16C17.5 11 19 9.5 19 8V5C19 3.5 17.5 2 14 2H12ZM10.5 3.5C11.05 3.5 11.5 3.95 11.5 4.5C11.5 5.05 11.05 5.5 10.5 5.5C9.95 5.5 9.5 5.05 9.5 4.5C9.5 3.95 9.95 3.5 10.5 3.5Z"
+                fill="#38BDF8"
+              />
+              <path
+                d="M12 22C15.5 22 16 20.5 16 19V17H11V16H17.5C19.5 16 21 14.5 21 12C21 9.5 19.5 8 17.5 8H16V10C16 11.5 14.5 13 13 13H8C6.5 13 5 14.5 5 16V19C5 20.5 6.5 22 10 22H12ZM13.5 20.5C12.95 20.5 12.5 20.05 12.5 19.5C12.5 18.95 12.95 18.5 13.5 18.5C14.05 18.5 14.5 18.95 14.5 19.5C14.5 20.05 14.05 20.5 13.5 20.5Z"
+                fill="#FBBF24"
+              />
+            </svg>
+          ),
+        };
+      case 'Google Workspace':
+        return {
+          id: 'google-workspace',
+          tag: 'workspace',
+          color: '#4285F4',
+          glowColor: 'rgba(66, 133, 244, 0.45)',
+          icon: (
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
+              <rect x="3" y="4" width="8" height="7" rx="1.5" fill="#4285F4" />
+              <rect x="13" y="4" width="8" height="7" rx="1.5" fill="#EA4335" />
+              <rect x="3" y="13" width="8" height="7" rx="1.5" fill="#34A853" />
+              <rect x="13" y="13" width="8" height="7" rx="1.5" fill="#FBBC04" />
+            </svg>
+          ),
+        };
       case 'Microsoft 365 & Tools':
         return {
           id: 'm365',
@@ -438,9 +472,11 @@ export const SkillCategoryIntegrations: React.FC<SkillCategoryIntegrationsProps>
     'VS Code',
     'Git & Version Control',
     'GitHub',
+    'Python',
     'Node JS',
     'MySQL',
     'Vercel',
+    'Notion',
   ];
 
   const outerToolsList = [
@@ -450,7 +486,7 @@ export const SkillCategoryIntegrations: React.FC<SkillCategoryIntegrationsProps>
     'Antigravity',
     'Supabase',
     'Firebase',
-    'Notion',
+    'Google Workspace',
     'Microsoft 365 & Tools',
   ];
 
@@ -464,11 +500,11 @@ export const SkillCategoryIntegrations: React.FC<SkillCategoryIntegrationsProps>
       const outerIndex = outerToolsList.indexOf(skill.name);
 
       if (innerIndex !== -1) {
-        const angle = -Math.PI / 2 + (innerIndex * 2 * Math.PI) / 6;
+        const angle = -Math.PI / 2 + (innerIndex * 2 * Math.PI) / innerToolsList.length;
         x = Math.round(cx + innerRingRadius * Math.cos(angle));
         y = Math.round(cy + innerRingRadius * Math.sin(angle));
       } else if (outerIndex !== -1) {
-        const angle = -Math.PI / 2 - Math.PI / 8 + (outerIndex * 2 * Math.PI) / 8;
+        const angle = -Math.PI / 2 - Math.PI / 8 + (outerIndex * 2 * Math.PI) / outerToolsList.length;
         x = Math.round(cx + outerRingRx * Math.cos(angle));
         y = Math.round(cy + outerRingRy * Math.sin(angle));
       } else {
